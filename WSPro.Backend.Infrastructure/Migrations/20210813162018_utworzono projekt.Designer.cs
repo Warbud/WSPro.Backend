@@ -9,8 +9,8 @@ using WSPro.Backend.Infrastructure;
 namespace WSPro.Backend.Infrastructure.Migrations
 {
     [DbContext(typeof(WSProContext))]
-    [Migration("20210806104758_add project and user")]
-    partial class addprojectanduser
+    [Migration("20210813162018_utworzono projekt")]
+    partial class utworzonoprojekt
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,6 +27,9 @@ namespace WSPro.Backend.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<bool>("CentralScheduleSync")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("MetodologyCode")
                         .HasColumnType("text");
 
@@ -41,35 +44,6 @@ namespace WSPro.Backend.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Projects");
-                });
-
-            modelBuilder.Entity("WSPro.Backend.Model.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("ProviderEnum")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Surname")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }

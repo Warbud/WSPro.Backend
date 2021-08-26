@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSPro.Backend.Model", "WSPr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSPro.Backend.Infrastructure", "WSPro.Backend.Infrastructure\WSPro.Backend.Infrastructure.csproj", "{361D07CD-995B-4094-95EC-37543FCCAAB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{1F424F3F-E242-463A-9340-EA253242326E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.WSPro.Backend", "Test.WSPro.Backend\Test.WSPro.Backend.csproj", "{2A64ADEC-30B4-49BA-B511-BDD2138C289B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{361D07CD-995B-4094-95EC-37543FCCAAB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{361D07CD-995B-4094-95EC-37543FCCAAB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{361D07CD-995B-4094-95EC-37543FCCAAB2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1F424F3F-E242-463A-9340-EA253242326E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1F424F3F-E242-463A-9340-EA253242326E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1F424F3F-E242-463A-9340-EA253242326E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1F424F3F-E242-463A-9340-EA253242326E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A64ADEC-30B4-49BA-B511-BDD2138C289B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A64ADEC-30B4-49BA-B511-BDD2138C289B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A64ADEC-30B4-49BA-B511-BDD2138C289B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A64ADEC-30B4-49BA-B511-BDD2138C289B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

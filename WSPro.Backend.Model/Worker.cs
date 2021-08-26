@@ -11,6 +11,11 @@ namespace WSPro.Backend.Model
         public User AddedBy { get; set; }
         public Crew Crew { get; set; }
         public List<CrewSummary> CrewSummaries { get; set; }
+
+        public Worker()
+        {
+            
+        }
     }
 
     public class HouseWorker:Worker
@@ -26,7 +31,6 @@ namespace WSPro.Backend.Model
     public class ExternalWorker : Worker
     {
         public string Name { get; set; }
-        public string Surname { get; set; }
 
         public ExternalWorker()
         {

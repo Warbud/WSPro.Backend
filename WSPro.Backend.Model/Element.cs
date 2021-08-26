@@ -17,6 +17,5 @@ namespace WSPro.Backend.Model
         public Crane Crane { get; set; }
         public List<ElementStatus> ElementStatusList { get; set; }
         public Project Project { get; set; }
-        
     }
 }

@@ -17,12 +17,12 @@ namespace WSPro.Backend.Model
         /// Owner of Crew
         /// </summary>
         public User User { get; set; }
-        public int UserId { get; set; }
+        // public int UserId { get; set; }
         /// <summary>
         /// Project where crew is working
         /// </summary>
         public Project Project { get; set; }
-        public int ProjectId { get; set; }
+        // public int ProjectId { get; set; }
         /// <summary>
         /// List of workers in Crew
         /// </summary>

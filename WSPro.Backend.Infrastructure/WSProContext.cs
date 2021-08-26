@@ -9,9 +9,9 @@ namespace WSPro.Backend.Infrastructure
     {
         public DbSet<Project> Projects { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Worker> Worker { get; set; }
-        public DbSet<HouseWorker> HouseWorker { get; set; }
-        public DbSet<ExternalWorker> ExternalWorker { get; set; }
+        // public DbSet<Worker> Worker { get; set; }
+        // public DbSet<HouseWorker> HouseWorker { get; set; }
+        // public DbSet<ExternalWorker> ExternalWorker { get; set; }
 
         private string _connectionString;
         public WSProContext()
