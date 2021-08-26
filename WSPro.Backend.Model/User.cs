@@ -28,18 +28,28 @@ namespace WSPro.Backend.Model
         /// </summary>
         public AuthProviderEnum Provider { get; set; }
 
-        public User(string email, string password, string? name = null, AuthProviderEnum provider = AuthProviderEnum.Origin)
+        public User()
+        {
+            
+        }
+
+        public User(string email, string password, string? name = null, AuthProviderEnum? provider = null)
         {
             Email = email;
             Password = password;
             Name = NameValidator(name);
-            Provider = provider;
+            Provider = AuthProviderValidator(provider);
         }
 
         private string? NameValidator(string name)
         {
             return (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name)) ? null : name;
 
+        }
+
+        private AuthProviderEnum AuthProviderValidator(AuthProviderEnum? provider)
+        {
+            return provider ?? AuthProviderEnum.Origin;
         }
     }
 }

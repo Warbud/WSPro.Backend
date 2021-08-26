@@ -82,11 +82,12 @@ namespace Test.WSPro.Backend.Infrastructure
         /// Sprawdzany jest scenariusz dodania każdej z wartości <i>AuthProviderEnum</i> 
         /// </summary>
         /// <param name="provider"></param>
-        [TestCase(AuthProviderEnum.Origin)]
-        [TestCase(AuthProviderEnum.ActiveDirectory)]
-        public void AddUserWithOptionalProvider(AuthProviderEnum provider)
+        [TestCase(null,AuthProviderEnum.Origin)]
+        [TestCase(AuthProviderEnum.Origin,AuthProviderEnum.Origin)]
+        [TestCase(AuthProviderEnum.ActiveDirectory,AuthProviderEnum.ActiveDirectory)]
+        public void AddUserWithOptionalProvider(AuthProviderEnum? actual,AuthProviderEnum expected)
         {
-            var user = new User("test email", "test password","name", provider);
+            var user = new User("test email", "test password","name", actual);
             using (var context = new WSProTestContext())
             {
                 context.Database.EnsureDeleted();
@@ -100,11 +101,11 @@ namespace Test.WSPro.Backend.Infrastructure
             {
                 var users = context.Users.ToList();
 
-                Assert.AreEqual(users.Count, 1);
-                Assert.AreEqual(users[0].Email, "test email");
-                Assert.AreEqual(users[0].Password, "test password");
-                Assert.AreEqual(users[0].Name, "name");
-                Assert.AreEqual(users[0].Provider, provider);
+                Assert.AreEqual(1,users.Count);
+                Assert.AreEqual("test email",users[0].Email);
+                Assert.AreEqual("test password",users[0].Password);
+                Assert.AreEqual( "name",users[0].Name);
+                Assert.AreEqual(expected, users[0].Provider);
                 
                 context.Database.EnsureDeleted();
             }
