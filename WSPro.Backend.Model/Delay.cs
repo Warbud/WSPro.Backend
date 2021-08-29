@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using WSPro.Backend.Model.General;
 
 namespace WSPro.Backend.Model
 {
-    public class Delay
+    public class Delay:EntityModificationDate
     {
         
         public int Id { get; set; }
@@ -27,6 +29,7 @@ namespace WSPro.Backend.Model
         public int LevelId { get; set; }
         public Crane Crane { get; set; }
         public int CraneId { get; set; }
+        [DataType(DataType.Date)]
         public DateTime Date { get; set; }
         public Project Project { get; set; }
         public int ProjectId { get; set; }

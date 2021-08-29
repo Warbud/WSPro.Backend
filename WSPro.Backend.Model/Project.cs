@@ -1,9 +1,11 @@
-﻿namespace WSPro.Backend.Model
+﻿using WSPro.Backend.Model.General;
+
+namespace WSPro.Backend.Model
 {
     /// <summary>
     /// Klasa projektu. Reprezentuje budowę/projekt na której uruchomiony jest system. 
     /// </summary>
-    public class Project
+    public class Project:EntityModificationDate
     {
         /// <summary>
         /// ID projektu w bazie danych

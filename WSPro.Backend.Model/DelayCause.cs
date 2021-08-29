@@ -1,6 +1,8 @@
-﻿namespace WSPro.Backend.Model
+﻿using WSPro.Backend.Model.General;
+
+namespace WSPro.Backend.Model
 {
-    public class DelayCause
+    public class DelayCause:EntityModificationDate
     {
         public int Id { get; set; }
         public string Name { get; set; }

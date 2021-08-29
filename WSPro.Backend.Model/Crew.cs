@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using WSPro.Backend.Model.Enums;
+using WSPro.Backend.Model.General;
 
 namespace WSPro.Backend.Model
 {
-    public class Crew
+    public class Crew:EntityModificationDate
     {
         /// <summary>
         /// Id of Crew
@@ -30,7 +31,7 @@ namespace WSPro.Backend.Model
         /// <summary>
         /// Parameter qualified Crew as Steel Fixer Crew, Carpenter or other.
         /// </summary>
-        public WorkerTypeEnum WorkerType { get; set; }
+        public CrewWorkTypeEnum CrewWorkType { get; set; }
         /// <summary>
         /// Parameter qualified Crew as House or Subcontractor Crew
         /// </summary>

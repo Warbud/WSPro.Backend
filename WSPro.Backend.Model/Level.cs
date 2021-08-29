@@ -1,11 +1,12 @@
 ﻿using System.Text.RegularExpressions;
+using WSPro.Backend.Model.General;
 
 namespace WSPro.Backend.Model
 {
     /// <summary>
     /// Klasa poziomu
     /// </summary>
-    public class Level
+    public class Level:EntityModificationDate
     {
         /// <summary>
         /// Indeks w bazie poziomu

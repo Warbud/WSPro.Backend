@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using WSPro.Backend.Model.General;
 
 namespace WSPro.Backend.Model
 {
-    public class ElementTimeEvidence
+    public class ElementTimeEvidence:EntityModificationDate
     {
         public int Id { get; set; }
         public List<Element> Elements { get; set; }

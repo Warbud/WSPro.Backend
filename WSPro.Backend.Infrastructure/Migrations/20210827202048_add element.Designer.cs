@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WSPro.Backend.Infrastructure;
@@ -9,9 +10,10 @@ using WSPro.Backend.Infrastructure;
 namespace WSPro.Backend.Infrastructure.Migrations
 {
     [DbContext(typeof(WSProContext))]
-    partial class WSProContextModelSnapshot : ModelSnapshot
+    [Migration("20210827202048_add element")]
+    partial class addelement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,15 +28,9 @@ namespace WSPro.Backend.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -54,9 +50,6 @@ namespace WSPro.Backend.Infrastructure.Migrations
                     b.Property<int?>("CraneID")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<int?>("LevelID")
                         .HasColumnType("integer");
 
@@ -75,11 +68,8 @@ namespace WSPro.Backend.Infrastructure.Migrations
                     b.Property<decimal?>("RunningMetre")
                         .HasColumnType("numeric");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int?>("Vertical")
-                        .HasColumnType("integer");
+                    b.Property<string>("Vertical")
+                        .HasColumnType("text");
 
                     b.Property<decimal?>("Volume")
                         .HasColumnType("numeric");
@@ -102,9 +92,6 @@ namespace WSPro.Backend.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp without time zone");
 
@@ -122,9 +109,6 @@ namespace WSPro.Backend.Infrastructure.Migrations
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("integer");
@@ -149,15 +133,9 @@ namespace WSPro.Backend.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -174,18 +152,12 @@ namespace WSPro.Backend.Infrastructure.Migrations
                     b.Property<bool>("CentralScheduleSync")
                         .HasColumnType("boolean");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<string>("MetodologyCode")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("WebconCode")
                         .IsRequired()
@@ -203,9 +175,6 @@ namespace WSPro.Backend.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
@@ -219,9 +188,6 @@ namespace WSPro.Backend.Infrastructure.Migrations
 
                     b.Property<int>("Provider")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 

@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using WSPro.Backend.Model.Enums;
+using WSPro.Backend.Model.General;
 
 namespace WSPro.Backend.Model
 {
-    public class Worker
+    public class Worker:EntityModificationDate
     {
         public int Id { get; set; }
-        public WorkerTypeEnum WorkerTypeEnum { get; set; }
-        public  bool IsHouseWorker { get; set; }
+        public CrewWorkTypeEnum CrewWorkTypeEnum { get; set; }
+        protected bool IsHouseWorker { get; set; }
         public User AddedBy { get; set; }
         public Crew Crew { get; set; }
         public List<CrewSummary> CrewSummaries { get; set; }
@@ -20,6 +22,7 @@ namespace WSPro.Backend.Model
 
     public class HouseWorker:Worker
     {
+        [Required]
         public string WarbudID { get; set; }
 
         public HouseWorker()
@@ -30,6 +33,7 @@ namespace WSPro.Backend.Model
 
     public class ExternalWorker : Worker
     {
+        [Required]
         public string Name { get; set; }
 
         public ExternalWorker()

@@ -1,11 +1,12 @@
 ﻿using WSPro.Backend.Model.Enums;
+using WSPro.Backend.Model.General;
 
 namespace WSPro.Backend.Model
 {
     /// <summary>
     /// Klasa użytkownika. Reprezentuje użytkownika korzystającego z systemu
     /// </summary>
-    public class User
+    public class User:EntityModificationDate
     {
         /// <summary>
         /// Id użytkownika w bazie

@@ -1,8 +1,9 @@
 ﻿using System;
+using WSPro.Backend.Model.General;
 
 namespace WSPro.Backend.Model
 {
-    public class WorkTimeEvidence
+    public class WorkTimeEvidence:EntityModificationDate
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }

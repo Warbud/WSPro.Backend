@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using WSPro.Backend.Model.General;
 
 namespace WSPro.Backend.Model
 {
-    public class Term
+    public class Term:EntityModificationDate
     {
         public int Id { get; set; }
         public string Vertical { get; set; }

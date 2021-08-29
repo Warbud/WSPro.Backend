@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using WSPro.Backend.Model.General;
 
 namespace WSPro.Backend.Model
 {
-    public class BimModel
+    public class BimModel:EntityModificationDate
     {
         public int Id { get; set; }
         public string Name { get; set; }

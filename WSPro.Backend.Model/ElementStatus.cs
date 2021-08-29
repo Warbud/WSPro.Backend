@@ -1,9 +1,10 @@
 ﻿using System;
 using WSPro.Backend.Model.Enums;
+using WSPro.Backend.Model.General;
 
 namespace WSPro.Backend.Model
 {
-    public class ElementStatus
+    public class ElementStatus:EntityModificationDate
     {
         public int Id { get; set; }
         public Element Element { get; set; }

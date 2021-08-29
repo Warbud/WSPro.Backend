@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using WSPro.Backend.Model.General;
 
 namespace WSPro.Backend.Model
 {
@@ -6,7 +7,7 @@ namespace WSPro.Backend.Model
     /// <summary>
     /// Klasa żurawia. Identyfikuje żuraw na budowie bo jego nazwie.
     /// </summary>
-    public class Crane
+    public class Crane:EntityModificationDate
     {
         /// <summary>
         /// Index żurawia w bazie

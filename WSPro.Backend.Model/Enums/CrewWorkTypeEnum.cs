@@ -1,6 +1,6 @@
 ﻿namespace WSPro.Backend.Model.Enums
 {
-    public enum WorkerTypeEnum
+    public enum CrewWorkTypeEnum
     {
         SteelFixer,
         Carpenter,

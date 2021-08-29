@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using WSPro.Backend.Model.General;
 
 namespace WSPro.Backend.Model
 {
     /// <summary>
     /// Crew summary in given time period
     /// </summary>
-    public class CrewSummary
+    public class CrewSummary:EntityModificationDate
     {
         public int Id { get; set; }
         public Crew Crew { get; set; }
