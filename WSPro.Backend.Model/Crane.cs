@@ -17,11 +17,16 @@ namespace WSPro.Backend.Model
         /// Nazwa żurawia. Należy uruchomić walidator aby sprawdzić poprawność nazwy żurawia
         /// </summary>
         public string Name { get; set; }
-        
+
+        private Crane()
+        {
+            
+        }
         public Crane(string name)
         {
             Name = name;
         }
+        
         /// <summary>
         /// Metoda sprawdzająca poprawność nazwy żurawia.
         /// Dopuszczalne nazwy to np. 01,02,...,99

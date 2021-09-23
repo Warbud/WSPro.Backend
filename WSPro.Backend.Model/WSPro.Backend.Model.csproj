@@ -5,4 +5,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WSPro.Backend.Utils\WSPro.Backend.Utils.csproj" />
+  </ItemGroup>
+
 </Project>

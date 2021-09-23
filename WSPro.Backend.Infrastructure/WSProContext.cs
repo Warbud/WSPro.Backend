@@ -14,6 +14,10 @@ namespace WSPro.Backend.Infrastructure
         public DbSet<Crane> Cranes { get; set; }
         public DbSet<Level> Levels { get; set; }
         public DbSet<Element> Elements { get; set; }
+        public DbSet<ElementStatus> ElementStatuses { get; set; }
+        public DbSet<DelayCause> DelayCauses { get; set; }
+        public DbSet<Worker> Workers { get; set; }
+        public DbSet<Crew> Crews { get; set; }
         
 
         private string _connectionString;
@@ -37,6 +41,20 @@ namespace WSPro.Backend.Infrastructure
         {
             modelBuilder.Entity<Element>().Property(e => e.Vertical)
                 .HasConversion(new EnumConverter<VerticalEnum>().Converter);
+
+            modelBuilder.Entity<ElementStatus>().Property(es => es.Status)
+                .HasConversion(new EnumConverter<StatusEnum>().Converter);
+            
+            modelBuilder.Entity<User>().Property(u => u.Provider)
+                .HasConversion(new EnumConverter<AuthProviderEnum>().Converter);
+            
+            modelBuilder.Entity<Worker>().Property(u => u.CrewWorkTypeEnum)
+                .HasConversion(new EnumConverter<CrewWorkTypeEnum>().Converter);
+            
+            modelBuilder.Entity<Crew>().Property(u => u.CrewWorkType)
+                .HasConversion(new EnumConverter<CrewWorkTypeEnum>().Converter);
+            modelBuilder.Entity<Crew>().Property(u => u.CrewType)
+                .HasConversion(new EnumConverter<CrewTypeEnum>().Converter);
         }
     }
 }

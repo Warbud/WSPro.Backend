@@ -29,7 +29,7 @@ namespace WSPro.Backend.Model
         /// </summary>
         public AuthProviderEnum Provider { get; set; }
 
-        public User()
+        private User()
         {
             
         }

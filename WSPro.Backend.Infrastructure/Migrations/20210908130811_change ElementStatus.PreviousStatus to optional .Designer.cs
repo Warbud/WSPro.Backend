@@ -10,8 +10,8 @@ using WSPro.Backend.Infrastructure;
 namespace WSPro.Backend.Infrastructure.Migrations
 {
     [DbContext(typeof(WSProContext))]
-    [Migration("20210828194051_change element vertical prop")]
-    partial class changeelementverticalprop
+    [Migration("20210908130811_change ElementStatus.PreviousStatus to optional ")]
+    partial class changeElementStatusPreviousStatustooptional
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -80,8 +80,8 @@ namespace WSPro.Backend.Infrastructure.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int?>("Vertical")
-                        .HasColumnType("integer");
+                    b.Property<string>("Vertical")
+                        .HasColumnType("text");
 
                     b.Property<decimal?>("Volume")
                         .HasColumnType("numeric");
@@ -122,8 +122,9 @@ namespace WSPro.Backend.Infrastructure.Migrations
                     b.Property<int?>("ProjectId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
@@ -141,7 +142,7 @@ namespace WSPro.Backend.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ElementStatus");
+                    b.ToTable("ElementStatuses");
                 });
 
             modelBuilder.Entity("WSPro.Backend.Model.Level", b =>
@@ -219,8 +220,9 @@ namespace WSPro.Backend.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Provider")
-                        .HasColumnType("integer");
+                    b.Property<string>("Provider")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");

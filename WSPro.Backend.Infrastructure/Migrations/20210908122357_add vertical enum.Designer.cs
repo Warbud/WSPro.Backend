@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WSPro.Backend.Infrastructure;
@@ -9,9 +10,10 @@ using WSPro.Backend.Infrastructure;
 namespace WSPro.Backend.Infrastructure.Migrations
 {
     [DbContext(typeof(WSProContext))]
-    partial class WSProContextModelSnapshot : ModelSnapshot
+    [Migration("20210908122357_add vertical enum")]
+    partial class addverticalenum
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,9 +122,8 @@ namespace WSPro.Backend.Infrastructure.Migrations
                     b.Property<int?>("ProjectId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
@@ -140,7 +141,7 @@ namespace WSPro.Backend.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ElementStatuses");
+                    b.ToTable("ElementStatus");
                 });
 
             modelBuilder.Entity("WSPro.Backend.Model.Level", b =>
@@ -218,9 +219,8 @@ namespace WSPro.Backend.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Provider")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Provider")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");

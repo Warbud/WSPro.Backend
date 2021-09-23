@@ -1,4 +1,5 @@
 ﻿using WSPro.Backend.Model.General;
+using WSPro.Backend.Utils;
 
 namespace WSPro.Backend.Model
 {
@@ -18,7 +19,7 @@ namespace WSPro.Backend.Model
         /// <summary>
         /// Identyfikator projektu w systemie ERP
         /// </summary>
-        public string WebconCode { get; set; }
+        public string? WebconCode { get; set; }
         /// <summary>
         /// Identyfikator projektu w systemie harmonogramowym
         /// </summary>
@@ -29,19 +30,26 @@ namespace WSPro.Backend.Model
         /// </summary>
         public bool CentralScheduleSync { get; set; }
 
-        public Project(string name, string webconCode, string? metodologyCode = null,bool centralScheduleSync = false)
+        private Project()
+        {
+            
+        }
+        public Project(string name, string? webconCode = null, string? metodologyCode = null,bool centralScheduleSync = false)
         {
             Name = name;
-            WebconCode = webconCode;
+            WebconCode = WebconCodeValidation(metodologyCode);
             MetodologyCode = MetodologyCodeValidation(metodologyCode);
             CentralScheduleSync = CentralScheduleSyncValidation(centralScheduleSync);
         }
 
-        private string? MetodologyCodeValidation(string? metodologyCode)
+        private string? WebconCodeValidation(string? value)
         {
-            return (string.IsNullOrEmpty(metodologyCode) || string.IsNullOrWhiteSpace(metodologyCode))
-                ? null
-                : metodologyCode;
+            return Parser.NullParser(value);
+        }
+
+        private string? MetodologyCodeValidation(string? value)
+        {
+            return Parser.NullParser(value);
         }
 
         private bool CentralScheduleSyncValidation(bool centralScheduleSync)

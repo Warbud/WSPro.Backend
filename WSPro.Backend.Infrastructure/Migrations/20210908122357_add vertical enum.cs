@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WSPro.Backend.Infrastructure.Migrations
 {
-    public partial class changeelementverticalprop : Migration
+    public partial class addverticalenum : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -62,15 +62,6 @@ namespace WSPro.Backend.Infrastructure.Migrations
                 type: "timestamp without time zone",
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
-
-            migrationBuilder.AlterColumn<int>(
-                name: "Vertical",
-                table: "Elements",
-                type: "integer",
-                nullable: true,
-                oldClrType: typeof(string),
-                oldType: "text",
-                oldNullable: true);
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "CreatedAt",
@@ -150,15 +141,6 @@ namespace WSPro.Backend.Infrastructure.Migrations
             migrationBuilder.DropColumn(
                 name: "UpdatedAt",
                 table: "Cranes");
-
-            migrationBuilder.AlterColumn<string>(
-                name: "Vertical",
-                table: "Elements",
-                type: "text",
-                nullable: true,
-                oldClrType: typeof(int),
-                oldType: "integer",
-                oldNullable: true);
         }
     }
 }

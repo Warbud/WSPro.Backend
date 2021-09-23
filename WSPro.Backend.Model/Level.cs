@@ -17,6 +17,11 @@ namespace WSPro.Backend.Model
         /// </summary>
         public string Name { get; set; }
 
+        private Level()
+        {
+            
+        }
+
         public Level(string name)
         {
             Name = name;

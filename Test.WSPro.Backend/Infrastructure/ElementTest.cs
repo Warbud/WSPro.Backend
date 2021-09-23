@@ -32,11 +32,7 @@ namespace Test.WSPro.Backend.Infrastructure
            
             using (var context = new WSProTestContext())
             {
-                var element = new Element()
-                {
-                    RevitID = 11111,
-                    ProjectID = context.Projects.Single(p => p.Name == project.Name && p.WebconCode == project.WebconCode).Id
-                };
+                var element = new Element(11111,context.Projects.Single(p => p.Name == project.Name && p.WebconCode == project.WebconCode));
                 
                 context.Elements.Add(element);
                 context.SaveChanges();
@@ -63,17 +59,7 @@ namespace Test.WSPro.Backend.Infrastructure
                             p.Name == project.Name &&
                             p.WebconCode == project.WebconCode)
                         .Id,
-                    elements[0].ProjectID);
-                
-                Assert.AreEqual(
-                    context
-                        .Projects
-                        .Single(p => 
-                            p.Name == project.Name && 
-                            p.WebconCode == project.WebconCode)
-                        .Id,
                     elements[0].Project.Id);
-
             }
         }
 
@@ -97,17 +83,11 @@ namespace Test.WSPro.Backend.Infrastructure
             using (var context = new WSProTestContext())
             {
                 var projects = context.Projects.ToList();
-                var elem1 = new Element()
-                {
-                    RevitID = 123,
-                    Project = projects.Single(p => p.Name == proj1.Name)
-                };
-                var elem2 = new Element()
-                {
-                    RevitID = 231,
-                    Project = projects.Single(p => p.Name == proj2.Name)
-                };
-                
+                var project1 = projects.Single(p => p.Name == proj1.Name);
+                var project2 = projects.Single(p => p.Name == proj2.Name);
+                var elem1 = new Element(123,project1);
+                var elem2 = new Element(231,project2);
+
                 context.Elements.AddRange(new List<Element>() { elem1,elem2 });
                 context.SaveChanges();
             }
@@ -140,11 +120,7 @@ namespace Test.WSPro.Backend.Infrastructure
         [Test]
         public void AddElementWithError()
         {
-            var elem = new Element()
-            {
-                RevitID = 111
-                // nie ma przekazanych wymaganych parametrów
-            };
+            var elem = new Element(111,new Project("test name"));
             using (var context = new WSProTestContext())
             {
                 context.Database.EnsureDeleted();
@@ -175,10 +151,8 @@ namespace Test.WSPro.Backend.Infrastructure
 
             using (var context = new WSProTestContext())
             {
-                var element = new Element()
+                var element = new Element(11111,context.Projects.Single(p => p.Name == project.Name && p.WebconCode == project.WebconCode))
                 {
-                    RevitID = 11111,
-                    ProjectID = context.Projects.Single(p => p.Name == project.Name && p.WebconCode == project.WebconCode).Id,
                     Vertical = VerticalEnum.V
                 };
                 
@@ -194,5 +168,6 @@ namespace Test.WSPro.Backend.Infrastructure
                 Assert.AreEqual(context.Projects.Single(p => p.Name == project.Name && p.WebconCode == project.WebconCode).Id, elements[0].Project.Id);
             }
         }
+        
     }
 }

@@ -15,10 +15,13 @@ namespace WSPro.Backend.Model
         public DateTime RealStart { get; set; }
         public DateTime RealFinish { get; set; }
         public Crane Crane { get; set; }
+        private int CraneId { get; set; }
         public Project Project { get; set; }
+        private int ProjectId { get; set; }
         public Level Level { get; set; }
+        private int LevelId { get; set; }
         public User User { get; set; }
-        public List<Element> Elements { get; set; }
-        
+        private int UserId { get; set; }
+        public List<Element> Elements { get; set; } = new List<Element>();
     }
 }

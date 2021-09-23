@@ -18,16 +18,13 @@ namespace WSPro.Backend.Model
         /// Owner of Crew
         /// </summary>
         public User User { get; set; }
-        // public int UserId { get; set; }
+        private int? UserId { get; set; }
         /// <summary>
         /// Project where crew is working
         /// </summary>
         public Project Project { get; set; }
-        // public int ProjectId { get; set; }
-        /// <summary>
-        /// List of workers in Crew
-        /// </summary>
-        public List<Worker> Workers { get; set; } = new List<Worker>();
+        private int? ProjectId { get; set; }
+        
         /// <summary>
         /// Parameter qualified Crew as Steel Fixer Crew, Carpenter or other.
         /// </summary>
@@ -36,6 +33,18 @@ namespace WSPro.Backend.Model
         /// Parameter qualified Crew as House or Subcontractor Crew
         /// </summary>
         public CrewTypeEnum CrewType { get; set; }
+
+        private Crew()
+        {
+            
+        }
+
+        public Crew(string name,CrewWorkTypeEnum crewWorkType, CrewTypeEnum crewType)
+        {
+            CrewWorkType = crewWorkType;
+            CrewType = crewType;
+            Name = name;
+        }
     }
 
 }
