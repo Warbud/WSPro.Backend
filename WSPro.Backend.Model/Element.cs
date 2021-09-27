@@ -8,13 +8,13 @@ namespace WSPro.Backend.Model
     public class Element:EntityModificationDate
     {
         [Required]
-        public int Id { get; set; }
+        public int Id { get; private set; }
         public decimal? Area { get; set; }
         public decimal? Volume { get; set; }
         public decimal? RunningMetre { get; set; }
         
         [Required]
-        public int RevitID { get; set; }
+        public int RevitID { get; private set; }
         public VerticalEnum? Vertical { get; set; }
         public string? RealisationMode { get; set; }
         public int? RotationDay { get; set; }
@@ -24,7 +24,7 @@ namespace WSPro.Backend.Model
         private int? CraneID { get; set; }
         public List<ElementStatus> ElementStatusList { get; set; } = new List<ElementStatus>();
         [Required]
-        public Project Project { get; set; }
+        public Project Project { get; private set; }
 
 
         private Element()

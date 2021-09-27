@@ -1,173 +1,129 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using WSPro.Backend.Model;
 using WSPro.Backend.Model.Enums;
 
-namespace Test.WSPro.Backend.Infrastructure
+namespace Test.WSPro.Backend.Infrastructure.ElementTest
 {
-    public class ElementTest
+    [TestFixture]
+    public class TestSingleElementWithRequiredAttributes
     {
+        private Element _element;
+        private Project _project;
+        private List<Element> _elementList;
+
+        [OneTimeSetUp]
+        public void Init()
+        {
+            using (var context = new WSProTestContext())
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+
+                _project = new Project("test");
+                context.Add(_project);
+                context.SaveChanges();
+
+                _element = new Element(11111, _project);
+                context.Add(_element);
+                context.SaveChanges();
+            }
+
+            using (var context = new WSProTestContext())
+            {
+                _elementList = context.Elements.ToList();
+            }
+        }
+
+
+        [OneTimeTearDown]
+        public void OnClose()
+        {
+            using var context = new WSProTestContext();
+            context.Database.EnsureDeleted();
+            context.SaveChanges();
+        }
+
         /// <summary>
         ///     Test sprawdza dodanie podstawowych wymaganych parametrów.
         ///     Parametry opcjonalne maja być null'ami.
         /// </summary>
         [Test]
-        public void AddElement_OnlyRequired()
+        public void TestRequiredAttributes()
         {
-            
-            var project = new Project("test project", "webcon code");
-
-            using (var context = new WSProTestContext())
-            {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-             
-                
-                context.Projects.Add(project);
-                context.SaveChanges();
-            }
-           
-            using (var context = new WSProTestContext())
-            {
-                var element = new Element(11111,context.Projects.Single(p => p.Name == project.Name && p.WebconCode == project.WebconCode));
-                
-                context.Elements.Add(element);
-                context.SaveChanges();
-            }
-
-            using (var context = new WSProTestContext())
-            {
-                var elements = context.Elements.ToList();
-                Assert.AreEqual(1, elements.Count);
-                Assert.AreEqual(11111, elements[0].RevitID);
-                Assert.AreEqual(null, elements[0].Area);
-                Assert.AreEqual(null, elements[0].Crane);
-                Assert.AreEqual(null, elements[0].Level);
-                Assert.AreEqual(null, elements[0].Vertical);
-                Assert.AreEqual(null, elements[0].Volume);
-                Assert.AreEqual(null, elements[0].RealisationMode);
-                Assert.AreEqual(null, elements[0].RotationDay);
-                Assert.AreEqual(null, elements[0].RunningMetre);
-                Assert.AreEqual(0, elements[0].ElementStatusList.Count);
-                Assert.AreEqual(
-                    context
-                        .Projects
-                        .Single(p =>
-                            p.Name == project.Name &&
-                            p.WebconCode == project.WebconCode)
-                        .Id,
-                    elements[0].Project.Id);
-            }
+            Assert.AreEqual(1, _elementList.Count);
+            Assert.AreEqual(11111, _element.RevitID);
+            Assert.AreEqual(null, _element.Area);
+            Assert.AreEqual(null, _element.Crane);
+            Assert.AreEqual(null, _element.Level);
+            Assert.AreEqual(null, _element.Vertical);
+            Assert.AreEqual(null, _element.Volume);
+            Assert.AreEqual(null, _element.RealisationMode);
+            Assert.AreEqual(null, _element.RotationDay);
+            Assert.AreEqual(null, _element.RunningMetre);
+            Assert.AreEqual(0, _element.ElementStatusList.Count);
+            Assert.AreEqual(_project.Id, _element.Project.Id);
         }
+    }
+    
+    [TestFixture]
+    public class TestSingleElementBasicAttributes
+    {
+        
+        private Element _element;
+        private Project _project;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test]
-        public void AddManyElements()
+        [OneTimeSetUp]
+        public void Init()
         {
-            var proj1 = new Project("test project", "webcon code");
-            var proj2 = new Project("test project2", "webcon code2");
             using (var context = new WSProTestContext())
             {
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
                 
-                context.Projects.AddRange(new List<Project>(){ proj1,proj2 });
+                _project = new Project("test");
+                context.Add(_project);
                 context.SaveChanges();
-            }
-            
-            using (var context = new WSProTestContext())
-            {
-                var projects = context.Projects.ToList();
-                var project1 = projects.Single(p => p.Name == proj1.Name);
-                var project2 = projects.Single(p => p.Name == proj2.Name);
-                var elem1 = new Element(123,project1);
-                var elem2 = new Element(231,project2);
 
-                context.Elements.AddRange(new List<Element>() { elem1,elem2 });
-                context.SaveChanges();
-            }
-            
-            using (var context = new WSProTestContext())
-            {
-                var projects = context.Projects.ToList();
-                var elements = context.Elements.ToList();
-
-                Assert.AreEqual(projects.Count, 2);
-                Assert.AreEqual(projects[0].Name, "test project");
-                Assert.AreEqual(projects[1].Name, "test project2");
-                Assert.AreEqual(projects[0].WebconCode, "webcon code");
-                Assert.AreEqual(projects[1].WebconCode, "webcon code2");
-
-                Assert.AreEqual(2,elements.Count);
-                Assert.AreEqual(123,elements[0].RevitID);
-                Assert.AreEqual(231,elements[1].RevitID);
-                Assert.AreEqual(projects[0].Id, elements[0].Project.Id);
-                Assert.AreEqual(projects[1].Id, elements[1].Project.Id);
-                
-                
-                context.Database.EnsureDeleted();
-            }
-        }
-
-        /// <summary>
-        /// Test sprawdzajacy dodanie elementu bez wymaganych danych
-        /// </summary>
-        [Test]
-        public void AddElementWithError()
-        {
-            var elem = new Element(111,new Project("test name"));
-            using (var context = new WSProTestContext())
-            {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-                
-                context.Elements.Add(elem);
-                var databaseSaveDelegate = new TestDelegate(() => context.SaveChanges());
-                Assert.Throws<DbUpdateException>(databaseSaveDelegate);
-            }
-        }
-
-        /// <summary>
-        /// Test parsowania wartości w parametrze Vertical
-        /// </summary>
-        [Test]
-        public void TestVerticalEnumValues()
-        {
-            var project = new Project("test project", "webcon code");
-            using (var context = new WSProTestContext())
-            {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-             
-                
-                context.Projects.Add(project);
-                context.SaveChanges();
-            }
-
-            using (var context = new WSProTestContext())
-            {
-                var element = new Element(11111,context.Projects.Single(p => p.Name == project.Name && p.WebconCode == project.WebconCode))
+                _element = new Element(11111, _project)
                 {
-                    Vertical = VerticalEnum.V
+                    Area = 11.111m,
+                    Volume = 312.123m,
+                    RunningMetre = 12354.123m,
+                    Vertical = VerticalEnum.V,
+                    RealisationMode = "strop",
+                    RotationDay = 13,
                 };
                 
-                context.Elements.Add(element);
+                context.Add(_element);
                 context.SaveChanges();
             }
-
-            using (var context = new WSProTestContext())
-            {
-                var elements = context.Elements.ToList();
-                Assert.AreEqual(VerticalEnum.V, elements[0].Vertical);
-                Assert.AreEqual(11111, elements[0].RevitID);
-                Assert.AreEqual(context.Projects.Single(p => p.Name == project.Name && p.WebconCode == project.WebconCode).Id, elements[0].Project.Id);
-            }
         }
-        
+
+
+        [OneTimeTearDown]
+        public void OnClose()
+        {
+            using var context = new WSProTestContext();
+            context.Database.EnsureDeleted();
+            context.SaveChanges();
+        }
+
+        [Test]
+        public void TestBasicAttributes()
+        { 
+            Assert.AreEqual(11111, _element.RevitID);
+            Assert.AreEqual(_project.Id, _element.Project.Id);
+            
+            Assert.AreEqual(11.111m,_element.Area);
+            Assert.AreEqual(312.123m,_element.Volume);
+            Assert.AreEqual(12354.123m,_element.RunningMetre);
+            Assert.AreEqual(VerticalEnum.V,_element.Vertical);
+            Assert.AreEqual("strop",_element.RealisationMode);
+            Assert.AreEqual(13,_element.RotationDay);
+            
+        }
     }
 }
