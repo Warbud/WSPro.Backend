@@ -37,7 +37,7 @@ namespace WSPro.Backend.Model
         public Project(string name, string? webconCode = null, string? metodologyCode = null,bool centralScheduleSync = false)
         {
             Name = name;
-            WebconCode = WebconCodeValidation(metodologyCode);
+            WebconCode = WebconCodeValidation(webconCode);
             MetodologyCode = MetodologyCodeValidation(metodologyCode);
             CentralScheduleSync = CentralScheduleSyncValidation(centralScheduleSync);
         }
@@ -54,7 +54,24 @@ namespace WSPro.Backend.Model
 
         private bool CentralScheduleSyncValidation(bool centralScheduleSync)
         {
-            return MetodologyCode != null && centralScheduleSync;
+            return MetodologyCode != null && WebconCode != null && centralScheduleSync;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is null) return false;
+            var projectToCheck = ((Project)obj);
+            return projectToCheck.Name == Name &&
+                   projectToCheck.CentralScheduleSync == CentralScheduleSync &&
+                   projectToCheck.MetodologyCode == MetodologyCode &&
+                   projectToCheck.WebconCode == WebconCode &&
+                   projectToCheck.CreatedAt == CreatedAt &&
+                   projectToCheck.UpdatedAt == UpdatedAt;
+        }
+
+        public override string ToString()
+        {
+            return $"{Name}";
         }
     }
 }

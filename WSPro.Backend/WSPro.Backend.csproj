@@ -8,6 +8,14 @@
       <PackageReference Include="GraphQL.Server.Ui.Voyager" Version="5.0.2" />
       <PackageReference Include="HotChocolate.AspNetCore" Version="11.3.8" />
       <PackageReference Include="HotChocolate.Data.EntityFramework" Version="11.3.8" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.10">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\WSPro.Backend.Infrastructure\WSPro.Backend.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

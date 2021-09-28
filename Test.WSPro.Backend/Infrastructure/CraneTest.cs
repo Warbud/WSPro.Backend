@@ -16,7 +16,7 @@ namespace Test.WSPro.Backend.Infrastructure.CraneTest
         [OneTimeSetUp]
         public void Init()
         {
-            using (var context = new WSProTestContext())
+            using (var context = new WSProTestContext().Context)
             {
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
@@ -27,7 +27,7 @@ namespace Test.WSPro.Backend.Infrastructure.CraneTest
             }
 
 
-            using (var context = new WSProTestContext())
+            using (var context = new WSProTestContext().Context)
             {
                 _craneList = context.Cranes.ToList();
             }
@@ -36,7 +36,7 @@ namespace Test.WSPro.Backend.Infrastructure.CraneTest
         [OneTimeTearDown]
         public void OnClose()
         {
-            using var context = new WSProTestContext();
+            using var context = new WSProTestContext().Context;
             context.Database.EnsureDeleted();
             context.SaveChanges();
         }

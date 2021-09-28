@@ -15,7 +15,7 @@ namespace Test.WSPro.Backend.Infrastructure
         public void AddUserWithBaseData()
         {
             var user = new User("test email", "test password");
-            using (var context = new WSProTestContext())
+            using (var context = new WSProTestContext().Context)
             {
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
@@ -24,7 +24,7 @@ namespace Test.WSPro.Backend.Infrastructure
                 context.SaveChanges();
             }
             
-            using (var context = new WSProTestContext())
+            using (var context = new WSProTestContext().Context)
             {
                 var users = context.Users.ToList();
 
@@ -54,7 +54,7 @@ namespace Test.WSPro.Backend.Infrastructure
         public void AddUserWithOptionalNameParameter(string name,string expectedValue)
         {
             var user = new User("test email", "test password",name);
-            using (var context = new WSProTestContext())
+            using (var context = new WSProTestContext().Context)
             {
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
@@ -63,7 +63,7 @@ namespace Test.WSPro.Backend.Infrastructure
                 context.SaveChanges();
             }
             
-            using (var context = new WSProTestContext())
+            using (var context = new WSProTestContext().Context)
             {
                 var users = context.Users.ToList();
 
@@ -88,7 +88,7 @@ namespace Test.WSPro.Backend.Infrastructure
         public void AddUserWithOptionalProvider(AuthProviderEnum? actual,AuthProviderEnum expected)
         {
             var user = new User("test email", "test password","name", actual);
-            using (var context = new WSProTestContext())
+            using (var context = new WSProTestContext().Context)
             {
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
@@ -97,7 +97,7 @@ namespace Test.WSPro.Backend.Infrastructure
                 context.SaveChanges();
             }
             
-            using (var context = new WSProTestContext())
+            using (var context = new WSProTestContext().Context)
             {
                 var users = context.Users.ToList();
 

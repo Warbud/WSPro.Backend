@@ -22,7 +22,7 @@ namespace Test.WSPro.Backend.Infrastructure.ElementStatusTest
             var element = new Element(453546, project);
             var elementStatus = new ElementStatus(element, StatusEnum.InProgress);
             
-            using (var context = new WSProTestContext())
+            using (var context = new WSProTestContext().Context)
             {
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
@@ -31,7 +31,7 @@ namespace Test.WSPro.Backend.Infrastructure.ElementStatusTest
                 context.SaveChanges();
             }
 
-            using (var context = new WSProTestContext())
+            using (var context = new WSProTestContext().Context)
             {
                 _project = context.Projects.First();
                 _element = context.Elements.First();
@@ -42,7 +42,7 @@ namespace Test.WSPro.Backend.Infrastructure.ElementStatusTest
         [OneTimeTearDown]
         public void OnClose()
         {
-            using var context = new WSProTestContext();
+            using var context = new WSProTestContext().Context;
             context.Database.EnsureDeleted();
         }
         
@@ -81,7 +81,7 @@ namespace Test.WSPro.Backend.Infrastructure.ElementStatusTest
         [OneTimeSetUp]
         public void Init()
         {
-            using (var context = new WSProTestContext())
+            using (var context = new WSProTestContext().Context)
             {
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
@@ -110,7 +110,7 @@ namespace Test.WSPro.Backend.Infrastructure.ElementStatusTest
                 
             }
 
-            using (var context = new WSProTestContext())
+            using (var context = new WSProTestContext().Context)
             {
                 _elementList = context.Elements.ToList();
                 _elementStatusList = context.ElementStatuses.ToList();
@@ -120,7 +120,7 @@ namespace Test.WSPro.Backend.Infrastructure.ElementStatusTest
         [OneTimeTearDown]
         public void OnClose()
         {
-            using var context = new WSProTestContext();
+            using var context = new WSProTestContext().Context;
             context.Database.EnsureDeleted();
             context.SaveChanges();
         }

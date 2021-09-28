@@ -19,21 +19,8 @@ namespace WSPro.Backend.Infrastructure
         public DbSet<Worker> Workers { get; set; }
         public DbSet<Crew> Crews { get; set; }
         
-
-        private string _connectionString;
-        public WSProContext()
+        public WSProContext(DbContextOptions options):base(options)
         {
-            _connectionString = "Host=localhost;Database=wspro_test;Username=postgres;Password=admin";
-        }
-
-        public WSProContext(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
-        
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseNpgsql(_connectionString);
             
         }
 

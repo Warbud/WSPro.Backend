@@ -13,7 +13,7 @@ namespace Test.WSPro.Backend.Infrastructure.CrewTest
         [OneTimeSetUp]
         public void Init()
         {
-            using (var context = new WSProTestContext())
+            using (var context = new WSProTestContext().Context)
             {
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
@@ -27,7 +27,7 @@ namespace Test.WSPro.Backend.Infrastructure.CrewTest
         [OneTimeTearDown]
         public void OnClose()
         {
-            using var context = new WSProTestContext();
+            using var context = new WSProTestContext().Context;
             context.Database.EnsureDeleted();
         }
 

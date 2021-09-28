@@ -10,7 +10,7 @@ namespace Test.WSPro.Backend.Infrastructure
         public void AddLevel()
         {
             var level = new Level("L00");
-            using (var context = new WSProTestContext())
+            using (var context = new WSProTestContext().Context)
             {
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
@@ -19,7 +19,7 @@ namespace Test.WSPro.Backend.Infrastructure
                 context.SaveChanges();
             }
 
-            using (var context = new WSProTestContext())
+            using (var context = new WSProTestContext().Context)
             {
                 var levels = context.Levels.ToList();
                 

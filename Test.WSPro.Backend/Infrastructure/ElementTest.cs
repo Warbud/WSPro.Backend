@@ -16,7 +16,7 @@ namespace Test.WSPro.Backend.Infrastructure.ElementTest
         [OneTimeSetUp]
         public void Init()
         {
-            using (var context = new WSProTestContext())
+            using (var context = new WSProTestContext().Context)
             {
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
@@ -31,7 +31,7 @@ namespace Test.WSPro.Backend.Infrastructure.ElementTest
                 context.SaveChanges();
             }
 
-            using (var context = new WSProTestContext())
+            using (var context = new WSProTestContext().Context)
             {
                 _elementList = context.Elements.ToList();
             }
@@ -41,7 +41,7 @@ namespace Test.WSPro.Backend.Infrastructure.ElementTest
         [OneTimeTearDown]
         public void OnClose()
         {
-            using var context = new WSProTestContext();
+            using var context = new WSProTestContext().Context;
             context.Database.EnsureDeleted();
             context.SaveChanges();
         }
@@ -78,7 +78,7 @@ namespace Test.WSPro.Backend.Infrastructure.ElementTest
         [OneTimeSetUp]
         public void Init()
         {
-            using (var context = new WSProTestContext())
+            using (var context = new WSProTestContext().Context)
             {
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
@@ -106,7 +106,7 @@ namespace Test.WSPro.Backend.Infrastructure.ElementTest
         [OneTimeTearDown]
         public void OnClose()
         {
-            using var context = new WSProTestContext();
+            using var context = new WSProTestContext().Context;
             context.Database.EnsureDeleted();
             context.SaveChanges();
         }

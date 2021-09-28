@@ -1,107 +1,90 @@
-using System.Linq;
+using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using WSPro.Backend.Model;
 
-namespace Test.WSPro.Backend.Infrastructure
+namespace Test.WSPro.Backend.Infrastructure.ProjectTest
 {
-    public class ProjectTest
+    [TestFixture]
+    public class TestSingleElement
     {
-        /// <summary>
-        /// Test.WSPro.Backend sprawdzający tylko obowiązkowe parametry - <i>Name</i> oraz <i>WebconCode</i>
-        /// </summary>
-        [Test]
-        public void AddProjectWithBaseParameters()
+        private List<Project> _projectsDB = new List<Project>();
+
+        private static object[][] _projectCases =
         {
-            var project = new Project("project name", "webcon code");
-            using (var context = new WSProTestContext())
+            new object[]
+            {
+                new Project("project with name"), 
+                new Project("project with name"){WebconCode = null,MetodologyCode = null,CentralScheduleSync = false}
+            },
+            new object[]
+            {
+                new Project("project with all params","webcon", "metodology"),
+                new Project("project with all params"){WebconCode = "webcon",MetodologyCode = "metodology",CentralScheduleSync = false }
+            },
+            new object[]
+            {
+                new Project("project with all params and centralScheduleSync as true","webcon", "metodology",true),
+                new Project("project with all params and centralScheduleSync as true"){WebconCode = "webcon",MetodologyCode = "metodology",CentralScheduleSync = true }},
+            new object[]
+            {
+                new Project("project with empty metodology code","webcon", "",true),
+                new Project("project with empty metodology code"){WebconCode = "webcon",MetodologyCode = null,CentralScheduleSync = false }            
+            },
+            new object[]
+            {
+                new Project("project with metodology code as null","webcon", null,true),
+                new Project("project with metodology code as null"){WebconCode = "webcon",MetodologyCode = null,CentralScheduleSync = false }            
+            },
+            new object[]
+            {
+                new Project("project with webcon code as empty string","", "metodology",true) ,
+                new Project("project with webcon code as empty string"){WebconCode = null,MetodologyCode = "metodology",CentralScheduleSync = false }           
+            },
+            new object[]
+            {
+                new Project("project with webcon code as null",null, "metodology",true),
+                new Project("project with webcon code as null"){WebconCode = null,MetodologyCode = "metodology",CentralScheduleSync = false }
+            }
+            
+        };
+
+        [OneTimeSetUp]
+        public void Init()
+        {
+            using (var context = new WSProTestContext().Context)
             {
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
                 
-                context.Projects.Add(project);
-                context.SaveChanges();
-            }
-            
-            using (var context = new WSProTestContext())
-            {
-                var projects = context.Projects.ToList();
-
-                Assert.AreEqual(projects.Count, 1);
-                Assert.AreEqual(projects[0].Name, "project name");
-                Assert.AreEqual(projects[0].WebconCode, "webcon code");
-                Assert.AreEqual(projects[0].MetodologyCode, null);
-                Assert.AreEqual(projects[0].CentralScheduleSync, false);
-                
-                context.Database.EnsureDeleted();
+                foreach (var projectCase in _projectCases)
+                {
+                    var project = (Project)projectCase[0];
+                    context.Add(project);
+                    context.SaveChanges();
+                    _projectsDB.Add(project);
+                }
             }
         }
         
-        /// <summary>
-        /// test sprawdzający warunek gdy podany jest błędny <i>MetodologyCode</i>
-        /// natomiast wymuszone jest podanie parametru <i>CentralScheduleSync</i> jako <b>true</b>
-        /// </summary>
-        /// <param name="metodology"></param>
-        [TestCase(null)]
-        [TestCase("")]
-        [TestCase(" ")]
-        public void AddProjectWithNullMetodologyButSynchronizedWithCentralSchedule(string metodology)
+        [OneTimeTearDown]
+        public void OnClose()
         {
-            var project = new Project("project name", "webcon code",metodology,true);
-            using (var context = new WSProTestContext())
-            {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-                
-                context.Projects.Add(project);
-                context.SaveChanges();
-            }
-            
-            using (var context = new WSProTestContext())
-            {
-                var projects = context.Projects.ToList();
-
-                Assert.AreEqual(projects.Count, 1);
-                Assert.AreEqual(projects[0].Name, "project name");
-                Assert.AreEqual(projects[0].WebconCode, "webcon code");
-                Assert.AreEqual(projects[0].MetodologyCode, null);
-                Assert.AreEqual(projects[0].CentralScheduleSync, false);
-                // tutaj zmiana! jeśli brak metodology code nie może synchronizować się z harmonogramem
-
-                context.Database.EnsureDeleted();
-            }
+            using var context = new WSProTestContext().Context;
+            context.Database.EnsureDeleted();
+            context.SaveChanges();
         }
 
-        /// <summary>
-        /// test sprawdzający czy poprawnie określany jest parametr <i>CentralScheduleSync</i>
-        /// w przypadku gdy parametr <i>MetodologyCode</i> ma poprawną wartość
-        /// </summary>
-        /// <param name="centralScheduleSync"></param>
-        [TestCase(true)]
-        [TestCase(false)]
-        public void AddProjectComplete(bool centralScheduleSync)
+        [TestCaseSource(nameof(_projectCases))]
+        public void TestRequiredParams(Project projectCreatedBy,Project projectDataShouldEqual)
         {
-            var project = new Project("project name", "webcon code","code",centralScheduleSync);
-            using (var context = new WSProTestContext())
-            {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-                
-                context.Projects.Add(project);
-                context.SaveChanges();
-            }
-            
-            using (var context = new WSProTestContext())
-            {
-                var projects = context.Projects.ToList();
-
-                Assert.AreEqual(projects.Count, 1);
-                Assert.AreEqual(projects[0].Name, "project name");
-                Assert.AreEqual(projects[0].WebconCode, "webcon code");
-                Assert.AreEqual(projects[0].MetodologyCode, "code");
-                Assert.AreEqual(projects[0].CentralScheduleSync, centralScheduleSync);
-
-                context.Database.EnsureDeleted();
-            }
+            var projectFromDB = _projectsDB.Find(p => p.Equals(projectCreatedBy));
+            Console.WriteLine(projectFromDB.ToString());
+            Assert.AreEqual(projectDataShouldEqual.Name,projectFromDB?.Name);
+            Assert.AreEqual(projectDataShouldEqual.MetodologyCode,projectFromDB?.MetodologyCode);
+            Assert.AreEqual(projectDataShouldEqual.WebconCode,projectFromDB?.WebconCode);
+            Assert.AreEqual(projectDataShouldEqual.CentralScheduleSync,projectFromDB?.CentralScheduleSync);
         }
+
     }
 }

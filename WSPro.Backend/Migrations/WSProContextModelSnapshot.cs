@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WSPro.Backend.Infrastructure;
 
-namespace WSPro.Backend.Infrastructure.Migrations
+namespace WSPro.Backend.Migrations
 {
     [DbContext(typeof(WSProContext))]
     partial class WSProContextModelSnapshot : ModelSnapshot
@@ -16,8 +16,23 @@ namespace WSPro.Backend.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.7")
+                .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+            modelBuilder.Entity("CrewSummaryWorker", b =>
+                {
+                    b.Property<int>("CrewSummariesId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("WorkersId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("CrewSummariesId", "WorkersId");
+
+                    b.HasIndex("WorkersId");
+
+                    b.ToTable("CrewSummaryWorker");
+                });
 
             modelBuilder.Entity("WSPro.Backend.Model.Crane", b =>
                 {
@@ -41,6 +56,115 @@ namespace WSPro.Backend.Infrastructure.Migrations
                     b.ToTable("Cranes");
                 });
 
+            modelBuilder.Entity("WSPro.Backend.Model.Crew", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("CrewType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("CrewWorkType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("ProjectId1")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int?>("UserId1")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId1");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("Crews");
+                });
+
+            modelBuilder.Entity("WSPro.Backend.Model.CrewSummary", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("CrewId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CrewId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CrewSummary");
+                });
+
+            modelBuilder.Entity("WSPro.Backend.Model.DelayCause", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("ParentId1")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentId1");
+
+                    b.ToTable("DelayCauses");
+                });
+
             modelBuilder.Entity("WSPro.Backend.Model.Element", b =>
                 {
                     b.Property<int>("Id")
@@ -51,16 +175,16 @@ namespace WSPro.Backend.Infrastructure.Migrations
                     b.Property<decimal?>("Area")
                         .HasColumnType("numeric");
 
-                    b.Property<int?>("CraneID")
+                    b.Property<int?>("CraneId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int?>("LevelID")
+                    b.Property<int?>("LevelId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ProjectID")
+                    b.Property<int?>("ProjectId")
                         .HasColumnType("integer");
 
                     b.Property<string>("RealisationMode")
@@ -86,11 +210,11 @@ namespace WSPro.Backend.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CraneID");
+                    b.HasIndex("CraneId");
 
-                    b.HasIndex("LevelID");
+                    b.HasIndex("LevelId");
 
-                    b.HasIndex("ProjectID");
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("Elements");
                 });
@@ -106,7 +230,7 @@ namespace WSPro.Backend.Infrastructure.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("Date");
 
                     b.Property<int>("ElementId")
                         .HasColumnType("integer");
@@ -114,10 +238,10 @@ namespace WSPro.Backend.Infrastructure.Migrations
                     b.Property<bool>("IsActual")
                         .HasColumnType("boolean");
 
-                    b.Property<int?>("PreviousStatusId")
+                    b.Property<int?>("PreviousStatusId1")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("ProjectId")
+                    b.Property<int?>("ProjectId1")
                         .HasColumnType("integer");
 
                     b.Property<string>("Status")
@@ -127,18 +251,18 @@ namespace WSPro.Backend.Infrastructure.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int?>("UserId1")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ElementId");
 
-                    b.HasIndex("PreviousStatusId");
+                    b.HasIndex("PreviousStatusId1");
 
-                    b.HasIndex("ProjectId");
+                    b.HasIndex("ProjectId1");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("ElementStatuses");
                 });
@@ -189,7 +313,6 @@ namespace WSPro.Backend.Infrastructure.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("WebconCode")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -230,21 +353,111 @@ namespace WSPro.Backend.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("WSPro.Backend.Model.Worker", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int?>("AddedById1")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("CrewWorkTypeEnum")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddedById1");
+
+                    b.ToTable("Workers");
+                });
+
+            modelBuilder.Entity("CrewSummaryWorker", b =>
+                {
+                    b.HasOne("WSPro.Backend.Model.CrewSummary", null)
+                        .WithMany()
+                        .HasForeignKey("CrewSummariesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WSPro.Backend.Model.Worker", null)
+                        .WithMany()
+                        .HasForeignKey("WorkersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WSPro.Backend.Model.Crew", b =>
+                {
+                    b.HasOne("WSPro.Backend.Model.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId1");
+
+                    b.HasOne("WSPro.Backend.Model.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("Project");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WSPro.Backend.Model.CrewSummary", b =>
+                {
+                    b.HasOne("WSPro.Backend.Model.Crew", "Crew")
+                        .WithMany()
+                        .HasForeignKey("CrewId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WSPro.Backend.Model.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WSPro.Backend.Model.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Crew");
+
+                    b.Navigation("Project");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WSPro.Backend.Model.DelayCause", b =>
+                {
+                    b.HasOne("WSPro.Backend.Model.DelayCause", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId1");
+
+                    b.Navigation("Parent");
+                });
+
             modelBuilder.Entity("WSPro.Backend.Model.Element", b =>
                 {
                     b.HasOne("WSPro.Backend.Model.Crane", "Crane")
                         .WithMany()
-                        .HasForeignKey("CraneID");
+                        .HasForeignKey("CraneId");
 
                     b.HasOne("WSPro.Backend.Model.Level", "Level")
                         .WithMany()
-                        .HasForeignKey("LevelID");
+                        .HasForeignKey("LevelId");
 
                     b.HasOne("WSPro.Backend.Model.Project", "Project")
                         .WithMany()
-                        .HasForeignKey("ProjectID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProjectId");
 
                     b.Navigation("Crane");
 
@@ -263,15 +476,15 @@ namespace WSPro.Backend.Infrastructure.Migrations
 
                     b.HasOne("WSPro.Backend.Model.ElementStatus", "PreviousStatus")
                         .WithMany()
-                        .HasForeignKey("PreviousStatusId");
+                        .HasForeignKey("PreviousStatusId1");
 
                     b.HasOne("WSPro.Backend.Model.Project", "Project")
                         .WithMany()
-                        .HasForeignKey("ProjectId");
+                        .HasForeignKey("ProjectId1");
 
                     b.HasOne("WSPro.Backend.Model.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("Element");
 
@@ -280,6 +493,15 @@ namespace WSPro.Backend.Infrastructure.Migrations
                     b.Navigation("Project");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WSPro.Backend.Model.Worker", b =>
+                {
+                    b.HasOne("WSPro.Backend.Model.User", "AddedBy")
+                        .WithMany()
+                        .HasForeignKey("AddedById1");
+
+                    b.Navigation("AddedBy");
                 });
 
             modelBuilder.Entity("WSPro.Backend.Model.Element", b =>
