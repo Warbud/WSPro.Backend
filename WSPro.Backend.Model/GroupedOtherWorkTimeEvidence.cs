@@ -5,7 +5,7 @@ using WSPro.Backend.Model.General;
 
 namespace WSPro.Backend.Model
 {
-    public class GroupedOtherWorkTimeEvidence:EntityModificationDate
+    public class GroupedOtherWorkTimeEvidence : EntityModificationDate
     {
         public int Id { get; set; }
         public Crew Crew { get; set; }

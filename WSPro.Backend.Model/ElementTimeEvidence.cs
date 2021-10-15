@@ -4,7 +4,7 @@ using WSPro.Backend.Model.General;
 
 namespace WSPro.Backend.Model
 {
-    public class ElementTimeEvidence:EntityModificationDate
+    public class ElementTimeEvidence : EntityModificationDate
     {
         public int Id { get; set; }
         public List<Element> Elements { get; set; }
@@ -13,6 +13,5 @@ namespace WSPro.Backend.Model
         public Project Project { get; set; }
         public Crew Crew { get; set; }
         public float WorkedTime { get; set; }
-        
     }
 }

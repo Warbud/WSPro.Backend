@@ -14,7 +14,7 @@ namespace Test.WSPro.Backend.Infrastructure
             {
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
-                
+
                 context.Levels.Add(level);
                 context.SaveChanges();
             }
@@ -22,9 +22,9 @@ namespace Test.WSPro.Backend.Infrastructure
             using (var context = new WSProTestContext().Context)
             {
                 var levels = context.Levels.ToList();
-                
-                Assert.AreEqual(levels.Count,1);
-                Assert.AreEqual(levels[0].Name,"L00");
+
+                Assert.AreEqual(levels.Count, 1);
+                Assert.AreEqual(levels[0].Name, "L00");
             }
         }
     }

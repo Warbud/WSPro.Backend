@@ -9,7 +9,5 @@ namespace WSPro.Backend.Infrastructure.Converters
             v => v.ToString(),
             v => Enum.Parse<T>(v)
         );
-
-
     }
 }

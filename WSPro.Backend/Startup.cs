@@ -5,40 +5,45 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WSPro.Backend.GraphQL;
+using WSPro.Backend.GraphQL.Crane;
+using WSPro.Backend.GraphQL.Element;
+using WSPro.Backend.GraphQL.Project;
 using WSPro.Backend.Infrastructure;
-using WSPro.Backend.Infrastructure.GraphQL;
 
 namespace WSPro.Backend
 {
     public class Startup
     {
+        private readonly IConfiguration _configuration;
 
-        private readonly IConfiguration Configuration;
-        public Startup(IConfiguration configuration)    // dependency injection
+        public Startup(IConfiguration configuration) // dependency injection
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
-        
-        
+
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddPooledDbContextFactory<WSProContext>(opt => 
-                opt.UseNpgsql(Configuration.GetConnectionString("WSProDB"),
+            services.AddPooledDbContextFactory<WSProContext>(opt =>
+                opt.UseNpgsql(_configuration.GetConnectionString("WSProDB"),
                     b => b.MigrationsAssembly("WSPro.Backend")));
 
             services
                 .AddGraphQLServer()
                 .AddQueryType<Query>()
-                .AddProjections();
+                .AddType<CraneQuery>()
+                .AddType<ProjectQuery>()
+                .AddType<ElementQuery>()
+                .AddProjections()
+                .AddFiltering()
+                .AddSorting();
         }
 
-        
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseRouting();
 
@@ -48,9 +53,9 @@ namespace WSPro.Backend
                 endpoints.MapGraphQLVoyager("/voyager");
             });
 
-            app.UseGraphQLVoyager(new VoyagerOptions()
+            app.UseGraphQLVoyager(new VoyagerOptions
             {
-                GraphQLEndPoint = "/graphql",
+                GraphQLEndPoint = "/graphql"
             });
         }
     }

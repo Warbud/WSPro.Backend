@@ -5,9 +5,8 @@ namespace Test.WSPro.Backend.Model
 {
     public class LevelTest
     {
-        
         /// <summary>
-        /// Test sprawdzający poprawność metody IsValidName klasy Level.
+        ///     Test sprawdzający poprawność metody IsValidName klasy Level.
         /// </summary>
         /// <param name="name"></param>
         /// <param name="expectedIsValid"></param>

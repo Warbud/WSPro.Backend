@@ -5,5 +5,4 @@
         Origin,
         ActiveDirectory
     }
-
 }

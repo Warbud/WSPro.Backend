@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using WSPro.Backend.Model;
 
 namespace Test.WSPro.Backend.Infrastructure.CraneTest
 {
-    
     [TestFixture]
     public class CraneTest
     {
-        private Crane _crane;
-        private List<Crane> _craneList;
-        
         [OneTimeSetUp]
         public void Init()
         {
@@ -20,7 +15,7 @@ namespace Test.WSPro.Backend.Infrastructure.CraneTest
             {
                 context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
-                
+
                 _crane = new Crane("01");
                 context.Cranes.Add(_crane);
                 context.SaveChanges();
@@ -32,7 +27,7 @@ namespace Test.WSPro.Backend.Infrastructure.CraneTest
                 _craneList = context.Cranes.ToList();
             }
         }
-        
+
         [OneTimeTearDown]
         public void OnClose()
         {
@@ -40,12 +35,15 @@ namespace Test.WSPro.Backend.Infrastructure.CraneTest
             context.Database.EnsureDeleted();
             context.SaveChanges();
         }
-        
+
+        private Crane _crane;
+        private List<Crane> _craneList;
+
         [Test]
         public void TestCrane()
         {
-           Assert.AreEqual(1,_craneList.Count);
-           Assert.AreEqual("01",_crane.Name);
+            Assert.AreEqual(1, _craneList.Count);
+            Assert.AreEqual("01", _crane.Name);
         }
     }
 }

@@ -3,7 +3,7 @@ using WSPro.Backend.Model.General;
 
 namespace WSPro.Backend.Model
 {
-    public class OtherWorksTimeEvidence:EntityModificationDate
+    public class OtherWorksTimeEvidence : EntityModificationDate
     {
         public int Id { get; set; }
         public float WorkedTime { get; set; }

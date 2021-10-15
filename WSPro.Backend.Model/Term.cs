@@ -4,7 +4,7 @@ using WSPro.Backend.Model.General;
 
 namespace WSPro.Backend.Model
 {
-    public class Term:EntityModificationDate
+    public class Term : EntityModificationDate
     {
         public int Id { get; set; }
         public string Vertical { get; set; }
@@ -22,6 +22,6 @@ namespace WSPro.Backend.Model
         private int LevelId { get; set; }
         public User User { get; set; }
         private int UserId { get; set; }
-        public List<Element> Elements { get; set; } = new List<Element>();
+        public List<Element> Elements { get; set; } = new();
     }
 }

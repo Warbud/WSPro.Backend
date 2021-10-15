@@ -5,4 +5,5 @@
         SteelFixer,
         Carpenter,
         GeneralConstructor
-    }}
+    }
+}

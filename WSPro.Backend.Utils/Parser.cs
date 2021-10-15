@@ -5,7 +5,7 @@ namespace WSPro.Backend.Utils
     {
         public static string? NullParser(string? value)
         {
-            return  (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
+            return string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value)
                 ? null
                 : value;
         }

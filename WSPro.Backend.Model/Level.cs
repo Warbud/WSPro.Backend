@@ -4,32 +4,32 @@ using WSPro.Backend.Model.General;
 namespace WSPro.Backend.Model
 {
     /// <summary>
-    /// Klasa poziomu
+    ///     Klasa poziomu
     /// </summary>
-    public class Level:EntityModificationDate
+    public class Level : EntityModificationDate
     {
-        /// <summary>
-        /// Indeks w bazie poziomu
-        /// </summary>
-        public int Id { get; set; }
-        /// <summary>
-        /// Nazwa poziomu
-        /// </summary>
-        public string Name { get; set; }
-
         private Level()
         {
-            
         }
 
         public Level(string name)
         {
             Name = name;
         }
-        
+
         /// <summary>
-        /// Metoda sprawdzająca poprawność nazwy poziomu.
-        /// Dopuszczalne nazwy to np. B00,B01...B99, L00..L99, F
+        ///     Indeks w bazie poziomu
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
+        ///     Nazwa poziomu
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        ///     Metoda sprawdzająca poprawność nazwy poziomu.
+        ///     Dopuszczalne nazwy to np. B00,B01...B99, L00..L99, F
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
