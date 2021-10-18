@@ -9,6 +9,7 @@ using WSPro.Backend.GraphQL;
 using WSPro.Backend.GraphQL.Crane;
 using WSPro.Backend.GraphQL.Element;
 using WSPro.Backend.GraphQL.Project;
+using WSPro.Backend.GraphQL.Utils;
 using WSPro.Backend.Infrastructure;
 
 namespace WSPro.Backend
@@ -32,9 +33,12 @@ namespace WSPro.Backend
             services
                 .AddGraphQLServer()
                 .AddQueryType<Query>()
-                .AddType<CraneQuery>()
-                .AddType<ProjectQuery>()
-                .AddType<ElementQuery>()
+                .AddType<QueryCrane>()
+                .AddType<QueryProject>()
+                .AddType<QueryElement>()
+                .AddMutationType<Mutation>()
+                .AddType<MutationCrane>()
+                .AddErrorFilter<GraphQLErrorFilter>()
                 .AddProjections()
                 .AddFiltering()
                 .AddSorting();

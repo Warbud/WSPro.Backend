@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\WSPro.Backend.Utils\WSPro.Backend.Utils.csproj"/>
+        <ProjectReference Include="..\WSPro.Backend.Utils\WSPro.Backend.Utils.csproj" />
     </ItemGroup>
 
 </Project>

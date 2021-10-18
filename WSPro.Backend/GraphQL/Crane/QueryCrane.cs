@@ -6,25 +6,28 @@ using HotChocolate.Types;
 using Microsoft.EntityFrameworkCore;
 using WSPro.Backend.Infrastructure;
 
-namespace WSPro.Backend.GraphQL.Project
+namespace WSPro.Backend.GraphQL.Crane
 {
     [ExtendObjectType(nameof(Query))]
-    public class ProjectQuery
+    public class QueryCrane
     {
         [UseDbContext(typeof(WSProContext))]
         [UseProjection]
-        public Task<Model.Project> GetProject(GetProjectInput input, [ScopedService] WSProContext context)
+        public Task<Model.Crane?> GetCrane(GetCraneInput input,[ScopedService] WSProContext context)
         {
-            return context.Projects.FirstOrDefaultAsync(p => p.Id == input.Id);
+           return context
+               .Cranes
+               .FirstOrDefaultAsync( crane => crane.Id == input.Id);
         }
-
+        
         [UseDbContext(typeof(WSProContext))]
         [UseProjection]
         [UseFiltering]
         [UseSorting]
-        public IQueryable<Model.Project> GetProjects([ScopedService] WSProContext context)
+        public IQueryable<Model.Crane> GetCranes([ScopedService] WSProContext context)
         {
-            return context.Projects;
+            return context.Cranes;
         }
+
     }
 }

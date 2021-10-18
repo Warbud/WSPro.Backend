@@ -9,7 +9,7 @@ using WSPro.Backend.Infrastructure;
 namespace WSPro.Backend.GraphQL.Element
 {
     [ExtendObjectType(nameof(Query))]
-    public class ElementQuery
+    public class QueryElement
     {
         [UseDbContext(typeof(WSProContext))]
         [UseProjection]

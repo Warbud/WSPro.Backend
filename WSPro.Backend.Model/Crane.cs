@@ -36,7 +36,7 @@ namespace WSPro.Backend.Model
         /// <returns></returns>
         public static bool IsValidName(string? name)
         {
-            return name != null && new Regex(@"(?!00)(?=\d{2})").IsMatch(name);
+            return name != null && new Regex(@"^(?!00)(\d{2})$").IsMatch(name);
         }
     }
 }

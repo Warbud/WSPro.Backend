@@ -11,6 +11,8 @@ namespace Test.WSPro.Backend.Model
         /// <param name="name"></param>
         /// <param name="expectedIsValid"></param>
         [TestCase("00", false)]
+        [TestCase("C1000", false)]
+        [TestCase("L00", false)]
         [TestCase("01", true)]
         public void TestCraneNameValidator(string name, bool expectedIsValid)
         {

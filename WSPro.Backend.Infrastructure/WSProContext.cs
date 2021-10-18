@@ -27,8 +27,8 @@ namespace WSPro.Backend.Infrastructure
             modelBuilder.Entity<Element>().Property(e => e.Vertical)
                 .HasConversion(new EnumConverter<VerticalEnum>().Converter);
 
-            modelBuilder.Entity<Element>().Property(x => x.CreatedAt).HasDefaultValueSql("now()").ValueGeneratedOnAdd();
-            modelBuilder.Entity<Element>().Property(x => x.UpdatedAt).HasDefaultValueSql("now()").ValueGeneratedOnAddOrUpdate();
+            modelBuilder.Entity<Element>().Property(x => x.CreatedAt).ValueGeneratedOnAdd();
+            modelBuilder.Entity<Element>().Property(x => x.UpdatedAt).ValueGeneratedOnAddOrUpdate();
 
             modelBuilder.Entity<ElementStatus>().Property(es => es.Status)
                 .HasConversion(new EnumConverter<StatusEnum>().Converter);
