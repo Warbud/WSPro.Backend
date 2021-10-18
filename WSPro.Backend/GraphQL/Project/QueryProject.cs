@@ -13,7 +13,7 @@ namespace WSPro.Backend.GraphQL.Project
     {
         [UseDbContext(typeof(WSProContext))]
         [UseProjection]
-        public Task<Model.Project> GetProject(GetProjectInput input, [ScopedService] WSProContext context)
+        public Task<Domain.Model.V1.Project> GetProject(GetProjectInput input, [ScopedService] WSProContext context)
         {
             return context.Projects.FirstOrDefaultAsync(p => p.Id == input.Id);
         }
@@ -22,7 +22,7 @@ namespace WSPro.Backend.GraphQL.Project
         [UseProjection]
         [UseFiltering]
         [UseSorting]
-        public IQueryable<Model.Project> GetProjects([ScopedService] WSProContext context)
+        public IQueryable<Domain.Model.V1.Project> GetProjects([ScopedService] WSProContext context)
         {
             return context.Projects;
         }

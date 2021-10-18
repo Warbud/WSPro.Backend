@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSPro.Backend.Model", "WSPro.Backend.Model\WSPro.Backend.Model.csproj", "{96C0CF4E-A729-4278-9719-68B6A150E60B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSPro.Backend.Domain", "WSPro.Backend.Domain\WSPro.Backend.Domain.csproj", "{96C0CF4E-A729-4278-9719-68B6A150E60B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSPro.Backend.Infrastructure", "WSPro.Backend.Infrastructure\WSPro.Backend.Infrastructure.csproj", "{361D07CD-995B-4094-95EC-37543FCCAAB2}"
 EndProject

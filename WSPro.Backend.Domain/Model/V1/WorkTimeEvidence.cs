@@ -1,7 +1,7 @@
 ﻿using System;
-using WSPro.Backend.Model.General;
+using WSPro.Backend.Domain.Model.V1.General;
 
-namespace WSPro.Backend.Model
+namespace WSPro.Backend.Domain.Model.V1
 {
     public class WorkTimeEvidence : EntityModificationDate
     {

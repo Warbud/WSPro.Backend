@@ -1,3 +1,4 @@
+using FluentValidation;
 using GraphQL.Server.Ui.Voyager;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -5,12 +6,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WSPro.Backend.Domain.Interfaces;
+using WSPro.Backend.Domain.Model.V1;
+using WSPro.Backend.Domain.ServiceInstallers;
+using WSPro.Backend.Domain.Validators.V1;
 using WSPro.Backend.GraphQL;
 using WSPro.Backend.GraphQL.Crane;
-using WSPro.Backend.GraphQL.Element;
-using WSPro.Backend.GraphQL.Project;
 using WSPro.Backend.GraphQL.Utils;
 using WSPro.Backend.Infrastructure;
+using WSPro.Backend.Infrastructure.Repositories;
 
 namespace WSPro.Backend
 {
@@ -26,22 +30,14 @@ namespace WSPro.Backend
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddPooledDbContextFactory<WSProContext>(opt =>
-                opt.UseNpgsql(_configuration.GetConnectionString("WSProDB"),
-                    b => b.MigrationsAssembly("WSPro.Backend")));
 
             services
-                .AddGraphQLServer()
-                .AddQueryType<Query>()
-                .AddType<QueryCrane>()
-                .AddType<QueryProject>()
-                .AddType<QueryElement>()
-                .AddMutationType<Mutation>()
-                .AddType<MutationCrane>()
-                .AddErrorFilter<GraphQLErrorFilter>()
-                .AddProjections()
-                .AddFiltering()
-                .AddSorting();
+                .AddDbContextPool<WSProContext>(opt =>
+                    opt.UseNpgsql(_configuration.GetConnectionString("WSProDB"),
+                        b => b.MigrationsAssembly("WSPro.Backend")))
+                .InstallDomainServices()
+                .InstallInfrastructureServices()
+                .InstallGraphQlServices();
         }
 
 

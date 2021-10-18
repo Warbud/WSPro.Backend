@@ -1,25 +1,13 @@
-﻿using WSPro.Backend.Model.Enums;
-using WSPro.Backend.Model.General;
+﻿using WSPro.Backend.Domain.Model.V1.General;
+using WSPro.Backend.Model.Enums;
 
-namespace WSPro.Backend.Model
+namespace WSPro.Backend.Domain.Model.V1
 {
     /// <summary>
     ///     Klasa użytkownika. Reprezentuje użytkownika korzystającego z systemu
     /// </summary>
     public class User : EntityModificationDate
     {
-        private User()
-        {
-        }
-
-        public User(string email, string password, string? name = null, AuthProviderEnum? provider = null)
-        {
-            Email = email;
-            Password = password;
-            Name = NameValidator(name);
-            Provider = AuthProviderValidator(provider);
-        }
-
         /// <summary>
         ///     Id użytkownika w bazie
         /// </summary>
@@ -45,14 +33,14 @@ namespace WSPro.Backend.Model
         /// </summary>
         public AuthProviderEnum Provider { get; set; }
 
-        private string? NameValidator(string name)
-        {
-            return string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name) ? null : name;
-        }
-
-        private AuthProviderEnum AuthProviderValidator(AuthProviderEnum? provider)
-        {
-            return provider ?? AuthProviderEnum.Origin;
-        }
+        // private string? NameValidator(string name)
+        // {
+        //     return string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name) ? null : name;
+        // }
+        //
+        // private AuthProviderEnum AuthProviderValidator(AuthProviderEnum? provider)
+        // {
+        //     return provider ?? AuthProviderEnum.Origin;
+        // }
     }
 }

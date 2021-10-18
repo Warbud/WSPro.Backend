@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using WSPro.Backend.Model.General;
+using WSPro.Backend.Domain.Model.V1.General;
 
-namespace WSPro.Backend.Model
+namespace WSPro.Backend.Domain.Model.V1
 {
     public class Term : EntityModificationDate
     {
@@ -15,13 +15,13 @@ namespace WSPro.Backend.Model
         public DateTime RealStart { get; set; }
         public DateTime RealFinish { get; set; }
         public Crane Crane { get; set; }
-        private int CraneId { get; set; }
+        public int CraneId { get; set; }
         public Project Project { get; set; }
-        private int ProjectId { get; set; }
+        public int ProjectId { get; set; }
         public Level Level { get; set; }
-        private int LevelId { get; set; }
+        public int LevelId { get; set; }
         public User User { get; set; }
-        private int UserId { get; set; }
-        public List<Element> Elements { get; set; } = new();
+        public int UserId { get; set; }
+        public ICollection<Element> Elements { get; set; }
     }
 }

@@ -2,6 +2,8 @@
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
+using WSPro.Backend.Domain.Model;
+using WSPro.Backend.Domain.Model.V1;
 using WSPro.Backend.Model;
 
 namespace Test.WSPro.Backend.Infrastructure.DelayCauseTest

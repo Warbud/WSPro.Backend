@@ -1,22 +1,12 @@
-﻿using System.Text.RegularExpressions;
-using WSPro.Backend.Model.General;
+﻿using WSPro.Backend.Domain.Model.V1.General;
 
-namespace WSPro.Backend.Model
+namespace WSPro.Backend.Domain.Model.V1
 {
     /// <summary>
     ///     Klasa poziomu
     /// </summary>
     public class Level : EntityModificationDate
     {
-        private Level()
-        {
-        }
-
-        public Level(string name)
-        {
-            Name = name;
-        }
-
         /// <summary>
         ///     Indeks w bazie poziomu
         /// </summary>
@@ -33,9 +23,9 @@ namespace WSPro.Backend.Model
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static bool IsValidName(string? name)
-        {
-            return name != null && new Regex(@"F|B\d{2}|L\d{2}").IsMatch(name);
-        }
+        // public static bool IsValidName(string? name)
+        // {
+        //     return name != null && new Regex(@"F|B\d{2}|L\d{2}").IsMatch(name);
+        // }
     }
 }

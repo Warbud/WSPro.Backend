@@ -13,7 +13,7 @@ namespace WSPro.Backend.GraphQL.Element
     {
         [UseDbContext(typeof(WSProContext))]
         [UseProjection]
-        public Task<Model.Element?> GetElement(GetElementInput input, [ScopedService] WSProContext context)
+        public Task<Domain.Model.V1.Element?> GetElement(GetElementInput input, [ScopedService] WSProContext context)
         {
             return context.Elements.FirstOrDefaultAsync(e => input.Id == e.Id);
         }
@@ -22,7 +22,7 @@ namespace WSPro.Backend.GraphQL.Element
         [UseProjection]
         [UseFiltering]
         [UseSorting]
-        public IQueryable<Model.Element> GetElements([ScopedService] WSProContext context)
+        public IQueryable<Domain.Model.V1.Element> GetElements([ScopedService] WSProContext context)
         {
             return context.Elements;
         }

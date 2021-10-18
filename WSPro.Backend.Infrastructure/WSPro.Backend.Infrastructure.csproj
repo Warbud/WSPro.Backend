@@ -17,7 +17,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\WSPro.Backend.Model\WSPro.Backend.Model.csproj" />
+        <ProjectReference Include="..\WSPro.Backend.Domain\WSPro.Backend.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Interfaces" />
     </ItemGroup>
 
 </Project>

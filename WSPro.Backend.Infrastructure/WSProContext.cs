@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WSPro.Backend.Domain.Model;
+using WSPro.Backend.Domain.Model.V1;
 using WSPro.Backend.Infrastructure.Converters;
 using WSPro.Backend.Model;
 using WSPro.Backend.Model.Enums;
-using WSPro.Backend.Model.General;
 
 namespace WSPro.Backend.Infrastructure
 {

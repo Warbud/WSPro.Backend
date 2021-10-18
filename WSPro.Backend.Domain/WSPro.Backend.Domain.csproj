@@ -9,4 +9,8 @@
         <ProjectReference Include="..\WSPro.Backend.Utils\WSPro.Backend.Utils.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.3" />
+    </ItemGroup>
+
 </Project>

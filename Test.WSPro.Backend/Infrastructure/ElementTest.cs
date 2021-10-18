@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using WSPro.Backend.Domain.Model;
+using WSPro.Backend.Domain.Model.V1;
 using WSPro.Backend.Model;
 using WSPro.Backend.Model.Enums;
 

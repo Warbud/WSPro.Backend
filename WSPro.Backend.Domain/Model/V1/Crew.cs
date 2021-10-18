@@ -1,20 +1,20 @@
-﻿using WSPro.Backend.Model.Enums;
-using WSPro.Backend.Model.General;
+﻿using WSPro.Backend.Domain.Model.V1.General;
+using WSPro.Backend.Model.Enums;
 
-namespace WSPro.Backend.Model
+namespace WSPro.Backend.Domain.Model.V1
 {
     public class Crew : EntityModificationDate
     {
-        private Crew()
-        {
-        }
-
-        public Crew(string name, CrewWorkTypeEnum crewWorkType, CrewTypeEnum crewType)
-        {
-            CrewWorkType = crewWorkType;
-            CrewType = crewType;
-            Name = name;
-        }
+        // private Crew()
+        // {
+        // }
+        //
+        // public Crew(string name, CrewWorkTypeEnum crewWorkType, CrewTypeEnum crewType)
+        // {
+        //     CrewWorkType = crewWorkType;
+        //     CrewType = crewType;
+        //     Name = name;
+        // }
 
         /// <summary>
         ///     Id of Crew

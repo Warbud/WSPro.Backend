@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
-using WSPro.Backend.Model.General;
+using WSPro.Backend.Domain.Model.V1.General;
 
-namespace WSPro.Backend.Model
+namespace WSPro.Backend.Domain.Model.V1
 {
     public class BimModel : EntityModificationDate
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string ModelUrn { get; set; }
-        public List<Element> Elements { get; set; } = new();
+        public ICollection<Element> Elements { get; set; }
         public Project Project { get; set; }
         public int ProjectId { get; set; }
-        public List<Level> Levels { get; set; } = new();
-        public List<Crane> Cranes { get; set; } = new();
+        public ICollection<Level> Levels { get; set; }
+        public ICollection<Crane> Cranes { get; set; } 
     }
 }

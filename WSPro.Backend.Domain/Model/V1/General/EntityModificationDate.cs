@@ -1,15 +1,11 @@
 ﻿using System;
 
-namespace WSPro.Backend.Model.General
+namespace WSPro.Backend.Domain.Model.V1.General
 {
     public class EntityModificationDate
     {
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
-        public void UpdateDate()
-        {
-            UpdatedAt = DateTime.Now;
-        }
     }
 }
