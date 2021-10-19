@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WSPro.Backend.Migrations
 {
-    public partial class Initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,7 +31,7 @@ namespace WSPro.Backend.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     IsMain = table.Column<bool>(type: "boolean", nullable: false),
-                    ParentId1 = table.Column<int>(type: "integer", nullable: true),
+                    ParentId = table.Column<int>(type: "integer", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
@@ -39,8 +39,8 @@ namespace WSPro.Backend.Migrations
                 {
                     table.PrimaryKey("PK_DelayCauses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DelayCauses_DelayCauses_ParentId1",
-                        column: x => x.ParentId1,
+                        name: "FK_DelayCauses_DelayCauses_ParentId",
+                        column: x => x.ParentId,
                         principalTable: "DelayCauses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -112,7 +112,8 @@ namespace WSPro.Backend.Migrations
                     RotationDay = table.Column<int>(type: "integer", nullable: true),
                     LevelId = table.Column<int>(type: "integer", nullable: true),
                     CraneId = table.Column<int>(type: "integer", nullable: true),
-                    ProjectId = table.Column<int>(type: "integer", nullable: true),
+                    Details = table.Column<string>(type: "text", nullable: false),
+                    IsPrefabricated = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
@@ -129,12 +130,6 @@ namespace WSPro.Backend.Migrations
                         name: "FK_Elements_Levels_LevelId",
                         column: x => x.LevelId,
                         principalTable: "Levels",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Elements_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -176,7 +171,7 @@ namespace WSPro.Backend.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CrewWorkTypeEnum = table.Column<string>(type: "text", nullable: true),
+                    CrewWorkType = table.Column<string>(type: "text", nullable: true),
                     AddedById1 = table.Column<int>(type: "integer", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
@@ -200,11 +195,9 @@ namespace WSPro.Backend.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Date = table.Column<DateTime>(type: "Date", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: false),
-                    IsActual = table.Column<bool>(type: "boolean", nullable: false),
                     ElementId = table.Column<int>(type: "integer", nullable: false),
                     UserId1 = table.Column<int>(type: "integer", nullable: true),
                     ProjectId1 = table.Column<int>(type: "integer", nullable: true),
-                    PreviousStatusId1 = table.Column<int>(type: "integer", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
@@ -217,12 +210,6 @@ namespace WSPro.Backend.Migrations
                         principalTable: "Elements",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ElementStatuses_ElementStatuses_PreviousStatusId1",
-                        column: x => x.PreviousStatusId1,
-                        principalTable: "ElementStatuses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ElementStatuses_Projects_ProjectId1",
                         column: x => x.ProjectId1,
@@ -329,9 +316,9 @@ namespace WSPro.Backend.Migrations
                 column: "WorkersId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DelayCauses_ParentId1",
+                name: "IX_DelayCauses_ParentId",
                 table: "DelayCauses",
-                column: "ParentId1");
+                column: "ParentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Elements_CraneId",
@@ -344,19 +331,9 @@ namespace WSPro.Backend.Migrations
                 column: "LevelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Elements_ProjectId",
-                table: "Elements",
-                column: "ProjectId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ElementStatuses_ElementId",
                 table: "ElementStatuses",
                 column: "ElementId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ElementStatuses_PreviousStatusId1",
-                table: "ElementStatuses",
-                column: "PreviousStatusId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ElementStatuses_ProjectId1",

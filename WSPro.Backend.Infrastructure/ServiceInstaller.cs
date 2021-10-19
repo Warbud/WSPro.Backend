@@ -8,7 +8,9 @@ namespace WSPro.Backend.Infrastructure
     {
         public static IServiceCollection InstallInfrastructureServices(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<ICraneRepository, CraneRepository>();
+            serviceCollection
+                .AddScoped<ICraneRepository, CraneRepository>()
+                .AddScoped<ILevelRepository, LevelRepository>();
             
             return serviceCollection;
         } 

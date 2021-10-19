@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
+using WSPro.Backend.Domain.Interfaces;
 using WSPro.Backend.Domain.Model;
 using WSPro.Backend.Domain.Model.V1;
 using WSPro.Backend.Infrastructure.Converters;
@@ -43,6 +45,9 @@ namespace WSPro.Backend.Infrastructure
                 .HasConversion(new EnumConverter<CrewWorkTypeEnum>().Converter);
             modelBuilder.Entity<Crew>().Property(u => u.CrewType)
                 .HasConversion(new EnumConverter<CrewTypeEnum>().Converter);
+            
+            // modelBuilder.Entity<Crane>().Property(x => x.CreatedAt).HasDefaultValueSql("now()");
+            // modelBuilder.Entity<Crane>().Property(x => x.UpdatedAt).HasDefaultValueSql("now()");
         }
     }
 }

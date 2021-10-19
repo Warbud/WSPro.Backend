@@ -16,6 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\WSPro.Backend.Application\WSPro.Backend.Application.csproj" />
         <ProjectReference Include="..\WSPro.Backend.Infrastructure\WSPro.Backend.Infrastructure.csproj" />
     </ItemGroup>
 

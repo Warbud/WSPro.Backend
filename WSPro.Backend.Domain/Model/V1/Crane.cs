@@ -5,7 +5,7 @@ namespace WSPro.Backend.Domain.Model.V1
     /// <summary>
     ///     Klasa żurawia. Identyfikuje żuraw na budowie bo jego nazwie.
     /// </summary>
-    public class Crane : EntityModificationDate
+    public class Crane :EntityModificationDate
     {
         /// <summary>
         ///     Index żurawia w bazie
@@ -15,6 +15,8 @@ namespace WSPro.Backend.Domain.Model.V1
         ///     Nazwa żurawia. Należy uruchomić walidator aby sprawdzić poprawność nazwy żurawia
         /// </summary>
         public string Name { get; set; }
+        
+        
 
     }
 }

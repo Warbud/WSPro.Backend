@@ -1,42 +1,43 @@
-﻿using System.Linq;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using HotChocolate.Data;
 using HotChocolate.Types;
-using WSPro.Backend.Domain.Interfaces;
+using WSPro.Backend.Application.Dto;
+using WSPro.Backend.Application.Interfaces;
 
 namespace WSPro.Backend.GraphQL.Crane
 {
     [ExtendObjectType(nameof(Mutation))]
     public class MutationCrane
     {
-        private ICraneRepository _repository;
-        public MutationCrane(ICraneRepository repository)
+        private readonly ICraneService _service;
+        public MutationCrane(ICraneService service)
         {
-            _repository = repository;
+            _service = service;
         }
         
         [UseProjection]
-        public Task<Domain.Model.V1.Crane> CreateCrane(CreateCraneInput input)
+        public Task<Domain.Model.V1.Crane> CreateCrane(CreateCraneDto input, CancellationToken cancellationToken)
         {
-            return _repository.CreateAsync(input.Name);
+            return _service.CreateAsync(input,cancellationToken);
         }
         
         [UseProjection]
-        public  Task<Domain.Model.V1.Crane[]> CreateCraneRange(CreateCraneInput[] input)
+        public  Task<Domain.Model.V1.Crane[]> CreateManyCranes(CreateCraneDto[] input,CancellationToken cancellationToken)
         {
-            return _repository.CreateRangeAsync(input.Select(x => x.Name).ToArray());
+            return _service.CreateManyAsync(input,cancellationToken );
         }
         
         [UseProjection]
-        public Task<Domain.Model.V1.Crane> UpdateCrane(GetCraneInput input,UpdateCraneInput data)
+        public Task<Domain.Model.V1.Crane> UpdateCrane(GetCraneDto input,CreateCraneDto data,CancellationToken cancellationToken)
         {
-            return _repository.UpdateAsync(input.Id, data.Name);
+            return _service.UpdateAsync(input,data,cancellationToken);
         }
         
         [UseProjection]
-        public Task<Domain.Model.V1.Crane> DeleteCrane(GetCraneInput input)
+        public Task<Domain.Model.V1.Crane> DeleteCrane(GetCraneDto input,CancellationToken cancellationToken)
         {
-            return _repository.DeleteAsync(input.Id);
+            return _service.DeleteAsync(input,cancellationToken);
         }
     
         

@@ -1,7 +1,4 @@
-﻿using FluentValidation;
-using Microsoft.Extensions.DependencyInjection;
-using WSPro.Backend.Domain.Model.V1;
-using WSPro.Backend.Domain.Validators.V1;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace WSPro.Backend.Domain
 {
@@ -9,8 +6,6 @@ namespace WSPro.Backend.Domain
     {
         public static IServiceCollection InstallDomainServices(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<IValidator<Crane>, CraneValidator>();
-            
             return serviceCollection;
         } 
     }

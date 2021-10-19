@@ -1,4 +1,3 @@
-using FluentValidation;
 using GraphQL.Server.Ui.Voyager;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,15 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WSPro.Backend.Application;
 using WSPro.Backend.Domain;
-using WSPro.Backend.Domain.Interfaces;
-using WSPro.Backend.Domain.Model.V1;
-using WSPro.Backend.Domain.Validators.V1;
 using WSPro.Backend.GraphQL;
-using WSPro.Backend.GraphQL.Crane;
-using WSPro.Backend.GraphQL.Utils;
 using WSPro.Backend.Infrastructure;
-using WSPro.Backend.Infrastructure.Repositories;
 
 namespace WSPro.Backend
 {
@@ -27,7 +21,6 @@ namespace WSPro.Backend
             _configuration = configuration;
         }
 
-
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -37,6 +30,7 @@ namespace WSPro.Backend
                         b => b.MigrationsAssembly("WSPro.Backend")))
                 .InstallDomainServices()
                 .InstallInfrastructureServices()
+                .InstallApplicationServices()
                 .InstallGraphQlServices();
         }
 

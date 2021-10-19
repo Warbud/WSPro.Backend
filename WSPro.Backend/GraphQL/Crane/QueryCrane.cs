@@ -3,35 +3,33 @@ using System.Threading.Tasks;
 using HotChocolate;
 using HotChocolate.Data;
 using HotChocolate.Types;
-using WSPro.Backend.Domain.Interfaces;
+using WSPro.Backend.Application.Dto;
+using WSPro.Backend.Application.Interfaces;
 
 namespace WSPro.Backend.GraphQL.Crane
 {
     [ExtendObjectType(nameof(Query))]
     public class QueryCrane
     {
-        private ICraneRepository _repository;
-        public QueryCrane(ICraneRepository repository)
+        private ICraneService _service;
+        public QueryCrane(ICraneService service)
         {
-            _repository = repository;
+            _service = service;
         }
         [GraphQLDescription("Get particural crane by ID")]
-        // [UseDbContext(typeof(WSProContext))]
         [UseProjection]
-        // public Task<Domain.Model.V1.Crane?> GetCrane(GetCraneInput input,[ScopedService] WSProContext context)
-        public Task<Domain.Model.V1.Crane> GetCrane(GetCraneInput input )
+        public Task<Domain.Model.V1.Crane> GetCrane(GetCraneDto input )
         {
-            return _repository.GetByIdAsync(input.Id);
+            return _service.GetCraneByID(input);
         }
         
         [GraphQLDescription("Get collection of cranes")]
-        // [UseDbContext(typeof(WSProContext))]
         [UseProjection]
         [UseFiltering]
         [UseSorting]
-        public IQueryable<Domain.Model.V1.Crane> GetCranes()
+        public Task<IQueryable<Domain.Model.V1.Crane>> GetCranes()
         {
-            return _repository.GetAllAsync();
+            return _service.GetAllCranes();
         }
 
     }

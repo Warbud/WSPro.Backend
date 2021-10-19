@@ -34,7 +34,7 @@ namespace WSPro.Backend.Migrations
                     b.ToTable("CrewSummaryWorker");
                 });
 
-            modelBuilder.Entity("WSPro.Backend.Model.Crane", b =>
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.Crane", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -56,7 +56,7 @@ namespace WSPro.Backend.Migrations
                     b.ToTable("Cranes");
                 });
 
-            modelBuilder.Entity("WSPro.Backend.Model.Crew", b =>
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.Crew", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -96,7 +96,7 @@ namespace WSPro.Backend.Migrations
                     b.ToTable("Crews");
                 });
 
-            modelBuilder.Entity("WSPro.Backend.Model.CrewSummary", b =>
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.CrewSummary", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -135,7 +135,7 @@ namespace WSPro.Backend.Migrations
                     b.ToTable("CrewSummary");
                 });
 
-            modelBuilder.Entity("WSPro.Backend.Model.DelayCause", b =>
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.DelayCause", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -152,7 +152,7 @@ namespace WSPro.Backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("ParentId1")
+                    b.Property<int?>("ParentId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -160,12 +160,12 @@ namespace WSPro.Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentId1");
+                    b.HasIndex("ParentId");
 
                     b.ToTable("DelayCauses");
                 });
 
-            modelBuilder.Entity("WSPro.Backend.Model.Element", b =>
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.Element", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -180,8 +180,14 @@ namespace WSPro.Backend.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsPrefabricated")
+                        .HasColumnType("boolean");
 
                     b.Property<int?>("LevelId")
                         .HasColumnType("integer");
@@ -200,8 +206,7 @@ namespace WSPro.Backend.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp without time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Vertical")
                         .HasColumnType("text");
@@ -218,7 +223,7 @@ namespace WSPro.Backend.Migrations
                     b.ToTable("Elements");
                 });
 
-            modelBuilder.Entity("WSPro.Backend.Model.ElementStatus", b =>
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.ElementStatus", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -232,12 +237,6 @@ namespace WSPro.Backend.Migrations
                         .HasColumnType("Date");
 
                     b.Property<int>("ElementId")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("IsActual")
-                        .HasColumnType("boolean");
-
-                    b.Property<int?>("PreviousStatusId1")
                         .HasColumnType("integer");
 
                     b.Property<int?>("ProjectId1")
@@ -257,8 +256,6 @@ namespace WSPro.Backend.Migrations
 
                     b.HasIndex("ElementId");
 
-                    b.HasIndex("PreviousStatusId1");
-
                     b.HasIndex("ProjectId1");
 
                     b.HasIndex("UserId1");
@@ -266,7 +263,7 @@ namespace WSPro.Backend.Migrations
                     b.ToTable("ElementStatuses");
                 });
 
-            modelBuilder.Entity("WSPro.Backend.Model.Level", b =>
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.Level", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -288,7 +285,7 @@ namespace WSPro.Backend.Migrations
                     b.ToTable("Levels");
                 });
 
-            modelBuilder.Entity("WSPro.Backend.Model.Project", b =>
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.Project", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -319,7 +316,7 @@ namespace WSPro.Backend.Migrations
                     b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("WSPro.Backend.Model.User", b =>
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -352,7 +349,7 @@ namespace WSPro.Backend.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("WSPro.Backend.Model.Worker", b =>
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.Worker", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -365,7 +362,7 @@ namespace WSPro.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("CrewWorkTypeEnum")
+                    b.Property<string>("CrewWorkType")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -380,26 +377,26 @@ namespace WSPro.Backend.Migrations
 
             modelBuilder.Entity("CrewSummaryWorker", b =>
                 {
-                    b.HasOne("WSPro.Backend.Model.CrewSummary", null)
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.CrewSummary", null)
                         .WithMany()
                         .HasForeignKey("CrewSummariesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WSPro.Backend.Model.Worker", null)
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.Worker", null)
                         .WithMany()
                         .HasForeignKey("WorkersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WSPro.Backend.Model.Crew", b =>
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.Crew", b =>
                 {
-                    b.HasOne("WSPro.Backend.Model.Project", "Project")
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId1");
 
-                    b.HasOne("WSPro.Backend.Model.User", "User")
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId1");
 
@@ -408,21 +405,21 @@ namespace WSPro.Backend.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WSPro.Backend.Model.CrewSummary", b =>
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.CrewSummary", b =>
                 {
-                    b.HasOne("WSPro.Backend.Model.Crew", "Crew")
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.Crew", "Crew")
                         .WithMany()
                         .HasForeignKey("CrewId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WSPro.Backend.Model.Project", "Project")
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WSPro.Backend.Model.User", "User")
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -435,22 +432,22 @@ namespace WSPro.Backend.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WSPro.Backend.Model.DelayCause", b =>
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.DelayCause", b =>
                 {
-                    b.HasOne("WSPro.Backend.Model.DelayCause", "Parent")
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.DelayCause", "Parent")
                         .WithMany()
-                        .HasForeignKey("ParentId1");
+                        .HasForeignKey("ParentId");
 
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("WSPro.Backend.Model.Element", b =>
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.Element", b =>
                 {
-                    b.HasOne("WSPro.Backend.Model.Crane", "Crane")
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.Crane", "Crane")
                         .WithMany()
                         .HasForeignKey("CraneId");
 
-                    b.HasOne("WSPro.Backend.Model.Level", "Level")
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.Level", "Level")
                         .WithMany()
                         .HasForeignKey("LevelId");
 
@@ -459,47 +456,41 @@ namespace WSPro.Backend.Migrations
                     b.Navigation("Level");
                 });
 
-            modelBuilder.Entity("WSPro.Backend.Model.ElementStatus", b =>
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.ElementStatus", b =>
                 {
-                    b.HasOne("WSPro.Backend.Model.Element", "Element")
-                        .WithMany("ElementStatusList")
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.Element", "Element")
+                        .WithMany("ElementStatuses")
                         .HasForeignKey("ElementId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WSPro.Backend.Model.ElementStatus", "PreviousStatus")
-                        .WithMany()
-                        .HasForeignKey("PreviousStatusId1");
-
-                    b.HasOne("WSPro.Backend.Model.Project", "Project")
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId1");
 
-                    b.HasOne("WSPro.Backend.Model.User", "User")
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId1");
 
                     b.Navigation("Element");
-
-                    b.Navigation("PreviousStatus");
 
                     b.Navigation("Project");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WSPro.Backend.Model.Worker", b =>
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.Worker", b =>
                 {
-                    b.HasOne("WSPro.Backend.Model.User", "AddedBy")
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.User", "AddedBy")
                         .WithMany()
                         .HasForeignKey("AddedById1");
 
                     b.Navigation("AddedBy");
                 });
 
-            modelBuilder.Entity("WSPro.Backend.Model.Element", b =>
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.Element", b =>
                 {
-                    b.Navigation("ElementStatusList");
+                    b.Navigation("ElementStatuses");
                 });
 #pragma warning restore 612, 618
         }
