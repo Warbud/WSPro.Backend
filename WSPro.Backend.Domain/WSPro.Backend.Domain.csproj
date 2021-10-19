@@ -13,4 +13,8 @@
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.3" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="ServiceInstallers" />
+    </ItemGroup>
+
 </Project>

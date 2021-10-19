@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSPro.Backend.Utils", "WSPr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSPro.Backend", "WSPro.Backend\WSPro.Backend.csproj", "{CDD3E76F-0FC0-4807-BC15-7E2B40BD914A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSPro.Backend.Application", "WSPro.Backend.Application\WSPro.Backend.Application.csproj", "{FCDD2647-C1A0-40F9-A027-767225D8E2EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{CDD3E76F-0FC0-4807-BC15-7E2B40BD914A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDD3E76F-0FC0-4807-BC15-7E2B40BD914A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDD3E76F-0FC0-4807-BC15-7E2B40BD914A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCDD2647-C1A0-40F9-A027-767225D8E2EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCDD2647-C1A0-40F9-A027-767225D8E2EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCDD2647-C1A0-40F9-A027-767225D8E2EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCDD2647-C1A0-40F9-A027-767225D8E2EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

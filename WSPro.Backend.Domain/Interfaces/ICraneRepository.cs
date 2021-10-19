@@ -10,6 +10,7 @@ namespace WSPro.Backend.Domain.Interfaces
         IQueryable<Crane> GetAllAsync();
         Task<Crane> GetByIdAsync(int id);
         Task<Crane> CreateAsync(string name);
+        Task<Crane[]> CreateRangeAsync(string[] names);
         Task<Crane> UpdateAsync(int currentCraneId, string newName);
         Task<Crane> DeleteAsync(int id);
     }

@@ -5,7 +5,7 @@ namespace WSPro.Backend.GraphQL
 {
     public class Query
     {
-        public Query(ICraneRepository repository)
+        public Query()
         {
             
         }

@@ -12,7 +12,6 @@ namespace WSPro.Backend.Infrastructure
         public WSProContext(DbContextOptions options) : base(options)
         {
         }
-
         public DbSet<Project> Projects { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Crane> Cranes { get; set; }

@@ -43,6 +43,37 @@ namespace WSPro.Backend.Infrastructure.Repositories
             return crane;
         }
 
+        public async Task<Crane[]> CreateRangeAsync(string[] names)
+        {
+            Task[] tasks = new Task[names.Length];
+            Crane[] cranes = new Crane[names.Length];
+            for (var i = 0; i < names.Length; i++)
+            {
+                var crane = new Crane() { Name = names[i] };
+                tasks.SetValue(_validation.ValidateAndThrowAsync(crane), i);
+                cranes.SetValue(crane,i);
+            }
+
+            Task t = Task.WhenAll(tasks);
+            try
+            {
+                t.Wait();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+            if (t.Status == TaskStatus.RanToCompletion)
+            {
+                await _context.Cranes.AddRangeAsync(cranes);
+                await _context.SaveChangesAsync();
+                return cranes;
+            }
+
+            throw t.Exception;
+        }
+
         public async Task<Crane> UpdateAsync(int currentCraneId, string newName)
         {
             var crane = await _context.Cranes.FirstOrDefaultAsync(c => c.Id == currentCraneId);
