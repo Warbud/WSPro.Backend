@@ -10,6 +10,8 @@ namespace WSPro.Backend.Infrastructure
         {
             serviceCollection
                 .AddScoped<ICraneRepository, CraneRepository>()
+                .AddScoped<IProjectRepository, ProjectRepository>()
+                .AddScoped<IElementRepository, ElementRepository>()
                 .AddScoped<ILevelRepository, LevelRepository>();
             
             return serviceCollection;

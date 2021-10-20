@@ -5,17 +5,6 @@ namespace WSPro.Backend.Domain.Model.V1
 {
     public class Crew : EntityModificationDate
     {
-        // private Crew()
-        // {
-        // }
-        //
-        // public Crew(string name, CrewWorkTypeEnum crewWorkType, CrewTypeEnum crewType)
-        // {
-        //     CrewWorkType = crewWorkType;
-        //     CrewType = crewType;
-        //     Name = name;
-        // }
-
         /// <summary>
         ///     Id of Crew
         /// </summary>
