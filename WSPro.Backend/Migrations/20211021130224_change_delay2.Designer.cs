@@ -10,8 +10,8 @@ using WSPro.Backend.Infrastructure;
 namespace WSPro.Backend.Migrations
 {
     [DbContext(typeof(WSProContext))]
-    [Migration("20211019095453_init")]
-    partial class init
+    [Migration("20211021130224_change_delay2")]
+    partial class change_delay2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,14 +44,18 @@ namespace WSPro.Backend.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 2, 24, 300, DateTimeKind.Local).AddTicks(5126));
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 2, 24, 300, DateTimeKind.Local).AddTicks(5344));
 
                     b.HasKey("Id");
 
@@ -137,6 +141,55 @@ namespace WSPro.Backend.Migrations
                     b.ToTable("CrewSummary");
                 });
 
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.Delay", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Commentary")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("CraneId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 2, 24, 300, DateTimeKind.Local).AddTicks(5650));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int?>("LevelId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 2, 24, 300, DateTimeKind.Local).AddTicks(5924));
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CraneId");
+
+                    b.HasIndex("LevelId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Delay");
+                });
+
             modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.DelayCause", b =>
                 {
                     b.Property<int>("Id")
@@ -145,26 +198,56 @@ namespace WSPro.Backend.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 2, 24, 300, DateTimeKind.Local).AddTicks(6960));
 
                     b.Property<bool>("IsMain")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<int?>("ParentId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 2, 24, 300, DateTimeKind.Local).AddTicks(7160));
 
                     b.HasKey("Id");
 
                     b.HasIndex("ParentId");
 
                     b.ToTable("DelayCauses");
+                });
+
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.Delay_DelayCause", b =>
+                {
+                    b.Property<int>("CauseId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("DelayId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 2, 24, 300, DateTimeKind.Local).AddTicks(9366));
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 2, 24, 300, DateTimeKind.Local).AddTicks(9617));
+
+                    b.HasKey("CauseId", "DelayId");
+
+                    b.HasIndex("DelayId");
+
+                    b.ToTable("Delay_DelayCauses");
                 });
 
             modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.Element", b =>
@@ -182,16 +265,24 @@ namespace WSPro.Backend.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 2, 24, 300, DateTimeKind.Local).AddTicks(9964));
 
                     b.Property<string>("Details")
-                        .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int?>("GroupTermId")
+                        .HasColumnType("integer");
+
                     b.Property<bool>("IsPrefabricated")
-                        .HasColumnType("boolean");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
 
                     b.Property<int?>("LevelId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ProjectId")
                         .HasColumnType("integer");
 
                     b.Property<string>("RealisationMode")
@@ -208,7 +299,8 @@ namespace WSPro.Backend.Migrations
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 2, 24, 301, DateTimeKind.Local).AddTicks(154));
 
                     b.Property<string>("Vertical")
                         .HasColumnType("text");
@@ -220,7 +312,11 @@ namespace WSPro.Backend.Migrations
 
                     b.HasIndex("CraneId");
 
+                    b.HasIndex("GroupTermId");
+
                     b.HasIndex("LevelId");
+
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("Elements");
                 });
@@ -233,7 +329,9 @@ namespace WSPro.Backend.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 2, 24, 301, DateTimeKind.Local).AddTicks(1613));
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("Date");
@@ -241,7 +339,10 @@ namespace WSPro.Backend.Migrations
                     b.Property<int>("ElementId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("ProjectId1")
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SetById")
                         .HasColumnType("integer");
 
                     b.Property<string>("Status")
@@ -249,20 +350,117 @@ namespace WSPro.Backend.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int?>("UserId1")
-                        .HasColumnType("integer");
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 2, 24, 301, DateTimeKind.Local).AddTicks(1873));
 
                     b.HasKey("Id");
 
                     b.HasIndex("ElementId");
 
-                    b.HasIndex("ProjectId1");
+                    b.HasIndex("ProjectId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("SetById");
 
                     b.ToTable("ElementStatuses");
+                });
+
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.ElementTerm", b =>
+                {
+                    b.Property<int>("ElementId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int?>("GroupTermId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("PlannedFinish")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("PlannedFinishBP")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("PlannedStart")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("PlannedStartBP")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("RealFinish")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("RealStart")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("ElementId");
+
+                    b.HasIndex("GroupTermId");
+
+                    b.ToTable("ElementTerms");
+                });
+
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.GroupTerm", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int?>("CraneId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 2, 24, 301, DateTimeKind.Local).AddTicks(2791));
+
+                    b.Property<int?>("LevelId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("PlannedFinish")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("PlannedFinishBP")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("PlannedStart")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("PlannedStartBP")
+                        .HasColumnType("date");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("RealFinish")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("RealStart")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 2, 24, 301, DateTimeKind.Local).AddTicks(3042));
+
+                    b.Property<string>("Vertical")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CraneId");
+
+                    b.HasIndex("LevelId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("GroupTerms");
                 });
 
             modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.Level", b =>
@@ -273,14 +471,18 @@ namespace WSPro.Backend.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 2, 24, 301, DateTimeKind.Local).AddTicks(4347));
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 2, 24, 301, DateTimeKind.Local).AddTicks(4582));
 
                     b.HasKey("Id");
 
@@ -295,23 +497,32 @@ namespace WSPro.Backend.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<bool>("CentralScheduleSync")
-                        .HasColumnType("boolean");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 2, 24, 301, DateTimeKind.Local).AddTicks(5050));
 
                     b.Property<string>("MetodologyCode")
-                        .HasColumnType("text");
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 2, 24, 301, DateTimeKind.Local).AddTicks(5218));
 
                     b.Property<string>("WebconCode")
-                        .HasColumnType("text");
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.HasKey("Id");
 
@@ -434,16 +645,7 @@ namespace WSPro.Backend.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.DelayCause", b =>
-                {
-                    b.HasOne("WSPro.Backend.Domain.Model.V1.DelayCause", "Parent")
-                        .WithMany()
-                        .HasForeignKey("ParentId");
-
-                    b.Navigation("Parent");
-                });
-
-            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.Element", b =>
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.Delay", b =>
                 {
                     b.HasOne("WSPro.Backend.Domain.Model.V1.Crane", "Crane")
                         .WithMany()
@@ -453,9 +655,82 @@ namespace WSPro.Backend.Migrations
                         .WithMany()
                         .HasForeignKey("LevelId");
 
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Crane");
 
                     b.Navigation("Level");
+
+                    b.Navigation("Project");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.DelayCause", b =>
+                {
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.DelayCause", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.Delay_DelayCause", b =>
+                {
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.DelayCause", "Cause")
+                        .WithMany()
+                        .HasForeignKey("CauseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.Delay", "Delay")
+                        .WithMany("DelayCauses")
+                        .HasForeignKey("DelayId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cause");
+
+                    b.Navigation("Delay");
+                });
+
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.Element", b =>
+                {
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.Crane", "Crane")
+                        .WithMany()
+                        .HasForeignKey("CraneId");
+
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.GroupTerm", "GroupTerm")
+                        .WithMany("Elements")
+                        .HasForeignKey("GroupTermId");
+
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.Level", "Level")
+                        .WithMany()
+                        .HasForeignKey("LevelId");
+
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Crane");
+
+                    b.Navigation("GroupTerm");
+
+                    b.Navigation("Level");
+
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.ElementStatus", b =>
@@ -468,17 +743,59 @@ namespace WSPro.Backend.Migrations
 
                     b.HasOne("WSPro.Backend.Domain.Model.V1.Project", "Project")
                         .WithMany()
-                        .HasForeignKey("ProjectId1");
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("WSPro.Backend.Domain.Model.V1.User", "User")
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.User", "SetBy")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("SetById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Element");
 
                     b.Navigation("Project");
 
-                    b.Navigation("User");
+                    b.Navigation("SetBy");
+                });
+
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.ElementTerm", b =>
+                {
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.Element", "Element")
+                        .WithOne("ElementTerm")
+                        .HasForeignKey("WSPro.Backend.Domain.Model.V1.ElementTerm", "ElementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.GroupTerm", null)
+                        .WithMany("Terms")
+                        .HasForeignKey("GroupTermId");
+
+                    b.Navigation("Element");
+                });
+
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.GroupTerm", b =>
+                {
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.Crane", "Crane")
+                        .WithMany()
+                        .HasForeignKey("CraneId");
+
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.Level", "Level")
+                        .WithMany()
+                        .HasForeignKey("LevelId");
+
+                    b.HasOne("WSPro.Backend.Domain.Model.V1.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Crane");
+
+                    b.Navigation("Level");
+
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.Worker", b =>
@@ -490,9 +807,23 @@ namespace WSPro.Backend.Migrations
                     b.Navigation("AddedBy");
                 });
 
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.Delay", b =>
+                {
+                    b.Navigation("DelayCauses");
+                });
+
             modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.Element", b =>
                 {
                     b.Navigation("ElementStatuses");
+
+                    b.Navigation("ElementTerm");
+                });
+
+            modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.GroupTerm", b =>
+                {
+                    b.Navigation("Elements");
+
+                    b.Navigation("Terms");
                 });
 #pragma warning restore 612, 618
         }

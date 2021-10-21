@@ -1,4 +1,7 @@
-﻿using WSPro.Backend.Domain.Model.V1.General;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using WSPro.Backend.Domain.Model.V1.General;
 
 namespace WSPro.Backend.Domain.Model.V1
 {
@@ -33,37 +36,21 @@ namespace WSPro.Backend.Domain.Model.V1
         ///     podanie parametru <i>MetodologyCode</i>
         /// </summary>
         public bool CentralScheduleSync { get; set; }
+    }
+    
+    public class ProjectEntityConfigurator:IEntityTypeConfiguration<Project>
+    {
+        public void Configure(EntityTypeBuilder<Project> builder)
+        {
+            builder.HasKey(e => e.Id);
+            builder.Property(e => e.Name).HasMaxLength(100);
+            builder.Property(e => e.MetodologyCode).HasMaxLength(20);
+            builder.Property(e => e.WebconCode).HasMaxLength(20);
+            builder.Property(e => e.CreatedAt).HasDefaultValue(DateTime.Now).ValueGeneratedOnAdd();
+            builder.Property(e => e.UpdatedAt).HasDefaultValue(DateTime.Now).ValueGeneratedOnAddOrUpdate();
 
-        // private string? WebconCodeValidation(string? value)
-        // {
-        //     return Parser.NullParser(value);
-        // }
-        //
-        // private string? MetodologyCodeValidation(string? value)
-        // {
-        //     return Parser.NullParser(value);
-        // }
-        //
-        // private bool CentralScheduleSyncValidation(bool centralScheduleSync)
-        // {
-        //     return MetodologyCode != null && WebconCode != null && centralScheduleSync;
-        // }
-        //
-        // public override bool Equals(object? obj)
-        // {
-        //     if (obj is null) return false;
-        //     var projectToCheck = (Project)obj;
-        //     return projectToCheck.Name == Name &&
-        //            projectToCheck.CentralScheduleSync == CentralScheduleSync &&
-        //            projectToCheck.MetodologyCode == MetodologyCode &&
-        //            projectToCheck.WebconCode == WebconCode &&
-        //            projectToCheck.CreatedAt == CreatedAt &&
-        //            projectToCheck.UpdatedAt == UpdatedAt;
-        // }
-        //
-        // public override string ToString()
-        // {
-        //     return $"{Name}";
-        // }
+            builder.Property(e => e.CentralScheduleSync).HasDefaultValue(false);
+
+        }
     }
 }

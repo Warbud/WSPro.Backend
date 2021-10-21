@@ -1,22 +1,25 @@
-﻿using WSPro.Backend.Domain.Model.V1.General;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using WSPro.Backend.Domain.Model.V1.General;
 
 namespace WSPro.Backend.Domain.Model.V1
 {
-    /// <summary>
-    ///     Klasa żurawia. Identyfikuje żuraw na budowie bo jego nazwie.
-    /// </summary>
     public class Crane :EntityModificationDate
     {
-        /// <summary>
-        ///     Index żurawia w bazie
-        /// </summary>
         public int Id { get; set; }
-        /// <summary>
-        ///     Nazwa żurawia. Należy uruchomić walidator aby sprawdzić poprawność nazwy żurawia
-        /// </summary>
         public string Name { get; set; }
-        
-        
+    }
 
+    public class CraneEntityConfigurator : IEntityTypeConfiguration<Crane>
+    {
+        public void Configure(EntityTypeBuilder<Crane> builder)
+        {
+            builder.HasKey(e => e.Id);
+            builder.Property(e => e.Name).IsRequired();
+            builder.Property(e => e.CreatedAt).HasDefaultValue(DateTime.Now).ValueGeneratedOnAdd();
+            builder.Property(e => e.UpdatedAt).HasDefaultValue(DateTime.Now).ValueGeneratedOnAddOrUpdate();
+
+        }
     }
 }

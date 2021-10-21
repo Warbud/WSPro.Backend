@@ -13,6 +13,6 @@ namespace WSPro.Backend.Domain.Model.V1
         public Level Level { get; set; }
         public DateTime Date { get; set; }
         public CrewTypeEnum CrewType { get; set; }
-        public List<OtherWorksTimeEvidence> OtherWorksTimeEvidences { get; set; }
+        public ICollection<OtherWorksTimeEvidence> OtherWorksTimeEvidences { get; set; }
     }
 }

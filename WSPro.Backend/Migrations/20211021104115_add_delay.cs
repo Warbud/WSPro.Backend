@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace WSPro.Backend.Migrations
 {
-    public partial class init : Migration
+    public partial class add_delay : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,8 +15,8 @@ namespace WSPro.Backend.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2021, 10, 21, 12, 41, 15, 154, DateTimeKind.Local).AddTicks(6267)),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2021, 10, 21, 12, 41, 15, 154, DateTimeKind.Local).AddTicks(6488))
                 },
                 constraints: table =>
                 {
@@ -29,7 +29,7 @@ namespace WSPro.Backend.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     IsMain = table.Column<bool>(type: "boolean", nullable: false),
                     ParentId = table.Column<int>(type: "integer", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
@@ -53,8 +53,8 @@ namespace WSPro.Backend.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2021, 10, 21, 12, 41, 15, 155, DateTimeKind.Local).AddTicks(1183)),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2021, 10, 21, 12, 41, 15, 155, DateTimeKind.Local).AddTicks(1409))
                 },
                 constraints: table =>
                 {
@@ -67,12 +67,12 @@ namespace WSPro.Backend.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    WebconCode = table.Column<string>(type: "text", nullable: true),
-                    MetodologyCode = table.Column<string>(type: "text", nullable: true),
-                    CentralScheduleSync = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    WebconCode = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
+                    MetodologyCode = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
+                    CentralScheduleSync = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2021, 10, 21, 12, 41, 15, 155, DateTimeKind.Local).AddTicks(1854)),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2021, 10, 21, 12, 41, 15, 155, DateTimeKind.Local).AddTicks(2021))
                 },
                 constraints: table =>
                 {
@@ -112,10 +112,11 @@ namespace WSPro.Backend.Migrations
                     RotationDay = table.Column<int>(type: "integer", nullable: true),
                     LevelId = table.Column<int>(type: "integer", nullable: true),
                     CraneId = table.Column<int>(type: "integer", nullable: true),
-                    Details = table.Column<string>(type: "text", nullable: false),
-                    IsPrefabricated = table.Column<bool>(type: "boolean", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    ProjectId = table.Column<int>(type: "integer", nullable: false),
+                    Details = table.Column<string>(type: "text", nullable: true),
+                    IsPrefabricated = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2021, 10, 21, 12, 41, 15, 154, DateTimeKind.Local).AddTicks(8792)),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2021, 10, 21, 12, 41, 15, 154, DateTimeKind.Local).AddTicks(9004))
                 },
                 constraints: table =>
                 {
@@ -132,6 +133,12 @@ namespace WSPro.Backend.Migrations
                         principalTable: "Levels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Elements_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -166,6 +173,50 @@ namespace WSPro.Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Delay",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Commentary = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    LevelId = table.Column<int>(type: "integer", nullable: true),
+                    CraneId = table.Column<int>(type: "integer", nullable: true),
+                    Date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    ProjectId = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2021, 10, 21, 12, 41, 15, 154, DateTimeKind.Local).AddTicks(6827)),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2021, 10, 21, 12, 41, 15, 154, DateTimeKind.Local).AddTicks(7106))
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Delay", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Delay_Cranes_CraneId",
+                        column: x => x.CraneId,
+                        principalTable: "Cranes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Delay_Levels_LevelId",
+                        column: x => x.LevelId,
+                        principalTable: "Levels",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Delay_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Delay_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Workers",
                 columns: table => new
                 {
@@ -196,10 +247,10 @@ namespace WSPro.Backend.Migrations
                     Date = table.Column<DateTime>(type: "Date", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: false),
                     ElementId = table.Column<int>(type: "integer", nullable: false),
-                    UserId1 = table.Column<int>(type: "integer", nullable: true),
-                    ProjectId1 = table.Column<int>(type: "integer", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    SetById = table.Column<int>(type: "integer", nullable: false),
+                    ProjectId = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2021, 10, 21, 12, 41, 15, 155, DateTimeKind.Local).AddTicks(64)),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValue: new DateTime(2021, 10, 21, 12, 41, 15, 155, DateTimeKind.Local).AddTicks(318))
                 },
                 constraints: table =>
                 {
@@ -211,17 +262,17 @@ namespace WSPro.Backend.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ElementStatuses_Projects_ProjectId1",
-                        column: x => x.ProjectId1,
+                        name: "FK_ElementStatuses_Projects_ProjectId",
+                        column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ElementStatuses_Users_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_ElementStatuses_Users_SetById",
+                        column: x => x.SetById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -257,6 +308,39 @@ namespace WSPro.Backend.Migrations
                         name: "FK_CrewSummary_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Delay_DelayCauses",
+                columns: table => new
+                {
+                    CauseId = table.Column<int>(type: "integer", nullable: false),
+                    DelayId = table.Column<int>(type: "integer", nullable: false),
+                    DelayId1 = table.Column<int>(type: "integer", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Delay_DelayCauses", x => new { x.CauseId, x.DelayId });
+                    table.ForeignKey(
+                        name: "FK_Delay_DelayCauses_Delay_DelayId",
+                        column: x => x.DelayId,
+                        principalTable: "Delay",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Delay_DelayCauses_Delay_DelayId1",
+                        column: x => x.DelayId1,
+                        principalTable: "Delay",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Delay_DelayCauses_DelayCauses_CauseId",
+                        column: x => x.CauseId,
+                        principalTable: "DelayCauses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -316,6 +400,36 @@ namespace WSPro.Backend.Migrations
                 column: "WorkersId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Delay_CraneId",
+                table: "Delay",
+                column: "CraneId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Delay_LevelId",
+                table: "Delay",
+                column: "LevelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Delay_ProjectId",
+                table: "Delay",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Delay_UserId",
+                table: "Delay",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Delay_DelayCauses_DelayId",
+                table: "Delay_DelayCauses",
+                column: "DelayId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Delay_DelayCauses_DelayId1",
+                table: "Delay_DelayCauses",
+                column: "DelayId1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DelayCauses_ParentId",
                 table: "DelayCauses",
                 column: "ParentId");
@@ -331,19 +445,24 @@ namespace WSPro.Backend.Migrations
                 column: "LevelId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Elements_ProjectId",
+                table: "Elements",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ElementStatuses_ElementId",
                 table: "ElementStatuses",
                 column: "ElementId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ElementStatuses_ProjectId1",
+                name: "IX_ElementStatuses_ProjectId",
                 table: "ElementStatuses",
-                column: "ProjectId1");
+                column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ElementStatuses_UserId1",
+                name: "IX_ElementStatuses_SetById",
                 table: "ElementStatuses",
-                column: "UserId1");
+                column: "SetById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Workers_AddedById1",
@@ -357,7 +476,7 @@ namespace WSPro.Backend.Migrations
                 name: "CrewSummaryWorker");
 
             migrationBuilder.DropTable(
-                name: "DelayCauses");
+                name: "Delay_DelayCauses");
 
             migrationBuilder.DropTable(
                 name: "ElementStatuses");
@@ -367,6 +486,12 @@ namespace WSPro.Backend.Migrations
 
             migrationBuilder.DropTable(
                 name: "Workers");
+
+            migrationBuilder.DropTable(
+                name: "Delay");
+
+            migrationBuilder.DropTable(
+                name: "DelayCauses");
 
             migrationBuilder.DropTable(
                 name: "Elements");

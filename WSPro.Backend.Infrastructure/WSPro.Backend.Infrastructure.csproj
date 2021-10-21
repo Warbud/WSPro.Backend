@@ -22,14 +22,17 @@
 
     <ItemGroup>
       <Compile Remove="Interfaces\**" />
+      <Compile Remove="Converters\**" />
     </ItemGroup>
 
     <ItemGroup>
       <EmbeddedResource Remove="Interfaces\**" />
+      <EmbeddedResource Remove="Converters\**" />
     </ItemGroup>
 
     <ItemGroup>
       <None Remove="Interfaces\**" />
+      <None Remove="Converters\**" />
     </ItemGroup>
 
 </Project>

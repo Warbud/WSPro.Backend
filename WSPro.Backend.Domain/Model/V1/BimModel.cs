@@ -10,7 +10,6 @@ namespace WSPro.Backend.Domain.Model.V1
         public string ModelUrn { get; set; }
         public ICollection<Element> Elements { get; set; }
         public Project Project { get; set; }
-        public int ProjectId { get; set; }
         public ICollection<Level> Levels { get; set; }
         public ICollection<Crane> Cranes { get; set; } 
     }

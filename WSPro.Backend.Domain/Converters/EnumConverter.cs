@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace WSPro.Backend.Infrastructure.Converters
+namespace WSPro.Backend.Domain.Converters
 {
     public class EnumConverter<T> where T : struct
     {

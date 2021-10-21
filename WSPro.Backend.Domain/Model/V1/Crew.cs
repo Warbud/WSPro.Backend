@@ -1,42 +1,33 @@
-﻿using WSPro.Backend.Domain.Model.V1.General;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using WSPro.Backend.Domain.Converters;
+using WSPro.Backend.Domain.Model.V1.General;
 using WSPro.Backend.Model.Enums;
 
 namespace WSPro.Backend.Domain.Model.V1
 {
     public class Crew : EntityModificationDate
     {
-        /// <summary>
-        ///     Id of Crew
-        /// </summary>
         public int Id { get; set; }
-
-        /// <summary>
-        ///     Name of Crew. Creator pass name to identify Crew in client App.
-        /// </summary>
         public string Name { get; set; }
-
-        /// <summary>
-        ///     Owner of Crew
-        /// </summary>
-        public User User { get; set; }
-
-        private int? UserId { get; set; }
-
-        /// <summary>
-        ///     Project where crew is working
-        /// </summary>
+        public User Owner { get; set; }
         public Project Project { get; set; }
-
-        private int? ProjectId { get; set; }
-
-        /// <summary>
-        ///     Parameter qualified Crew as Steel Fixer Crew, Carpenter or other.
-        /// </summary>
         public CrewWorkTypeEnum CrewWorkType { get; set; }
+    }
 
-        /// <summary>
-        ///     Parameter qualified Crew as House or Subcontractor Crew
-        /// </summary>
-        public CrewTypeEnum CrewType { get; set; }
+    public class CrewEntityConfigurator : IEntityTypeConfiguration<Crew>
+    {
+        public void Configure(EntityTypeBuilder<Crew> builder)
+        {
+            builder.HasKey(e => e.Id);
+            builder.Property(e => e.Name).HasMaxLength(100);
+            builder.Property(e => e.CrewWorkType).HasConversion(new EnumConverter<CrewWorkTypeEnum>().Converter);
+            builder.Property(e => e.CreatedAt).HasDefaultValue(DateTime.Now).ValueGeneratedOnAdd();
+            builder.Property(e => e.UpdatedAt).HasDefaultValue(DateTime.Now).ValueGeneratedOnAddOrUpdate();
+            
+            builder.HasOne(e => e.Project).WithMany();
+            builder.HasOne(e => e.Owner).WithMany();
+        }
     }
 }

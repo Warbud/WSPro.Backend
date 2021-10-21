@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WSPro.Backend.Infrastructure;
@@ -9,9 +10,10 @@ using WSPro.Backend.Infrastructure;
 namespace WSPro.Backend.Migrations
 {
     [DbContext(typeof(WSProContext))]
-    partial class WSProContextModelSnapshot : ModelSnapshot
+    [Migration("20211021121759_change_delay")]
+    partial class change_delay
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,7 +46,7 @@ namespace WSPro.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 6, 22, 784, DateTimeKind.Local).AddTicks(3485));
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 14, 17, 58, 975, DateTimeKind.Local).AddTicks(6339));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -53,7 +55,7 @@ namespace WSPro.Backend.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 6, 22, 784, DateTimeKind.Local).AddTicks(3667));
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 14, 17, 58, 975, DateTimeKind.Local).AddTicks(6527));
 
                     b.HasKey("Id");
 
@@ -156,7 +158,7 @@ namespace WSPro.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 6, 22, 784, DateTimeKind.Local).AddTicks(4038));
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 14, 17, 58, 975, DateTimeKind.Local).AddTicks(6965));
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp without time zone");
@@ -170,7 +172,7 @@ namespace WSPro.Backend.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 6, 22, 784, DateTimeKind.Local).AddTicks(4284));
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 14, 17, 58, 975, DateTimeKind.Local).AddTicks(7221));
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -198,7 +200,7 @@ namespace WSPro.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 6, 22, 784, DateTimeKind.Local).AddTicks(5370));
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 14, 17, 58, 975, DateTimeKind.Local).AddTicks(8376));
 
                     b.Property<bool>("IsMain")
                         .HasColumnType("boolean");
@@ -214,7 +216,7 @@ namespace WSPro.Backend.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 6, 22, 784, DateTimeKind.Local).AddTicks(5673));
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 14, 17, 58, 975, DateTimeKind.Local).AddTicks(8712));
 
                     b.HasKey("Id");
 
@@ -234,12 +236,12 @@ namespace WSPro.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 6, 22, 784, DateTimeKind.Local).AddTicks(7986));
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 14, 17, 58, 976, DateTimeKind.Local).AddTicks(1266));
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 6, 22, 784, DateTimeKind.Local).AddTicks(8207));
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 14, 17, 58, 976, DateTimeKind.Local).AddTicks(1487));
 
                     b.HasKey("CauseId", "DelayId");
 
@@ -264,12 +266,12 @@ namespace WSPro.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 6, 22, 784, DateTimeKind.Local).AddTicks(8620));
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 14, 17, 58, 976, DateTimeKind.Local).AddTicks(1894));
 
                     b.Property<string>("Details")
                         .HasColumnType("text");
 
-                    b.Property<int?>("GroupTermId")
+                    b.Property<int>("GroupTermId")
                         .HasColumnType("integer");
 
                     b.Property<bool>("IsPrefabricated")
@@ -298,7 +300,7 @@ namespace WSPro.Backend.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 6, 22, 784, DateTimeKind.Local).AddTicks(8826));
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 14, 17, 58, 976, DateTimeKind.Local).AddTicks(2099));
 
                     b.Property<string>("Vertical")
                         .HasColumnType("text");
@@ -329,7 +331,7 @@ namespace WSPro.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 6, 22, 785, DateTimeKind.Local).AddTicks(355));
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 14, 17, 58, 976, DateTimeKind.Local).AddTicks(3461));
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("Date");
@@ -350,7 +352,7 @@ namespace WSPro.Backend.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 6, 22, 785, DateTimeKind.Local).AddTicks(577));
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 14, 17, 58, 976, DateTimeKind.Local).AddTicks(3779));
 
                     b.HasKey("Id");
 
@@ -415,7 +417,7 @@ namespace WSPro.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 6, 22, 785, DateTimeKind.Local).AddTicks(1591));
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 14, 17, 58, 976, DateTimeKind.Local).AddTicks(4800));
 
                     b.Property<int?>("LevelId")
                         .HasColumnType("integer");
@@ -424,13 +426,13 @@ namespace WSPro.Backend.Migrations
                         .HasColumnType("date");
 
                     b.Property<DateTime?>("PlannedFinishBP")
-                        .HasColumnType("Date");
+                        .HasColumnType("date");
 
                     b.Property<DateTime?>("PlannedStart")
                         .HasColumnType("date");
 
                     b.Property<DateTime?>("PlannedStartBP")
-                        .HasColumnType("Date");
+                        .HasColumnType("date");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("integer");
@@ -444,7 +446,7 @@ namespace WSPro.Backend.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 6, 22, 785, DateTimeKind.Local).AddTicks(1808));
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 14, 17, 58, 976, DateTimeKind.Local).AddTicks(5073));
 
                     b.Property<string>("Vertical")
                         .IsRequired()
@@ -471,7 +473,7 @@ namespace WSPro.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 6, 22, 785, DateTimeKind.Local).AddTicks(3255));
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 14, 17, 58, 976, DateTimeKind.Local).AddTicks(6372));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -480,7 +482,7 @@ namespace WSPro.Backend.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 6, 22, 785, DateTimeKind.Local).AddTicks(3454));
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 14, 17, 58, 976, DateTimeKind.Local).AddTicks(6637));
 
                     b.HasKey("Id");
 
@@ -502,7 +504,7 @@ namespace WSPro.Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 6, 22, 785, DateTimeKind.Local).AddTicks(3955));
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 14, 17, 58, 976, DateTimeKind.Local).AddTicks(7184));
 
                     b.Property<string>("MetodologyCode")
                         .HasMaxLength(20)
@@ -516,7 +518,7 @@ namespace WSPro.Backend.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp without time zone")
-                        .HasDefaultValue(new DateTime(2021, 10, 21, 15, 6, 22, 785, DateTimeKind.Local).AddTicks(4177));
+                        .HasDefaultValue(new DateTime(2021, 10, 21, 14, 17, 58, 976, DateTimeKind.Local).AddTicks(7432));
 
                     b.Property<string>("WebconCode")
                         .HasMaxLength(20)
@@ -710,7 +712,9 @@ namespace WSPro.Backend.Migrations
 
                     b.HasOne("WSPro.Backend.Domain.Model.V1.GroupTerm", "GroupTerm")
                         .WithMany("Elements")
-                        .HasForeignKey("GroupTermId");
+                        .HasForeignKey("GroupTermId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WSPro.Backend.Domain.Model.V1.Level", "Level")
                         .WithMany()
@@ -814,7 +818,8 @@ namespace WSPro.Backend.Migrations
                 {
                     b.Navigation("ElementStatuses");
 
-                    b.Navigation("ElementTerm");
+                    b.Navigation("ElementTerm")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WSPro.Backend.Domain.Model.V1.GroupTerm", b =>

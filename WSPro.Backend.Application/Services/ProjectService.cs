@@ -43,6 +43,7 @@ namespace WSPro.Backend.Application.Services
         {
             await _validator.ValidateAndThrowAsync(data,cancellationToken);
             var project = new Project() { Id = input.Id };
+            return await _repository.UpdateAsync(project);
         }
 
         public Task<Project> DeleteAsync(GetProjectDto input, CancellationToken cancellationToken)

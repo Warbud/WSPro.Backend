@@ -1,4 +1,7 @@
-﻿using WSPro.Backend.Domain.Model.V1.General;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using WSPro.Backend.Domain.Model.V1.General;
 
 namespace WSPro.Backend.Domain.Model.V1
 {
@@ -16,16 +19,17 @@ namespace WSPro.Backend.Domain.Model.V1
         ///     Nazwa poziomu
         /// </summary>
         public string Name { get; set; }
+    }
+    
+    public class LevelEntityConfigurator:IEntityTypeConfiguration<Level>
+    {
+        public void Configure(EntityTypeBuilder<Level> builder)
+        {
+            builder.HasKey(e => e.Id);
+            builder.Property(e => e.Name).IsRequired();
+            builder.Property(e => e.CreatedAt).HasDefaultValue(DateTime.Now).ValueGeneratedOnAdd();
+            builder.Property(e => e.UpdatedAt).HasDefaultValue(DateTime.Now).ValueGeneratedOnAddOrUpdate();
 
-        /// <summary>
-        ///     Metoda sprawdzająca poprawność nazwy poziomu.
-        ///     Dopuszczalne nazwy to np. B00,B01...B99, L00..L99, F
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        // public static bool IsValidName(string? name)
-        // {
-        //     return name != null && new Regex(@"F|B\d{2}|L\d{2}").IsMatch(name);
-        // }
+        }
     }
 }
