@@ -2,50 +2,66 @@
 using System.Linq;
 using NUnit.Framework;
 using WSPro.Backend.Domain.Model;
-using WSPro.Backend.Domain.Model.V1;
-using WSPro.Backend.Model;
 
-namespace Test.WSPro.Backend.Infrastructure.CraneTest
+namespace Test.WSPro.Backend.Infrastructure
 {
     [TestFixture]
-    public class CraneTest
+    public class CraneTest : _setup
     {
-        [OneTimeSetUp]
-        public void Init()
+        public override void Init()
         {
-            using (var context = new WSProTestContext().Context)
+            using (var Context = new WSProTestContext().Context)
             {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-
-                _crane = new Crane("01");
-                context.Cranes.Add(_crane);
-                context.SaveChanges();
+                _crane1 = new Crane
+                {
+                    Name = "01"
+                };
+                _crane2 = new Crane
+                {
+                    Name = "02"
+                };
+                _crane3 = new Crane
+                {
+                    Name = "03"
+                };
+                Context.Cranes.AddRange(_crane1, _crane2, _crane3);
+                Context.SaveChanges();
             }
 
-
-            using (var context = new WSProTestContext().Context)
+            using (var Context = new WSProTestContext().Context)
             {
-                _craneList = context.Cranes.ToList();
+                _craneList = Context.Cranes.ToList();
             }
         }
 
-        [OneTimeTearDown]
-        public void OnClose()
-        {
-            using var context = new WSProTestContext().Context;
-            context.Database.EnsureDeleted();
-            context.SaveChanges();
-        }
-
-        private Crane _crane;
         private List<Crane> _craneList;
+        private Crane _crane1;
+        private Crane _crane2;
+        private Crane _crane3;
 
         [Test]
-        public void TestCrane()
+        public void test_added_cranes_count()
         {
-            Assert.AreEqual(1, _craneList.Count);
-            Assert.AreEqual("01", _crane.Name);
+            Assert.AreEqual(3, _craneList.Count);
+        }
+
+        [Test]
+        public void test_Id_attribute()
+        {
+            Assert.That(_crane1.Id, Is.TypeOf<int>());
+            Assert.That(_crane2.Id, Is.TypeOf<int>());
+            Assert.That(_crane3.Id, Is.TypeOf<int>());
+            Assert.AreNotEqual(_crane1.Id, _crane2.Id);
+            Assert.AreNotEqual(_crane2.Id, _crane3.Id);
+            Assert.AreNotEqual(_crane3.Id, _crane1.Id);
+        }
+
+        [Test]
+        public void test_Name_attribute()
+        {
+            Assert.AreEqual("01", _crane1.Name);
+            Assert.AreEqual("02", _crane2.Name);
+            Assert.AreEqual("03", _crane3.Name);
         }
     }
 }

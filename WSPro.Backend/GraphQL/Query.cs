@@ -1,15 +1,8 @@
-﻿using HotChocolate;
-using WSPro.Backend.Domain.Interfaces;
+﻿using WSPro.Backend.GraphQL.Helpers;
 
 namespace WSPro.Backend.GraphQL
 {
-    public class Query
+    public class Query : IGraphQlOperation
     {
-        public Query()
-        {
-            
-        }
-        
     }
-    
 }

@@ -1,61 +1,60 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using WSPro.Backend.Domain.Interfaces;
-using WSPro.Backend.Domain.Model.V1;
+using WSPro.Backend.Domain.Model;
+using WSPro.Backend.Infrastructure.Helpers;
+using WSPro.Backend.Infrastructure.Interfaces;
 
 namespace WSPro.Backend.Infrastructure.Repositories
 {
-    public class LevelRepository:ILevelRepository
+    public class LevelRepository : DbContextInjection,ILevelRepository
     {
-        private readonly WSProContext _context;
-
-        public LevelRepository(WSProContext context)
+        public LevelRepository(WSProContext context) : base(context)
         {
-            _context = context;
         }
-        
-        public Task<bool> LevelExistAsync(Level level)
+
+        public Task<bool> ExistAsync(int id)
         {
-            return _context.Levels.AnyAsync(l => l.Id == level.Id);
+            return Context.Levels.AnyAsync(e => e.Id == id);
         }
 
         public Task<IQueryable<Level>> GetAllAsync()
         {
-            return Task.FromResult<IQueryable<Level>>(_context.Levels);
+            return Task.FromResult<IQueryable<Level>>(Context.Levels);
+            ;
         }
 
-        public Task<Level> GetByIdAsync(Level level)
+        public async Task<IQueryable<Level>> GetByIdAsync(int id)
         {
-            return _context.Levels.FirstOrDefaultAsync(l => l.Id == level.Id);
+            return Context.Levels.Where(e => e.Id == id);
+            ;
         }
 
-        public async Task<Level> CreateAsync(Level level)
+        public async Task<IQueryable<Level>> CreateAsync(Level item)
         {
-            await _context.Levels.AddAsync(level);
-            await _context.SaveChangesAsync();
-            return level;
+            item.AttachEntities(Context);
+            await Context.AddAsync(item);
+            await Context.SaveChangesAsync();
+            return await GetByIdAsync(item.Id);
         }
 
-        public async Task<Level[]> CreateRangeAsync(Level[] levels)
+        public async Task<IQueryable<Level>> UpdateAsync(Level item)
         {
-            await _context.Levels.AddRangeAsync(levels);
-            await _context.SaveChangesAsync();
-            return levels;
+            item.AttachEntities(Context);
+            Context.Update(item);
+            await Context.SaveChangesAsync();
+            return await GetByIdAsync(item.Id);
         }
 
-        public async Task<Level> UpdateAsync(Level updatedLevel)
+        public async Task DeleteAsync(Level item)
         {
-            _context.Levels.Update(updatedLevel);
-            await _context.SaveChangesAsync();
-            return updatedLevel;
+            Context.Remove(item);
+            await Context.SaveChangesAsync();
         }
 
-        public async Task<Level> DeleteAsync(Level level)
+        public Task<Level[]> CreateRangeAsync(Level[] levels)
         {
-            _context.Levels.Remove(level);
-            await _context.SaveChangesAsync();
-            return level;
+            throw new System.NotImplementedException();
         }
     }
 }

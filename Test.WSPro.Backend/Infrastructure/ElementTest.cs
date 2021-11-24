@@ -2,128 +2,194 @@
 using System.Linq;
 using NUnit.Framework;
 using WSPro.Backend.Domain.Model;
-using WSPro.Backend.Domain.Model.V1;
-using WSPro.Backend.Model;
 using WSPro.Backend.Model.Enums;
 
-namespace Test.WSPro.Backend.Infrastructure.ElementTest
+namespace Test.WSPro.Backend.Infrastructure
 {
     [TestFixture]
-    public class TestSingleElementWithRequiredAttributes
+    public class ElementTest : _setup
     {
-        [OneTimeSetUp]
-        public void Init()
+        private List<Element> _elements;
+        private Element dbElement1;
+        private Element dbElement2;
+        private Project dbProject;
+        private Crane dbCrane;
+        private Level dbLevel;
+
+        public override void Init()
         {
-            using (var context = new WSProTestContext().Context)
+            Element _element1;
+            Element _element2;
+            Project _project;
+            Crane _crane;
+            Level _level;
+            using (var ctx = new WSProTestContext().Context)
             {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-
-
-                _project = new Project("test");
-                context.Add(_project);
-                context.SaveChanges();
-
-                _element = new Element(11111, _project);
-                context.Add(_element);
-                context.SaveChanges();
-            }
-
-            using (var context = new WSProTestContext().Context)
-            {
-                _elementList = context.Elements.ToList();
-            }
-        }
-
-
-        [OneTimeTearDown]
-        public void OnClose()
-        {
-            using var context = new WSProTestContext().Context;
-            context.Database.EnsureDeleted();
-            context.SaveChanges();
-        }
-
-        private Element _element;
-        private Project _project;
-        private List<Element> _elementList;
-
-        /// <summary>
-        ///     Test sprawdza dodanie podstawowych wymaganych parametrów.
-        ///     Parametry opcjonalne maja być null'ami.
-        /// </summary>
-        [Test]
-        public void TestRequiredAttributes()
-        {
-            Assert.AreEqual(1, _elementList.Count);
-            Assert.AreEqual(11111, _element.RevitID);
-            Assert.AreEqual(null, _element.Area);
-            Assert.AreEqual(null, _element.Crane);
-            Assert.AreEqual(null, _element.Level);
-            Assert.AreEqual(null, _element.Vertical);
-            Assert.AreEqual(null, _element.Volume);
-            Assert.AreEqual(null, _element.RealisationMode);
-            Assert.AreEqual(null, _element.RotationDay);
-            Assert.AreEqual(null, _element.RunningMetre);
-            Assert.AreEqual(0, _element.ElementStatusList.Count);
-            Assert.AreEqual(_project.Id, _element.Project.Id);
-        }
-    }
-
-    [TestFixture]
-    public class TestSingleElementBasicAttributes
-    {
-        [OneTimeSetUp]
-        public void Init()
-        {
-            using (var context = new WSProTestContext().Context)
-            {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-
-                _project = new Project("test");
-                context.Add(_project);
-                context.SaveChanges();
-
-                _element = new Element(11111, _project)
+                _project = new Project { Name = "Project" };
+                _crane = new Crane { Name = "01" };
+                _level = new Level { Name = "L01" };
+                _element1 = new Element
                 {
-                    Area = 11.111m,
-                    Volume = 312.123m,
-                    RunningMetre = 12354.123m,
+                    RevitId = 111111,
+                    Project = _project
+                };
+                _element2 = new Element
+                {
+                    RevitId = 222222,
+                    Project = _project,
+                    Area = 123.123234m,
+                    Volume = 123.5123m,
+                    RunningMetre = 1.1242m,
+                    Level = _level,
+                    Crane = _crane,
                     Vertical = VerticalEnum.V,
-                    RealisationMode = "strop",
-                    RotationDay = 13
+                    RealisationMode = "test",
+                    RotationDay = 1
                 };
 
-                context.Add(_element);
-                context.SaveChanges();
+                ctx.AddRange(_project, _level, _crane, _element1, _element2);
+                ctx.SaveChanges();
+            }
+
+            using (var ctx = new WSProTestContext().Context)
+            {
+                _elements = ctx.Elements.ToList();
+                dbProject = ctx.Projects.Find(_project.Id);
+                dbCrane = ctx.Cranes.Find(_crane.Id);
+                dbLevel = ctx.Levels.Find(_level.Id);
+                dbElement1 = ctx.Elements.Find(_element1.Id);
+                dbElement2 = ctx.Elements.Find(_element2.Id);
             }
         }
 
-
-        [OneTimeTearDown]
-        public void OnClose()
+        [TestFixture]
+        private class basic_Element_properties : ElementTest
         {
-            using var context = new WSProTestContext().Context;
-            context.Database.EnsureDeleted();
-            context.SaveChanges();
-        }
+            [Test]
+            public void test_added_elements_count()
+            {
+                Assert.AreEqual(2, _elements.Count);
+            }
 
-        private Element _element;
-        private Project _project;
+            [Test]
+            public void test_Id_attribute()
+            {
+                Assert.NotNull(dbElement1.Id);
+                Assert.NotNull(dbElement2.Id);
+                Assert.AreNotEqual(dbElement1.Id, dbElement2.Id);
+            }
 
-        [Test]
-        public void TestBasicAttributes()
-        {
-            Assert.AreEqual(11111, _element.RevitID);
-            Assert.AreEqual(_project.Id, _element.Project.Id);
+            [Test]
+            public void test_Area_attribute()
+            {
+                Assert.AreEqual(null, dbElement1.Area);
+                Assert.AreEqual(123.123234m, dbElement2.Area);
+            }
 
-            Assert.AreEqual(11.111m, _element.Area);
-            Assert.AreEqual(312.123m, _element.Volume);
-            Assert.AreEqual(12354.123m, _element.RunningMetre);
-            Assert.AreEqual(VerticalEnum.V, _element.Vertical);
-            Assert.AreEqual("strop", _element.RealisationMode);
-            Assert.AreEqual(13, _element.RotationDay);
+            [Test]
+            public void test_Volume_attribute()
+            {
+                Assert.AreEqual(null, dbElement1.Volume);
+                Assert.AreEqual(123.5123m, dbElement2.Volume);
+            }
+
+            [Test]
+            public void test_RunningMetre_attribute()
+            {
+                Assert.AreEqual(null, dbElement1.RunningMetre);
+                Assert.AreEqual(1.1242m, dbElement2.RunningMetre);
+            }
+
+            [Test]
+            public void test_RevitId_attribute()
+            {
+                Assert.AreEqual(111111, dbElement1.RevitId);
+                Assert.AreEqual(222222, dbElement2.RevitId);
+            }
+
+            [Test]
+            public void test_Vertical_attribute()
+            {
+                Assert.AreEqual(null, dbElement1.Vertical);
+                Assert.AreEqual(VerticalEnum.V, dbElement2.Vertical);
+            }
+
+            [Test]
+            public void test_RealisationMode_attribute()
+            {
+                Assert.AreEqual(null, dbElement1.RealisationMode);
+                Assert.AreEqual("test", dbElement2.RealisationMode);
+            }
+
+            [Test]
+            public void test_RotationDay_attribute()
+            {
+                Assert.AreEqual(null, dbElement1.RotationDay);
+                Assert.AreEqual(1, dbElement2.RotationDay);
+            }
+
+            [Test]
+            public void test_Level_reference()
+            {
+                Assert.AreEqual(null, dbElement1.Level);
+                Assert.AreEqual(dbLevel, dbElement2.Level);
+            }
+
+            [Test]
+            public void test_Crane_reference()
+            {
+                Assert.AreEqual(null, dbElement1.Crane);
+                Assert.AreEqual(dbCrane, dbElement2.Crane);
+            }
+
+            [Test]
+            public void test_ElementStatuses_reference()
+            {
+                Assert.AreEqual(0, dbElement1.ElementStatuses.Count);
+                Assert.AreEqual(0, dbElement2.ElementStatuses.Count);
+            }
+
+            [Test]
+            public void test_Project_reference()
+            {
+                Assert.AreEqual(dbProject, dbElement1.Project);
+                Assert.AreEqual(dbProject, dbElement2.Project);
+            }
+
+            [Test]
+            public void test_Details_attribute()
+            {
+                Assert.AreEqual(null, dbElement1.Details);
+                Assert.AreEqual(null, dbElement2.Details);
+            }
+
+            [Test]
+            public void test_IsPrefabricated_attribute()
+            {
+                Assert.AreEqual(false, dbElement1.IsPrefabricated);
+                Assert.AreEqual(false, dbElement2.IsPrefabricated);
+            }
+
+            [Test]
+            public void test_ElementTerm_reference()
+            {
+                Assert.AreEqual(null, dbElement1.ElementTerm);
+                Assert.AreEqual(null, dbElement2.ElementTerm);
+            }
+
+            [Test]
+            public void test_ElementsTimeEvidences_reference()
+            {
+                Assert.AreEqual(0, dbElement1.TimeEvidences.Count);
+                Assert.AreEqual(0, dbElement2.TimeEvidences.Count);
+            }
+
+            [Test]
+            public void test_Comments_reference()
+            {
+                Assert.AreEqual(0, dbElement1.Comments.Count);
+                Assert.AreEqual(0, dbElement2.Comments.Count);
+            }
         }
     }
 }

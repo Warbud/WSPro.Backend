@@ -1,10 +1,8 @@
-﻿using FluentValidation;
+﻿using Mapster;
+using MapsterMapper;
 using Microsoft.Extensions.DependencyInjection;
 using WSPro.Backend.Application.Dto;
-using WSPro.Backend.Application.Interfaces;
-using WSPro.Backend.Application.Services;
-using WSPro.Backend.Application.Validators.Crane;
-using WSPro.Backend.Application.Validators.Level;
+using WSPro.Backend.Application.Mapper;
 
 namespace WSPro.Backend.Application
 {
@@ -12,14 +10,35 @@ namespace WSPro.Backend.Application
     {
         public static IServiceCollection InstallApplicationServices(this IServiceCollection serviceCollection)
         {
-            serviceCollection
-                .AddScoped<IValidator<CreateCraneDto>, CreateCraneDtoValidator>()
-                .AddScoped<IValidator<CreateLevelDto>, CreateLevelDtoValidator>()
-                .AddScoped<ICraneService, CraneService>()
-                .AddScoped<ILevelService, LevelService>();
-           
-            return serviceCollection;
-        } 
-    }
+            var config = new TypeAdapterConfig();
 
+            config                
+                .AddBimModelMappings()
+                .AddCommentaryElementMappings()
+                .AddCraneMappings()
+                .AddCrewMappings()
+                .AddCrewSummaryMappings()
+                .AddDelayCauseMappings()
+                .AddDelayMappings()
+                .AddElementMappings()
+                .AddElementStatusMappings()
+                .AddElementsTimeEvidenceMappings()
+                .AddElementTermMappings()
+                .AddGroupedOtherWorkTimeEvidenceMappings()
+                .AddGroupTermMappings()
+                .AddLevelMappings()
+                .AddOtherWorkOptionMappings()
+                .AddOtherWorksTimeEvidenceMappings()
+                .AddProjectMappings()
+                .AddUserMappings()
+                .AddWorkerMappings()
+                .AddWorkerTimeEvidenceMappings()
+                ;
+
+            serviceCollection.AddSingleton(config)
+                .AddScoped<IMapper, ServiceMapper>();
+
+            return serviceCollection;
+        }
+    }
 }

@@ -1,139 +1,113 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using WSPro.Backend.Domain.Model;
-using WSPro.Backend.Domain.Model.V1;
-using WSPro.Backend.Model;
 using WSPro.Backend.Model.Enums;
 
-namespace Test.WSPro.Backend.Infrastructure.WorkerTest
+namespace Test.WSPro.Backend.Infrastructure
 {
     [TestFixture]
-    public class TestWorker
+    public class WorkerTest : _setup
     {
-        [OneTimeSetUp]
-        public void Init()
+        private Worker dbWorker1;
+        private Worker dbWorker2;
+        private List<Worker> dbWorkers;
+        private User dbUser;
+
+        public override void Init()
         {
-            using (var context = new WSProTestContext().Context)
+            Worker _worker1;
+            Worker _worker2;
+            User _user;
+            using (var Context = new WSProTestContext().Context)
             {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
+                _user = new User { Email = "test_email", Name = "test", Password = "asd" };
+                _worker1 = new Worker
+                {
+                    CrewWorkType = CrewWorkTypeEnum.Carpenter,
+                    WarbudId = "TestID",
+                    AddedBy = _user
+                };
 
-                _worker = new Worker(CrewWorkTypeEnum.GeneralConstructor);
-                context.Add(_worker);
-                context.SaveChanges();
+                _worker2 = new Worker
+                {
+                    Name = "Janek Kowalski",
+                    CrewWorkType = CrewWorkTypeEnum.GeneralConstructor,
+                    AddedBy = _user
+                };
+                Context.AddRange(_worker1, _worker2, _user);
+                Context.SaveChanges();
+            }
 
-                _worker2 = new Worker(null);
-                context.Add(_worker2);
-                context.SaveChanges();
+            using (var Context = new WSProTestContext().Context)
+            {
+                dbWorkers = Context.Workers.ToList();
+                dbWorker1 = Context.Workers.Find(_worker1.Id);
+                dbWorker2 = Context.Workers.Find(_worker2.Id);
             }
         }
 
-        [OneTimeTearDown]
-        public void OnClose()
-        {
-            using var context = new WSProTestContext().Context;
-            context.Database.EnsureDeleted();
-        }
-
-        private Worker _worker;
-        private Worker _worker2;
-
-
         [Test]
-        public void TestWhilePassCrewWorkTypeEnum()
+        public void test_added_workers_count()
         {
-            Assert.AreEqual(CrewWorkTypeEnum.GeneralConstructor, _worker.CrewWorkType);
+            Assert.AreEqual(2, dbWorkers.Count);
         }
 
         [Test]
-        public void TestWhilePassCrewWorkTypeEnumAsNull()
+        public void test_Id_attribute()
         {
-            Assert.AreEqual(null, _worker2.CrewWorkType);
-        }
-    }
-
-
-    [TestFixture]
-    public class TestHouseWorker
-    {
-        [OneTimeSetUp]
-        public void Init()
-        {
-            using (var context = new WSProTestContext().Context)
-            {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-
-                _worker = new HouseWorker("WRB12314", CrewWorkTypeEnum.SteelFixer);
-                context.Add(_worker);
-                context.SaveChanges();
-            }
-        }
-
-        [OneTimeTearDown]
-        public void OnClose()
-        {
-            using var context = new WSProTestContext().Context;
-            context.Database.EnsureDeleted();
-        }
-
-        private HouseWorker _worker;
-
-        [Test]
-        public void NonRelationalData()
-        {
-            Assert.AreEqual("WRB12314", _worker.WarbudID);
-            Assert.AreEqual(CrewWorkTypeEnum.SteelFixer, _worker.CrewWorkType);
+            Assert.NotNull(dbWorker1.Id);
+            Assert.NotNull(dbWorker2.Id);
+            Assert.That(() => dbWorker1.Id != dbWorker2.Id);
         }
 
         [Test]
-        public void RelationalData()
+        public void test_CrewWorkType_attribute()
         {
-            // Assert.AreEqual(null,_worker.Crew);
-            Assert.AreEqual(null, _worker.AddedBy);
-            Assert.AreEqual(new List<CrewSummary>(), _worker.CrewSummaries);
-        }
-    }
-
-    [TestFixture]
-    public class TestExternalWorker
-    {
-        [OneTimeSetUp]
-        public void Init()
-        {
-            using (var context = new WSProTestContext().Context)
-            {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-
-                _worker = new ExternalWorker("Jasiu Stasiu", CrewWorkTypeEnum.Carpenter);
-                context.Add(_worker);
-                context.SaveChanges();
-            }
-        }
-
-        [OneTimeTearDown]
-        public void OnClose()
-        {
-            using var context = new WSProTestContext().Context;
-            context.Database.EnsureDeleted();
-        }
-
-        private ExternalWorker _worker;
-
-        [Test]
-        public void NonRelationalData()
-        {
-            Assert.AreEqual("Jasiu Stasiu", _worker.Name);
-            Assert.AreEqual(CrewWorkTypeEnum.Carpenter, _worker.CrewWorkType);
+            Assert.AreEqual(CrewWorkTypeEnum.Carpenter, dbWorker1.CrewWorkType);
+            Assert.AreEqual(CrewWorkTypeEnum.GeneralConstructor, dbWorker2.CrewWorkType);
         }
 
         [Test]
-        public void RelationalData()
+        public void test_IsHouseWorker_attribute()
         {
-            // Assert.AreEqual(null,_worker.Crew);
-            Assert.AreEqual(null, _worker.AddedBy);
-            Assert.AreEqual(new List<CrewSummary>(), _worker.CrewSummaries);
+            Assert.AreEqual(true, dbWorker1.IsHouseWorker);
+            Assert.AreEqual(false, dbWorker2.IsHouseWorker);
+        }
+
+        [Test]
+        public void test_AddedBy_reference()
+        {
+            Assert.AreEqual(dbUser, dbWorker1.AddedBy);
+            Assert.AreEqual(dbUser, dbWorker2.AddedBy);
+        }
+
+        [Test]
+        public void test_WarbudID_attribute()
+        {
+            Assert.AreEqual("TestID", dbWorker1.WarbudId);
+            Assert.AreEqual(null, dbWorker2.WarbudId);
+        }
+
+        [Test]
+        public void test_Name_attribute()
+        {
+            Assert.AreEqual(null, dbWorker1.Name);
+            Assert.AreEqual("Janek Kowalski", dbWorker2.Name);
+        }
+
+        [Test]
+        public void test_CrewSummaries_reference()
+        {
+            Assert.AreEqual(0, dbWorker1.CrewSummaries.Count);
+            Assert.AreEqual(0, dbWorker2.CrewSummaries.Count);
+        }
+
+        [Test]
+        public void test_TimeEvidences_reference()
+        {
+            Assert.AreEqual(0, dbWorker1.TimeEvidences.Count);
+            Assert.AreEqual(0, dbWorker2.TimeEvidences.Count);
         }
     }
 }

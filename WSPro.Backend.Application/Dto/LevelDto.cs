@@ -1,5 +1,13 @@
-﻿namespace WSPro.Backend.Application.Dto
+﻿using WSPro.Backend.Application.Helper;
+using WSPro.Backend.Domain.Model;
+
+namespace WSPro.Backend.Application.Dto
 {
-    public record GetLevelDto(int Id);
-    public record CreateLevelDto(string Name);
+    public record CreateLevelDto(
+        string Name
+    ):IDto<Level>;
+
+    public record UpdateLevelDto(
+        string Name
+    ):IDto<Level>;
 }

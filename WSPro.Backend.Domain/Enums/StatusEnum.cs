@@ -1,4 +1,4 @@
-﻿namespace WSPro.Backend.Model.Enums
+﻿namespace WSPro.Backend.Domain.Enums
 {
     public enum StatusEnum
     {

@@ -16,22 +16,27 @@ namespace WSPro.Backend
     {
         private readonly IConfiguration _configuration;
 
-        public Startup(IConfiguration configuration) // dependency injection
+        public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-
             services
                 .AddDbContextPool<WSProContext>(opt =>
+                {
                     opt.UseNpgsql(_configuration.GetConnectionString("WSProDB"),
-                        b => b.MigrationsAssembly("WSPro.Backend")))
+                            b => b.MigrationsAssembly("WSPro.Backend"))
+                        .EnableSensitiveDataLogging();
+                })
                 .InstallDomainServices()
                 .InstallInfrastructureServices()
                 .InstallApplicationServices()
                 .InstallGraphQlServices();
+            // .AddCoreAdmin(); // do ogarnięcia co tu w sumie jest potrzebne
+
+
         }
 
 
@@ -46,6 +51,7 @@ namespace WSPro.Backend
                 endpoints.MapGraphQL();
                 endpoints.MapGraphQLVoyager("/voyager");
             });
+            // app.UseStaticFiles();
 
             app.UseGraphQLVoyager(new VoyagerOptions
             {

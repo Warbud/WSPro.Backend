@@ -1,67 +1,62 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using WSPro.Backend.Domain.Interfaces;
-using WSPro.Backend.Domain.Model.V1;
+using WSPro.Backend.Domain.Model;
+using WSPro.Backend.Infrastructure.Helpers;
+using WSPro.Backend.Infrastructure.Interfaces;
 
 namespace WSPro.Backend.Infrastructure.Repositories
 {
-    public class CraneRepository:ICraneRepository
+    public class CraneRepository : DbContextInjection, ICraneRepository
     {
-        private readonly WSProContext _context;
-        public CraneRepository(WSProContext context)
+        public CraneRepository(WSProContext context) : base(context)
         {
-            _context = context;
         }
 
-        public Task<bool> CraneExistAsync(Crane crane)
+        public Task<bool> ExistAsync(int id)
         {
-            return _context.Cranes.AnyAsync(c => c.Id == crane.Id);
+            return Context.Cranes.AnyAsync(c => c.Id == id);
         }
 
         public Task<IQueryable<Crane>> GetAllAsync()
         {
-            return Task.FromResult<IQueryable<Crane>>(_context.Cranes);
+            return Task.FromResult<IQueryable<Crane>>(Context.Cranes);
         }
 
-        public  Task<Crane> GetByIdAsync(int id)
+
+        public async Task<IQueryable<Crane>> GetByIdAsync(int id)
         {
-            return  _context
-                .Cranes
-                .FirstOrDefaultAsync( crane => crane.Id == id);
+            return Context.Cranes.Where(crane => crane.Id == id);
         }
 
-        public async Task<Crane> CreateAsync(Crane crane)
+        public async Task<IQueryable<Crane>> CreateAsync(Crane item)
         {
-            await _context.Cranes.AddAsync(crane);
-            await _context.SaveChangesAsync();
-            return crane;
+            item.AttachEntities(Context);
+            await Context.AddAsync(item);
+            await Context.SaveChangesAsync();
+            return await GetByIdAsync(item.Id);
         }
 
 
         public async Task<Crane[]> CreateRangeAsync(Crane[] cranes)
         {
-            await _context.Cranes.AddRangeAsync(cranes);
-            await _context.SaveChangesAsync();
+            await Context.Cranes.AddRangeAsync(cranes);
+            await Context.SaveChangesAsync();
             return cranes;
         }
 
-        public async Task<Crane> UpdateAsync(Crane updatedCrane)
+        public async Task<IQueryable<Crane>> UpdateAsync(Crane item)
         {
-            _context.Cranes.Update(updatedCrane);
-            await _context.SaveChangesAsync();
-            return updatedCrane;
+            item.AttachEntities(Context);
+            Context.Update(item);
+            await Context.SaveChangesAsync();
+            return await GetByIdAsync(item.Id);
         }
 
-        public async Task<Crane> DeleteAsync(Crane crane)
+        public async Task DeleteAsync(Crane item)
         {
-            _context.Cranes.Remove(crane);
-            await _context.SaveChangesAsync();
-            return crane;
+            Context.Remove(item);
+            await Context.SaveChangesAsync();
         }
-
-        
-
     }
 }

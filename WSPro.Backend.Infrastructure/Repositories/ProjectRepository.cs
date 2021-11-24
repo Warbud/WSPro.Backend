@@ -1,54 +1,66 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using WSPro.Backend.Domain.Interfaces;
-using WSPro.Backend.Domain.Model.V1;
+using WSPro.Backend.Domain.Model;
+using WSPro.Backend.Infrastructure.Helpers;
+using WSPro.Backend.Infrastructure.Interfaces;
 
 namespace WSPro.Backend.Infrastructure.Repositories
 {
-    public class ProjectRepository:IProjectRepository
+    public class ProjectRepository : DbContextInjection, IProjectRepository
     {
-        private readonly WSProContext _context;
-
-        public ProjectRepository(WSProContext context)
+        public ProjectRepository(WSProContext context) : base(context)
         {
-            _context = context;
         }
-        
-        public Task<bool> ProjectExistAsync(Project project)
+
+        public Task<bool> ExistAsync(int projectId)
         {
-            return _context.Projects.AnyAsync(p => p.Id == project.Id);
+            return Context.Projects.AnyAsync(p => p.Id == projectId);
+        }
+
+        public async Task<IQueryable<Project>> GetByIdsAsync(int[] projectIds)
+        {
+            return Context.Projects.Where(e => projectIds.Contains(e.Id));
         }
 
         public Task<IQueryable<Project>> GetAllAsync()
         {
-            return Task.FromResult<IQueryable<Project>>(_context.Projects);
+            return Task.FromResult<IQueryable<Project>>(Context.Projects);
         }
 
-        public Task<Project> GetByIdAsync(Project project)
+        public async Task<IQueryable<Project>> GetByIdAsync(int projectId)
         {
-            return _context.Projects.FirstOrDefaultAsync(p => p.Id == project.Id);
+            var data = Context.Projects.Where(e => e.Id == projectId);
+            // Context.AttachRange(data);
+            return data;
         }
 
-        public async Task<Project> CreateAsync(Project project)
+        public async Task<IQueryable<Project>> CreateAsync(Project item)
         {
-            await _context.Projects.AddAsync(project);
-            await _context.SaveChangesAsync();
-            return project;
+            item.AttachEntities(Context);
+            await Context.AddAsync(item);
+            await Context.SaveChangesAsync();
+            return await GetByIdAsync(item.Id);
         }
 
-        public async Task<Project> UpdateAsync(Project project)
-        { 
-            _context.Update(project);
-            await _context.SaveChangesAsync();
-            return project;
-        }
-
-        public async Task<Project> DeleteAsync(Project project)
+        public async Task<IQueryable<Project>> UpdateAsync(Project item)
         {
-            _context.Projects.Remove(project);
-            await _context.SaveChangesAsync();
-            return  project;
+            // item.AttachEntities(Context);
+            Context.Update(item);
+            await Context.SaveChangesAsync();
+            return await GetByIdAsync(item.Id);
+        }
+
+        public Task AttachAsync(Project item)
+        {
+            item.AttachEntities(Context);
+            return Task.CompletedTask;
+        }
+        
+        public async Task DeleteAsync(Project item)
+        {
+            Context.Remove(item);
+            await Context.SaveChangesAsync();
         }
     }
 }

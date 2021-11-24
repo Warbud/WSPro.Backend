@@ -7,6 +7,6 @@ namespace WSPro.Backend.Domain
         public static IServiceCollection InstallDomainServices(this IServiceCollection serviceCollection)
         {
             return serviceCollection;
-        } 
+        }
     }
 }

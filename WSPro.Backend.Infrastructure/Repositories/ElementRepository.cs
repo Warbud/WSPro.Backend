@@ -1,52 +1,55 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using WSPro.Backend.Domain.Interfaces;
-using WSPro.Backend.Domain.Model.V1;
+using WSPro.Backend.Domain.Model;
+using WSPro.Backend.Infrastructure.Helpers;
+using WSPro.Backend.Infrastructure.Interfaces;
 
 namespace WSPro.Backend.Infrastructure.Repositories
 {
-    public class ElementRepository:IElementRepository
+    public class ElementRepository : DbContextInjection, IElementRepository
     {
-        private readonly WSProContext _context;
-        public ElementRepository(WSProContext context)
+        public ElementRepository(WSProContext context) : base(context)
         {
-            _context = context; 
         }
-        public Task<bool> ExistAsync(Element element)
+
+        public Task<bool> ExistAsync(int id)
         {
-            return _context.Elements.AnyAsync(e => e.Id == element.Id);
+            return Context.Elements.AnyAsync(e => e.Id == id);
+            ;
         }
 
         public Task<IQueryable<Element>> GetAllAsync()
         {
-            return Task.FromResult<IQueryable<Element>>(_context.Elements);
+            return Task.FromResult<IQueryable<Element>>(Context.Elements);
+            ;
         }
 
-        public Task<Element> GetByIdAsync(Element element)
+        public async Task<IQueryable<Element>> GetByIdAsync(int id)
         {
-            return _context.Elements.FirstOrDefaultAsync(e => e.Id == element.Id);
+            return Context.Elements.Where(e => e.Id == id);
         }
 
-        public async Task<Element> CreateAsync(Element element)
+        public async Task<IQueryable<Element>> CreateAsync(Element item)
         {
-            await _context.Elements.AddAsync(element);
-            await _context.SaveChangesAsync();
-            return element;
+            item.AttachEntities(Context);
+            await Context.AddAsync(item);
+            await Context.SaveChangesAsync();
+            return await GetByIdAsync(item.Id);
         }
 
-        public async Task<Element> UpdateAsync(Element element)
+        public async Task<IQueryable<Element>> UpdateAsync(Element item)
         {
-            _context.Elements.Update(element);
-            await _context.SaveChangesAsync();
-            return element;
+            item.AttachEntities(Context);
+            Context.Update(item);
+            await Context.SaveChangesAsync();
+            return await GetByIdAsync(item.Id);
         }
 
-        public async Task<Element> DeleteAsync(Element element)
+        public async Task DeleteAsync(Element item)
         {
-            _context.Elements.Remove(element);
-            await _context.SaveChangesAsync();
-            return element;
+            Context.Remove(item);
+            await Context.SaveChangesAsync();
         }
     }
 }

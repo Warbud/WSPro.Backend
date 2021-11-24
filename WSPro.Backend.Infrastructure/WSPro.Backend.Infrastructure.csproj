@@ -6,8 +6,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="HotChocolate.AspNetCore" Version="11.3.8" />
-        <PackageReference Include="HotChocolate.Data.EntityFramework" Version="11.3.8" />
+        <PackageReference Include="CoreAdmin" Version="1.8.0" />
+        <PackageReference Include="HotChocolate.AspNetCore" Version="12.3.0" />
+        <PackageReference Include="HotChocolate.Data.EntityFramework" Version="12.3.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.10">
             <PrivateAssets>all</PrivateAssets>
@@ -17,22 +18,43 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\WSPro.Backend.Application\WSPro.Backend.Application.csproj" />
         <ProjectReference Include="..\WSPro.Backend.Domain\WSPro.Backend.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Remove="Interfaces\**" />
-      <Compile Remove="Converters\**" />
+        <Compile Remove="Interfaces\**" />
+        <Compile Remove="Converters\**" />
+        <Compile Include="Interfaces\IBimModelsRepository.cs" />
+        <Compile Include="Interfaces\ICommentaryElementRepository.cs" />
+        <Compile Include="Interfaces\ICraneRepository.cs" />
+        <Compile Include="Interfaces\ICrewRepository.cs" />
+        <Compile Include="Interfaces\ICrewSummaryRepository.cs" />
+        <Compile Include="Interfaces\ICustomParamsRepository.cs" />
+        <Compile Include="Interfaces\IDelayCauseRepository.cs" />
+        <Compile Include="Interfaces\IDelayRepository.cs" />
+        <Compile Include="Interfaces\IElementRepository.cs" />
+        <Compile Include="Interfaces\IElementStatusRepository.cs" />
+        <Compile Include="Interfaces\IElementsTimeEvidenceRepository.cs" />
+        <Compile Include="Interfaces\IElementTermRepository.cs" />
+        <Compile Include="Interfaces\IGroupedOtherWorkTimeEvidenceRepository.cs" />
+        <Compile Include="Interfaces\IGroupTermRepository.cs" />
+        <Compile Include="Interfaces\ILevelRepository.cs" />
+        <Compile Include="Interfaces\IOtherWorkOptionRepository.cs" />
+        <Compile Include="Interfaces\IOtherWorksTimeEvidenceRepository.cs" />
+        <Compile Include="Interfaces\IProjectRepository.cs" />
+        <Compile Include="Interfaces\IWorkerRepository.cs" />
+        <Compile Include="Interfaces\IWorkerTimeEvidenceRepository.cs" />
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Remove="Interfaces\**" />
-      <EmbeddedResource Remove="Converters\**" />
+        <EmbeddedResource Remove="Interfaces\**" />
+        <EmbeddedResource Remove="Converters\**" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="Interfaces\**" />
-      <None Remove="Converters\**" />
+        <None Remove="Interfaces\**" />
+        <None Remove="Converters\**" />
     </ItemGroup>
 
 </Project>

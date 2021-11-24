@@ -1,6 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using WSPro.Backend.GraphQL.Crane;
-using WSPro.Backend.GraphQL.Level;
+﻿using System.Linq;
+using HotChocolate.Types;
+using Microsoft.Extensions.DependencyInjection;
+using WSPro.Backend.GraphQL.Helpers;
 using WSPro.Backend.GraphQL.Utils;
 
 namespace WSPro.Backend.GraphQL
@@ -9,20 +10,17 @@ namespace WSPro.Backend.GraphQL
     {
         public static IServiceCollection InstallGraphQlServices(this IServiceCollection service)
         {
-            service.AddScoped<Query>()
-                .AddScoped<QueryCrane>()
-                .AddScoped<QueryLevel>()
-                .AddScoped<Mutation>()
-                .AddScoped<MutationCrane>()
-                .AddScoped<MutationLevel>()
-                .AddGraphQLServer()
-                .AddQueryType<Query>()
-                .AddTypeExtension<QueryCrane>()
-                .AddTypeExtension<QueryLevel>()
-                .AddMutationType<Mutation>()
-                .AddTypeExtension<MutationCrane>()
-                .AddTypeExtension<MutationLevel>()
-                .AddErrorFilter<GraphQLErrorFilter>()
+            var graphqlService = service.AddGraphQLServer();
+            graphqlService.AddQueryType<Query>().AddMutationType<Mutation>().AddType<UploadType>();
+
+            foreach (var type in typeof(Query).Assembly.GetTypes().OrderBy(e => e.Name))
+                if (type.GetInterface(typeof(IGraphQlOperation).Name) != null)
+                {
+                    service.AddScoped(type);
+                    graphqlService.AddTypeExtension(type);
+                }
+
+            graphqlService.AddErrorFilter<GraphQLErrorFilter>()
                 .AddProjections()
                 .AddFiltering()
                 .AddSorting();

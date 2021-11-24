@@ -6,11 +6,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\WSPro.Backend.Domain\WSPro.Backend.Domain.csproj" />
+        <ProjectReference Include="..\WSPro.Backend.Domain\WSPro.Backend.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.3" />
+        <PackageReference Include="CoreAdmin" Version="1.8.0" />
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.3" />
+        <PackageReference Include="Mapster" Version="7.2.0" />
+        <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Services" />
+        <Folder Include="Validators" />
     </ItemGroup>
 
 </Project>

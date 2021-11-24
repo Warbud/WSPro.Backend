@@ -1,113 +1,71 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using WSPro.Backend.Domain.Model;
-using WSPro.Backend.Domain.Model.V1;
-using WSPro.Backend.Model;
 
-namespace Test.WSPro.Backend.Infrastructure.DelayCauseTest
+namespace Test.WSPro.Backend.Infrastructure
 {
     [TestFixture]
-    public class TestSingleElement
+    public class DelayCauseTest : _setup
     {
-        [OneTimeSetUp]
-        public void Init()
-        {
-            using (var context = new WSProTestContext().Context)
-            {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
+        private DelayCause dbDelayCause1;
+        private DelayCause dbDelayCause2;
+        private List<DelayCause> dbDelayCauses;
 
-                _delayCause = new DelayCause("test delay cause");
-                context.Add(_delayCause);
-                context.SaveChanges();
+        public override void Init()
+        {
+            DelayCause delayCause1;
+            DelayCause delayCause2;
+            using (var ctx = new WSProTestContext().Context)
+            {
+                delayCause1 = new DelayCause("Cos tam nei dziala");
+                delayCause2 = new DelayCause("bo wiatr", delayCause1);
+                ctx.AddRange(delayCause1, delayCause2);
+                ctx.SaveChanges();
+            }
+
+            using (var ctx = new WSProTestContext().Context)
+            {
+                dbDelayCauses = ctx.DelayCauses.ToList();
+                dbDelayCause1 = ctx.DelayCauses.Find(delayCause1.Id);
+                dbDelayCause2 = ctx.DelayCauses.Find(delayCause2.Id);
             }
         }
 
-        [OneTimeTearDown]
-        public void Close()
-        {
-            using var context = new WSProTestContext().Context;
-            context.Database.EnsureDeleted();
-        }
-
-        private DelayCause _delayCause;
 
         [Test]
-        public void TestBasicAttributes()
+        public void test_items_count()
         {
-            Assert.AreEqual("test delay cause", _delayCause.Name);
-            Assert.AreEqual(true, _delayCause.IsMain);
-            Assert.AreEqual(null, _delayCause.Parent);
+            Assert.AreEqual(2, dbDelayCauses.Count);
         }
-    }
-
-    [TestFixture]
-    public class TestAddManyElements
-    {
-        [OneTimeSetUp]
-        public void Init()
-        {
-            using (var context = new WSProTestContext().Context)
-            {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-
-                _delayCause = new DelayCause("first");
-                context.Add(_delayCause);
-                context.SaveChanges();
-
-                _delayCause2 = new DelayCause("second", _delayCause);
-                context.Add(_delayCause2);
-                context.SaveChanges();
-
-                _delayCause3 = new DelayCause("third", _delayCause);
-                context.Add(_delayCause3);
-                context.SaveChanges();
-
-                _delayCause4 = new DelayCause("forth", _delayCause3);
-                context.Add(_delayCause4);
-                context.SaveChanges();
-            }
-
-            using (var context = new WSProTestContext().Context)
-            {
-                _delayCausesList = context.DelayCauses.Include(dc => dc.Parent).ToList();
-            }
-        }
-
-        [OneTimeTearDown]
-        public void Close()
-        {
-            using var context = new WSProTestContext().Context;
-            context.Database.EnsureDeleted();
-        }
-
-        private DelayCause _delayCause;
-        private DelayCause _delayCause2;
-        private DelayCause _delayCause3;
-        private DelayCause _delayCause4;
-        private List<DelayCause> _delayCausesList;
 
         [Test]
-        public void FirstTest()
+        public void test_Id_attribute()
         {
-            Assert.AreEqual("first", _delayCause.Name);
-            Assert.AreEqual(true, _delayCause.IsMain);
-            Assert.AreEqual(null, _delayCause.Parent);
+            Assert.NotNull(dbDelayCause1.Id);
+            Assert.NotNull(dbDelayCause2.Id);
+            Assert.That(() => dbDelayCause1.Id != dbDelayCause2.Id);
+        }
 
-            Assert.AreEqual("second", _delayCause2.Name);
-            Assert.AreEqual(false, _delayCause2.IsMain);
-            Assert.AreEqual(_delayCause, _delayCause2.Parent);
+        [Test]
+        public void test_Name_attribute()
+        {
+            Assert.AreEqual("Cos tam nei dziala", dbDelayCause1.Name);
+            Assert.AreEqual("bo wiatr", dbDelayCause2.Name);
+        }
 
-            Assert.AreEqual("third", _delayCause3.Name);
-            Assert.AreEqual(false, _delayCause3.IsMain);
-            Assert.AreEqual(_delayCause, _delayCause3.Parent);
+        [Test]
+        public void test_IsMain_attribute()
+        {
+            Assert.AreEqual(true, dbDelayCause1.IsMain);
+            Assert.AreEqual(false, dbDelayCause2.IsMain);
+        }
 
-            Assert.AreEqual("forth", _delayCause4.Name);
-            Assert.AreEqual(false, _delayCause4.IsMain);
-            Assert.AreEqual(_delayCause3, _delayCause4.Parent);
+        [Test]
+        public void test_Parent_attribute()
+        {
+            Assert.AreEqual(null, dbDelayCause1.Parent);
+            Assert.AreEqual(dbDelayCause1, dbDelayCause2.Parent);
         }
     }
 }

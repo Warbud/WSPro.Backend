@@ -10,25 +10,26 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.3" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.10">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
+        <PackageReference Include="CoreAdmin" Version="1.8.0" />
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.3" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.10">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Remove="ServiceInstallers\**" />
+        <Compile Remove="ServiceInstallers\**" />
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Remove="ServiceInstallers\**" />
+        <EmbeddedResource Remove="ServiceInstallers\**" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="ServiceInstallers\**" />
+        <None Remove="ServiceInstallers\**" />
     </ItemGroup>
 
 </Project>
