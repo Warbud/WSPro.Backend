@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using HotChocolate;
 using HotChocolate.Data;
@@ -10,7 +9,6 @@ using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
 using WSPro.Backend.Application.Dto;
 using WSPro.Backend.Application.Helper;
-using WSPro.Backend.Extensions.Files.Reader;
 using WSPro.Backend.GraphQL.Helpers;
 using WSPro.Backend.Infrastructure.Interfaces;
 using WSPro.Backend.Utils.Exceptions;
@@ -18,11 +16,12 @@ using WSPro.Backend.Utils.Exceptions;
 namespace WSPro.Backend.GraphQL.Operations.DelayCause
 {
     [ExtendObjectType(nameof(Mutation))]
-    public class MutationDelayCause:MapperInjection,IGraphQlOperation
+    public class MutationDelayCause : MapperInjection, IGraphQlOperation
     {
         public MutationDelayCause(IMapper mapper) : base(mapper)
         {
         }
+
         [UseFirstOrDefault]
         [UseProjection]
         public Task<IQueryable<Domain.Model.DelayCause>> CreateDelayCause(CreateDelayCauseDto input,
@@ -38,10 +37,7 @@ namespace WSPro.Backend.GraphQL.Operations.DelayCause
             [Service] IDelayCauseRepository repository)
         {
             var existing = await (await repository.GetByIdAsync(id)).FirstOrDefaultAsync();
-            if (existing is null)
-            {
-                throw new NotExistException(id);
-            }
+            if (existing is null) throw new NotExistException(id);
 
             repository.Attach(existing);
             Mapper.Map(input, existing);
@@ -49,7 +45,7 @@ namespace WSPro.Backend.GraphQL.Operations.DelayCause
         }
 
         [UseProjection]
-        public async Task<Domain.Model.DelayCause> DeleteDelayCause(int id, 
+        public async Task<Domain.Model.DelayCause> DeleteDelayCause(int id,
             [Service] IDelayCauseRepository repository,
             IResolverContext context)
         {
@@ -59,23 +55,5 @@ namespace WSPro.Backend.GraphQL.Operations.DelayCause
             await repository.DeleteAsync(model);
             return model;
         }
-        
-        
-        public async Task<bool> TestUpload(FileInput file)
-        {
-            var csvreader = new CsvReader(file.File);
-            if (csvreader.IsValidExtension)
-            {
-                Console.WriteLine("valid");
-            }
-            
-            return true;
-        }
-    }
-
-    public class FileInput
-    {
-        [GraphQLType(typeof(NonNullType<UploadType>))]
-        public IFile File { get; set; }
     }
 }
