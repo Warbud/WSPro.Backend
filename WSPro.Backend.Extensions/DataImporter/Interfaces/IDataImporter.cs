@@ -6,5 +6,8 @@ namespace WSPro.Backend.Extensions.DataImporter.Interfaces
     {
         public Dictionary<string,int> Created { get; set; }
         public Dictionary<string,int> Updated { get; set; }
+
+        IDataImporter Validate();
+        IDataImporter Import();
     }
 }

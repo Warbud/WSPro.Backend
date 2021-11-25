@@ -23,6 +23,7 @@
         <ProjectReference Include="..\WSPro.Backend.Application\WSPro.Backend.Application.csproj" />
         <ProjectReference Include="..\WSPro.Backend.Extensions\WSPro.Backend.Extensions.csproj" />
         <ProjectReference Include="..\WSPro.Backend.Infrastructure\WSPro.Backend.Infrastructure.csproj" />
+        <ProjectReference Include="..\WSPro.Backend.Shared\WSPro.Backend.Shared.csproj" />
     </ItemGroup>
 
     <ItemGroup>

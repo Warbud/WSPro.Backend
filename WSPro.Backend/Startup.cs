@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WSPro.Backend.Application;
 using WSPro.Backend.Domain;
+using WSPro.Backend.Extensions;
 using WSPro.Backend.GraphQL;
 using WSPro.Backend.Infrastructure;
 
@@ -33,7 +34,8 @@ namespace WSPro.Backend
                 .InstallDomainServices()
                 .InstallInfrastructureServices()
                 .InstallApplicationServices()
-                .InstallGraphQlServices();
+                .InstallGraphQlServices()
+                .InstallExtension();
             // .AddCoreAdmin(); // do ogarnięcia co tu w sumie jest potrzebne
 
 
