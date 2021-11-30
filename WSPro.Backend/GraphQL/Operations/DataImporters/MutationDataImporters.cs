@@ -18,13 +18,21 @@ namespace WSPro.Backend.GraphQL.Operations.DataImporters
         {
         }
 
-        public async Task<UploadPayload> ImportData(UploadInput input, [Service] IGeneralDataImporter dataImporter)
+        public async Task<UploadValidatePayload> ValidateData(UploadInput input, [Service] IGeneralDataImporter dataImporter)
         {
             await dataImporter.WithProject(input.projectId);
             await dataImporter.WithData(new Csv(input.Value, new CsvParserOptions()));
-            await dataImporter.Parse();
+            var parsedData = await dataImporter.Validate();
 
-            return new UploadPayload(true);
+            return new UploadValidatePayload(parsedData);
+        }
+        public async Task<UploadImportedPayload> ImportData(UploadInput input, [Service] IGeneralDataImporter dataImporter)
+        {
+            await dataImporter.WithProject(input.projectId);
+            await dataImporter.WithData(new Csv(input.Value, new CsvParserOptions()));
+            await dataImporter.Import();
+
+            return new UploadImportedPayload(true);
         }
     }
 }

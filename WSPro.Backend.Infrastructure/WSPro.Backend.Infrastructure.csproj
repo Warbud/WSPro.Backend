@@ -30,7 +30,9 @@
         <Compile Include="Interfaces\ICraneRepository.cs" />
         <Compile Include="Interfaces\ICrewRepository.cs" />
         <Compile Include="Interfaces\ICrewSummaryRepository.cs" />
+        <Compile Include="Interfaces\ICustomParamProjectRepository.cs" />
         <Compile Include="Interfaces\ICustomParamsRepository.cs" />
+        <Compile Include="Interfaces\ICustomParamValueRepository.cs" />
         <Compile Include="Interfaces\IDelayCauseRepository.cs" />
         <Compile Include="Interfaces\IDelayRepository.cs" />
         <Compile Include="Interfaces\IElementRepository.cs" />

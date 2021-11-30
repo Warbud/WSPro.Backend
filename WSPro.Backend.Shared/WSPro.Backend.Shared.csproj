@@ -8,4 +8,9 @@
       <ProjectReference Include="..\WSPro.Backend.Domain\WSPro.Backend.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="HotChocolate.Abstractions" Version="12.3.0" />
+      <PackageReference Include="HotChocolate.Types" Version="12.3.0" />
+    </ItemGroup>
+
 </Project>

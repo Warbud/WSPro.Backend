@@ -10,7 +10,7 @@ namespace WSPro.Backend.Application.Dto
         string? DefaultViewName,
         Entity Project,
         List<Entity>? Levels,
-        List<Entity>? Cranes):IDto<BimModel>;
+        List<Entity>? Cranes) : IDto<BimModel>;
 
     public record UpdateBimModelDto(
         string? Name,

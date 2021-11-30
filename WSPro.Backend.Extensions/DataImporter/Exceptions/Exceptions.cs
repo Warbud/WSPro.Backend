@@ -15,4 +15,19 @@ namespace WSPro.Backend.Extensions.DataImporter.Exceptions
         {
         }
     }
+
+    public class NotValidParsedData : Exception
+    {
+        public NotValidParsedData(string message) : base(message)
+        {
+        }
+    }
+    
+    public class NotFindObject : Exception
+    {
+        public NotFindObject(string message) : base(message)
+        {
+        }
+    }
+    
 }

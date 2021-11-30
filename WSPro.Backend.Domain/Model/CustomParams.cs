@@ -16,5 +16,10 @@ namespace WSPro.Backend.Domain.Model
         public ICollection<CustomParamProject> CustomParamProject { get; set; } = new List<CustomParamProject>();
         public ICollection<Project> Project { get; set; } = new List<Project>();
         public ICollection<CustomParamValue> CustomParamValue { get; set; } = new List<CustomParamValue>();
+
+        public override bool Equals(object? obj)
+        {
+            return Id == (((CustomParams)obj!)!).Id;
+        }
     }
 }

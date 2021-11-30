@@ -28,6 +28,8 @@ namespace WSPro.Backend.Infrastructure
                 .AddScoped<IProjectRepository, ProjectRepository>()
                 .AddScoped<IWorkerRepository, WorkerRepository>()
                 .AddScoped<IWorkerTimeEvidenceRepository, WorkerTimeEvidenceRepository>()
+                .AddScoped<ICustomParamProjectRepository, CustomParamProjectRepository>()
+                .AddScoped<ICustomParamValueRepository, CustomParamValueRepository>()
                 ;
 
             return serviceCollection;

@@ -9,6 +9,6 @@ namespace WSPro.Backend.Domain.Model
         public Element Element { get; set; }
         public CustomParams CustomParams { get; set; }
         public int CustomParamsId { get; set; }
-        public string Value { get; set; }
+        public string? Value { get; set; }
     }
 }
