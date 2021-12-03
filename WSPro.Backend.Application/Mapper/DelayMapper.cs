@@ -26,7 +26,7 @@ namespace WSPro.Backend.Application.Mapper
                 .Map(e => e.Date, e => e.Date)
                 .Map(e => e.Level, e => e.Level)
                 .Map(e => e.Project, e => e.Project)
-                .Map(e => e.User, e => e.User)
+                .Map(e => e.User.id, e => e.UserId)
                 .Map(e => e.DelayCauses, e => e.DelayCauses);
 
             config.NewConfig<UpdateDelayDto, Delay>()
@@ -37,7 +37,7 @@ namespace WSPro.Backend.Application.Mapper
                 .Map(e => e.Date, e => e.Date)
                 // .Map(e => e.Level,e => e.Level)
                 // .Map(e => e.Project,e => e.Project)
-                // .Map(e => e.User,e => e.User)
+                .Map(e => e.UserId,e => e.User.id)
                 // .Map(e => e.DelayCauses, e => e.DelayCauses)
                 .AfterMapping((dto, delay) =>
                 {

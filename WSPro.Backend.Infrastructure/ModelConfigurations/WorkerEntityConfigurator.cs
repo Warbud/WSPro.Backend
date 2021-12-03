@@ -16,8 +16,7 @@ namespace WSPro.Backend.Infrastructure.ModelConfigurations
             builder.Property(u => u.CrewWorkType)
                 .HasConversion(new EnumConverter<CrewWorkTypeEnum>().Converter);
 
-
-            builder.HasOne(e => e.AddedBy).WithMany().HasForeignKey(e => e.UserId);
+            
         }
     }
 }

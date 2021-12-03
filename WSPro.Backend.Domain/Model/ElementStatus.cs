@@ -18,8 +18,7 @@ namespace WSPro.Backend.Domain.Model
         public StatusEnum Status { get; set; }
         public Element Element { get; set; }
         public int ElementId { get; set; }
-        public User SetBy { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public Project Project { get; set; }
         public int ProjectId { get; set; }
     }

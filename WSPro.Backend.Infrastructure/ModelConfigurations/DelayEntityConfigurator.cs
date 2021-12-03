@@ -13,7 +13,6 @@ namespace WSPro.Backend.Infrastructure.ModelConfigurations
             builder.HasOne(e => e.Crane).WithMany().HasForeignKey(e => e.CraneId);
             builder.HasOne(e => e.Level).WithMany().HasForeignKey(e => e.LevelId);
             builder.HasOne(e => e.Project).WithMany().HasForeignKey(e => e.ProjectId);
-            builder.HasOne(e => e.User).WithMany().HasForeignKey(e => e.UserId);
 
             builder.HasMany(e => e.DelayCauses).WithMany(e => e.Delays).UsingEntity<Delay_DelayCause>(
                 j => j.HasOne(e => e.Cause).WithMany().HasForeignKey(e => e.DelayCauseId),

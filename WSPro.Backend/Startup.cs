@@ -1,4 +1,5 @@
 using GraphQL.Server.Ui.Voyager;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WSPro.Backend.Application;
+using WSPro.Backend.Authorization;
 using WSPro.Backend.Domain;
 using WSPro.Backend.Extensions;
 using WSPro.Backend.GraphQL;
@@ -24,6 +26,11 @@ namespace WSPro.Backend
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddScheme<BasicAuthenticationOptions, CustomAuthHandler>(JwtBearerDefaults.AuthenticationScheme,
+                    null);
+
             services
                 .AddDbContextPool<WSProContext>(opt =>
                 {
@@ -36,9 +43,6 @@ namespace WSPro.Backend
                 .InstallApplicationServices()
                 .InstallGraphQlServices()
                 .InstallExtension();
-            // .AddCoreAdmin(); // do ogarnięcia co tu w sumie jest potrzebne
-
-
         }
 
 
@@ -47,13 +51,14 @@ namespace WSPro.Backend
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseRouting();
+            
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGraphQL();
                 endpoints.MapGraphQLVoyager("/voyager");
             });
-            // app.UseStaticFiles();
 
             app.UseGraphQLVoyager(new VoyagerOptions
             {

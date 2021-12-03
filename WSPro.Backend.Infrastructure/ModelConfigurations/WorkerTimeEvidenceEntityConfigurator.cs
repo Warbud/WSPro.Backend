@@ -16,11 +16,7 @@ namespace WSPro.Backend.Infrastructure.ModelConfigurations
                 .WithMany()
                 .IsRequired()
                 .HasForeignKey(e => e.ProjectId);
-            builder.HasOne(e => e.SetByEngineer)
-                .WithMany()
-                .IsRequired()
-                .HasForeignKey(e => e.UserId);
-            builder.HasOne(e => e.Worker)
+           builder.HasOne(e => e.Worker)
                 .WithMany(e => e.TimeEvidences)
                 .IsRequired()
                 .HasForeignKey(e => e.WorkerId);

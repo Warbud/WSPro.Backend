@@ -13,7 +13,6 @@ namespace WSPro.Backend.Infrastructure.ModelConfigurations
             builder.Property(e => e.EndDate).HasColumnType("date");
 
             builder.HasOne(e => e.Crew).WithMany().HasForeignKey(e => e.CrewId);
-            builder.HasOne(e => e.CrewOwner).WithMany().HasForeignKey(e => e.UserId);
             builder.HasOne(e => e.Project).WithMany().HasForeignKey(e => e.ProjectId);
 
             builder

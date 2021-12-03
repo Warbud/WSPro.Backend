@@ -11,8 +11,7 @@ namespace WSPro.Backend.Domain.Model
         public ICollection<Element> Elements { get; set; } = new List<Element>();
         public ICollection<Element_ElementsTimeEvidence> ElementElementsTimeEvidence { get; set; } = new List<Element_ElementsTimeEvidence>();
         public DateTime Date { get; set; }
-        public User User { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public Project Project { get; set; }
         public int ProjectId { get; set; }
         public Crew Crew { get; set; }

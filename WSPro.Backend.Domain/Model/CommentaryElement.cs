@@ -8,8 +8,7 @@ namespace WSPro.Backend.Domain.Model
         public int Id { get; set; }
         public Element Element { get; set; }
         public int ElementId { get; set; }
-        public User WriteBy { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public string Content { get; set; }
     }
 }

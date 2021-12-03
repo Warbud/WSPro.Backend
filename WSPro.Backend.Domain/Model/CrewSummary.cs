@@ -12,8 +12,7 @@ namespace WSPro.Backend.Domain.Model
         public int CrewId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public User CrewOwner { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public ICollection<WorkerTimeEvidence> TimeEvidences { get; set; } = new List<WorkerTimeEvidence>();
         public ICollection<Worker> Workers { get; set; } = new List<Worker>();
         public Project Project { get; set; }

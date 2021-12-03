@@ -12,8 +12,7 @@ namespace WSPro.Backend.Domain.Model
         public int Id { get; set; }
         public CrewWorkTypeEnum? CrewWorkType { get; set; }
         public bool IsHouseWorker { get; internal set; }
-        public User? AddedBy { get; set; }
-        public int? UserId { get; set; }
+        public string? UserId { get; set; }
 
         public string? WarbudId
         {

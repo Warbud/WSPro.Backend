@@ -8,14 +8,20 @@
     <ItemGroup>
         <PackageReference Include="CoreAdmin" Version="1.8.0" />
         <PackageReference Include="GraphQL.Server.Ui.Voyager" Version="5.0.2" />
-        <PackageReference Include="HotChocolate.AspNetCore" Version="12.3.0" />
-        <PackageReference Include="HotChocolate.Data.EntityFramework" Version="12.3.0" />
+        <PackageReference Include="HotChocolate.AspNetCore" Version="12.3.2" />
+        <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="12.3.2" />
+        <PackageReference Include="HotChocolate.Data.EntityFramework" Version="12.3.2" />
+        <PackageReference Include="IdentityModel" Version="4.4.0" />
         <PackageReference Include="Mapster" Version="7.2.0" />
         <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="5.0.12" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.12" />
+        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="1.1.2" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.10">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="5.0.12" />
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     </ItemGroup>
 

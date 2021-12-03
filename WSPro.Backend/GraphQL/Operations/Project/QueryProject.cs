@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using HotChocolate;
+using HotChocolate.AspNetCore.Authorization;
 using HotChocolate.Data;
-using HotChocolate.Data.Filters.Expressions;
 using HotChocolate.Resolvers;
 using HotChocolate.Types;
 using WSPro.Backend.GraphQL.Helpers;
@@ -13,6 +13,7 @@ namespace WSPro.Backend.GraphQL.Operations.Project
     [ExtendObjectType(nameof(Query))]
     public class QueryProject:IGraphQlOperation
     {
+        [Authorize]
         [UseFirstOrDefault]
         [UseProjection]
         public Task<IQueryable<Domain.Model.Project>> GetProject(int id, [Service] IProjectRepository repository)

@@ -24,7 +24,7 @@ namespace WSPro.Backend.Application.Mapper
                 .Map(e => e.Date, e => e.Date)
                 .Map(e => e.Elements, e => e.Elements)
                 .Map(e => e.Project, e => e.Project)
-                .Map(e => e.User, e => e.User)
+                .Map(e => e.User.id, e => e.UserId)
                 .Map(e => e.WorkedTime, e => e.WorkedTime);
 
             config.NewConfig<UpdateElementsTimeEvidenceDto,ElementsTimeEvidence>()
@@ -33,7 +33,7 @@ namespace WSPro.Backend.Application.Mapper
                 .Map(e => e.Date,e => e.Date)
                 // .Map(e => e.Elements,e => e.Elements)
                 .Map(e => e.Project,e => e.Project)
-                .Map(e => e.User,e => e.User)
+                .Map(e => e.UserId,e => e.User.id)
                 .Map(e => e.WorkedTime,e => e.WorkedTime)
                 .Ignore(e=>e.Elements)
                 .Ignore(e=>e.ElementElementsTimeEvidence)

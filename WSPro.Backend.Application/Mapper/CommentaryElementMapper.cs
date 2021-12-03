@@ -17,14 +17,14 @@ namespace WSPro.Backend.Application.Mapper
                 .TwoWays()
                 .Map(dto => dto.Content, data => data.Content)
                 .Map(dto => dto.Element, data => data.Element)
-                .Map(dto => dto.User, data => data.WriteBy)
+                .Map(dto => dto.User.id, data => data.UserId)
                 .IgnoreNullValues(true);
 
             config.NewConfig<CommentaryElement, UpdateCommentaryElementDto>()
                 .TwoWays()
                 .Map(dto => dto.Content, data => data.Content)
                 .Map(dto => dto.Element, data => data.Element)
-                .Map(dto => dto.User, data => data.WriteBy)
+                .Map(dto => dto.User!.id, data => data.UserId)
                 .IgnoreNullValues(true);
             
             return config;

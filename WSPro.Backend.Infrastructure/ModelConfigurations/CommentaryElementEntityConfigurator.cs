@@ -11,7 +11,6 @@ namespace WSPro.Backend.Infrastructure.ModelConfigurations
             builder.HasKey(e => e.Id);
 
             builder.HasOne(e => e.Element).WithMany(e => e.Comments).IsRequired().HasForeignKey(e => e.ElementId);
-            builder.HasOne(e => e.WriteBy).WithMany().IsRequired().HasForeignKey(e => e.UserId);
         }
     }
 }

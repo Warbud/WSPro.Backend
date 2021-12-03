@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using WSPro.Backend.Domain.Helpers;
 using WSPro.Backend.Domain.Model;
 using WSPro.Backend.Domain.Model.General;
 using WSPro.Backend.Infrastructure.ModelConfigurations;
@@ -40,7 +39,6 @@ namespace WSPro.Backend.Infrastructure
         public DbSet<OtherWorkOption> OtherWorkOptions { get; set; }
         public DbSet<OtherWorksTimeEvidence> OtherWorksTimeEvidences { get; set; }
         public DbSet<Project> Projects { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<Worker_CrewSummary> Worker_CrewSummaries { get; set; }
         public DbSet<Worker> Workers { get; set; }
         public DbSet<WorkerTimeEvidence> WorkerTimeEvidences { get; set; }
@@ -53,14 +51,15 @@ namespace WSPro.Backend.Infrastructure
 
             foreach (var entityEntry in entries)
             {
-                ((EntityModificationDate) entityEntry.Entity).UpdatedAt = DateTime.Now;
+                ((EntityModificationDate)entityEntry.Entity).UpdatedAt = DateTime.Now;
 
                 if (entityEntry.State == EntityState.Added)
-                    ((EntityModificationDate) entityEntry.Entity).CreatedAt = DateTime.Now;
+                    ((EntityModificationDate)entityEntry.Entity).CreatedAt = DateTime.Now;
             }
 
             return await base.SaveChangesAsync().ConfigureAwait(false);
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

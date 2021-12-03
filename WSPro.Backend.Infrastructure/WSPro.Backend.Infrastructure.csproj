@@ -7,8 +7,8 @@
 
     <ItemGroup>
         <PackageReference Include="CoreAdmin" Version="1.8.0" />
-        <PackageReference Include="HotChocolate.AspNetCore" Version="12.3.0" />
-        <PackageReference Include="HotChocolate.Data.EntityFramework" Version="12.3.0" />
+        <PackageReference Include="HotChocolate.AspNetCore" Version="12.3.2" />
+        <PackageReference Include="HotChocolate.Data.EntityFramework" Version="12.3.2" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.10">
             <PrivateAssets>all</PrivateAssets>

@@ -10,8 +10,7 @@ namespace WSPro.Backend.Domain.Model
     {
         public int Id { get; set; }
         public string Commentary { get; set; }
-        public User User { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public Level? Level { get; set; }
         public int? LevelId { get; set; }
         public Crane? Crane { get; set; }

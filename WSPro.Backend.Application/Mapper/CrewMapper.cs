@@ -17,7 +17,7 @@ namespace WSPro.Backend.Application.Mapper
                 .TwoWays()
                 .IgnoreNullValues(true)
                 .Map(e => e.Name, e => e.Name)
-                .Map(e => e.Owner, e => e.Owner)
+                .Map(e => e.Owner.id, e => e.UserId)
                 .Map(e => e.Project, e => e.Project)
                 .Map(e => e.CrewWorkType, e => e.CrewWorkType)
                 ;
@@ -26,7 +26,7 @@ namespace WSPro.Backend.Application.Mapper
                 .TwoWays()
                 .IgnoreNullValues(true)
                 .Map(e => e.Name, e => e.Name)
-                .Map(e => e.Owner, e => e.Owner)
+                .Map(e => e.Owner.id, e => e.UserId)
                 .Map(e => e.Project, e => e.Project)
                 .Map(e => e.CrewWorkType, e => e.CrewWorkType)
                 ;

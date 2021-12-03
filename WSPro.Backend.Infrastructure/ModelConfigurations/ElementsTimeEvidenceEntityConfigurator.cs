@@ -12,7 +12,6 @@ namespace WSPro.Backend.Infrastructure.ModelConfigurations
             builder.Property(e => e.Date).HasColumnType("date");
             builder.Property(e => e.WorkedTime).HasPrecision(5, 1);
 
-            builder.HasOne(e => e.User).WithMany().HasForeignKey(e => e.UserId);
             builder.HasOne(e => e.Project).WithMany().HasForeignKey(e => e.ProjectId);
             builder.HasOne(e => e.Crew).WithMany().HasForeignKey(e => e.CrewId);
 

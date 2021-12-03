@@ -10,8 +10,7 @@ namespace WSPro.Backend.Domain.Model
         public DateTime Date { get; set; }
         public Worker Worker { get; set; }
         public int WorkerId { get; set; }
-        public User SetByEngineer { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public Project Project { get; set; }
         public int ProjectId { get; set; }
         public decimal WorkedTime { get; set; }

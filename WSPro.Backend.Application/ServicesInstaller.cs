@@ -1,8 +1,9 @@
 ﻿using Mapster;
 using MapsterMapper;
 using Microsoft.Extensions.DependencyInjection;
-using WSPro.Backend.Application.Dto;
+using WSPro.Backend.Application.Interfaces;
 using WSPro.Backend.Application.Mapper;
+using WSPro.Backend.Application.Services;
 
 namespace WSPro.Backend.Application
 {
@@ -12,7 +13,7 @@ namespace WSPro.Backend.Application
         {
             var config = new TypeAdapterConfig();
 
-            config                
+            config
                 .AddBimModelMappings()
                 .AddCommentaryElementMappings()
                 .AddCraneMappings()
@@ -30,13 +31,13 @@ namespace WSPro.Backend.Application
                 .AddOtherWorkOptionMappings()
                 .AddOtherWorksTimeEvidenceMappings()
                 .AddProjectMappings()
-                .AddUserMappings()
                 .AddWorkerMappings()
                 .AddWorkerTimeEvidenceMappings()
                 ;
 
             serviceCollection.AddSingleton(config)
-                .AddScoped<IMapper, ServiceMapper>();
+                .AddScoped<IMapper, ServiceMapper>()
+                .AddScoped<IUserService, UserService>();
 
             return serviceCollection;
         }

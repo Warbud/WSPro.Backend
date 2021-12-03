@@ -20,7 +20,7 @@ namespace WSPro.Backend.Application.Mapper
                 .Map(e => e.Element, e => e.Element)
                 .Map(e => e.Project, e => e.Project)
                 .Map(e => e.Status, e => e.Status)
-                .Map(e => e.User, e => e.SetBy);
+                .Map(e => e.User.id, e => e.UserId);
 
             config.NewConfig<ElementStatus, UpdateElementStatusDto>()
                 .TwoWays()
@@ -29,7 +29,7 @@ namespace WSPro.Backend.Application.Mapper
                 .Map(e => e.Element, e => e.Element)
                 .Map(e => e.Project, e => e.Project)
                 .Map(e => e.Status, e => e.Status)
-                .Map(e => e.User, e => e.SetBy);
+                .Map(e => e.User.id, e => e.UserId);
             
             return config;
         }
